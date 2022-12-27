@@ -1,0 +1,19 @@
+name: RSpec workflow
+on: [pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+
+      - name: Bundle install
+        run: |
+          gem install bundler
+          bundle
+      - name: Run RSpec
+        run: rspec
