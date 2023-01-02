@@ -1,40 +1,41 @@
 require './db/base'
-require_relative 'base'
-require 'byebug'
+require './lib/materials/steel'
 
-module Material
-  class RebarHook < Base
-    MAX_FY = 550
-    STANDARD_E_MODULE = 200_000
-    MIN180_HOOK_LENGTH = 60
-    MIN_STRIP_HOOK_LENGTH = 75
+module Elements
+  class RebarHook < Materials::Steel
+    MAX_FY = 550.to_f
+    MIN180_HOOK_LENGTH = 60.to_f
+    MIN_HOOK_LENGTH = 75.to_f
 
-    attr_reader :angle, :length
+    attr_reader :angle, :length, :diameter
 
-    def initialize(f_limit:, e_module:, diameter:)
+    def initialize(yield_stress:, elastic_module:, diameter:)
       @diameter = diameter
       @length = nil
       @angle = nil
 
       super(
-        f_limit:,
-        e_module: e_module || STANDARD_E_MODULE
+        yield_stress:,
+        elastic_module:
       )
-    end
-
-    def use_angle_of90
-      @angle = 90
-      @length = 12 * @diameter
-    end
-
-    def use_angle_of180
-      @angle = 180
-      @length = [4 * @diameter, MIN180_HOOK_LENGTH].max
     end
 
     def use_angle_of(angle)
       @angle = angle
-      @length = [6 * @diameter, MIN_STRIP_HOOK_LENGTH].max
+      @length = calculate_length
+    end
+
+    private
+
+    def calculate_length
+      case angle
+      when 90
+        [12 * diameter, MIN_HOOK_LENGTH].max
+      when 180
+        [4 * diameter, MIN180_HOOK_LENGTH].max
+      else
+        [6 * diameter, MIN_HOOK_LENGTH].max
+      end
     end
   end
 end
