@@ -2,13 +2,17 @@ require 'spec_helper'
 require 'db/base'
 require 'elements/rebar'
 require 'elements/rebar_hook'
+require 'materials/steel'
 
 RSpec.describe Elements::Rebar do
   let(:elastic_module) { 200_000 }
+  let(:yield_stress) { 420 }
+  let(:steel) { Materials::Steel.new(yield_stress:, elastic_module:) }
   let(:diameter) { 6.4 }
+  let(:number) { 18 }
 
   describe '.build_by_standard' do
-    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420) }
+    let(:rebar) { described_class.new(number:, material: steel) }
 
     it 'returns a Rebar instance' do
       expect(rebar).to be_a(described_class)
@@ -24,8 +28,8 @@ RSpec.describe Elements::Rebar do
   end
 
   describe '#add_start_hook_of 90' do
-    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420) }
-    let(:hook) { Elements::RebarHook.new(yield_stress: rebar.yield_stress, elastic_module: rebar.elastic_module) }
+    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:hook) { Elements::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
       expect(rebar.add_start_hook_of(hook, 90)).to be_a(Elements::RebarHook)
@@ -45,8 +49,8 @@ RSpec.describe Elements::Rebar do
   end
 
   describe '#add_end_hook_of 90' do
-    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420) }
-    let(:hook) { Elements::RebarHook.new(yield_stress: rebar.yield_stress, elastic_module: rebar.elastic_module) }
+    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:hook) { Elements::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
       expect(rebar.add_end_hook_of(hook, 90)).to be_a(Elements::RebarHook)
@@ -65,47 +69,23 @@ RSpec.describe Elements::Rebar do
     end
   end
 
-  describe '#design_yield_stress' do
-    describe 'when yield_stress is less than MAX_YIELD_STRESS' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
-      let(:yield_stress) { described_class::MAX_YIELD_STRESS - 100 }
-
-      it 'returns MAX_YIELD_STRESS' do
-        expect(rebar.design_yield_stress).to eq(yield_stress)
-      end
-    end
-
-    describe 'when yield_stress is greater than MAX_YIELD_STRESS' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
-      let(:yield_stress) { described_class::MAX_YIELD_STRESS + 100 }
-
-      it 'returns MAX_YIELD_STRESS' do
-        expect(rebar.design_yield_stress).to eq(described_class::MAX_YIELD_STRESS)
-      end
-    end
-  end
-
   describe '#area' do
-    describe 'when diameter is 6.4' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
-      let(:yield_stress) { described_class::MAX_YIELD_STRESS - 100 }
+    let(:rebar) { described_class.new(number:, material: steel) }
 
-      it 'returns the correct area' do
-        area_for_used_diameter = Math::PI * (diameter**2) / 4
-        expect(rebar.area).to be(area_for_used_diameter.to_f)
-      end
+    it 'returns the correct area' do
+      diameter = rebar.diameter
+      area_for_used_diameter = Math::PI * (diameter**2) / 4
+      expect(rebar.area).to be(area_for_used_diameter.to_f)
     end
   end
 
   describe '#perimeter' do
-    describe 'when diameter is 6.4' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
-      let(:yield_stress) { described_class::MAX_YIELD_STRESS - 100 }
+    let(:rebar) { described_class.new(number:, material: steel) }
 
-      it 'returns the correct area' do
-        perimeter_for_used_diameter = Math::PI * diameter
-        expect(rebar.perimeter).to be(perimeter_for_used_diameter.to_f)
-      end
+    it 'returns the correct area' do
+      diameter = rebar.diameter
+      perimeter_for_used_diameter = Math::PI * diameter
+      expect(rebar.perimeter).to be(perimeter_for_used_diameter.to_f)
     end
   end
 end
