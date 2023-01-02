@@ -6,10 +6,9 @@ require 'elements/rebar_hook'
 RSpec.describe Elements::Rebar do
   let(:elastic_module) { 200_000 }
   let(:diameter) { 6.4 }
-  let(:hooks_class) { Elements::RebarHook }
 
   describe '.build_by_standard' do
-    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420, hooks_class:) }
+    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420) }
 
     it 'returns a Rebar instance' do
       expect(rebar).to be_a(described_class)
@@ -25,15 +24,16 @@ RSpec.describe Elements::Rebar do
   end
 
   describe '#add_start_hook_of 90' do
-    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420, hooks_class:) }
+    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420) }
+    let(:hook) { Elements::RebarHook.new(yield_stress: rebar.yield_stress, elastic_module: rebar.elastic_module) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_start_hook_of(90)).to be_a(hooks_class)
+      expect(rebar.add_start_hook_of(hook, 90)).to be_a(Elements::RebarHook)
     end
 
     it 'adds a start hook' do
-      rebar.add_start_hook_of(90)
-      expect(rebar.start_hook).to be_a(hooks_class)
+      rebar.add_start_hook_of(hook, 90)
+      expect(rebar.start_hook).to be_a(Elements::RebarHook)
     end
 
     describe '#delete_start_hook' do
@@ -45,19 +45,20 @@ RSpec.describe Elements::Rebar do
   end
 
   describe '#add_end_hook_of 90' do
-    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420, hooks_class:) }
+    let(:rebar) { described_class.build_by_standard(number: 18, yield_stress: 420) }
+    let(:hook) { Elements::RebarHook.new(yield_stress: rebar.yield_stress, elastic_module: rebar.elastic_module) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_end_hook_of(90)).to be_a(hooks_class)
+      expect(rebar.add_end_hook_of(hook, 90)).to be_a(Elements::RebarHook)
     end
 
-    it 'adds a end hook' do
-      rebar.add_end_hook_of(90)
-      expect(rebar.end_hook).to be_a(hooks_class)
+    it 'adds a start hook' do
+      rebar.add_end_hook_of(hook, 90)
+      expect(rebar.end_hook).to be_a(Elements::RebarHook)
     end
 
     describe '#delete_end_hook' do
-      it 'deletes the end hook' do
+      it 'deletes the start hook' do
         rebar.delete_end_hook
         expect(rebar.end_hook).to be_nil
       end
@@ -66,7 +67,7 @@ RSpec.describe Elements::Rebar do
 
   describe '#design_yield_stress' do
     describe 'when yield_stress is less than MAX_YIELD_STRESS' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:, hooks_class:) }
+      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
       let(:yield_stress) { described_class::MAX_YIELD_STRESS - 100 }
 
       it 'returns MAX_YIELD_STRESS' do
@@ -75,7 +76,7 @@ RSpec.describe Elements::Rebar do
     end
 
     describe 'when yield_stress is greater than MAX_YIELD_STRESS' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:, hooks_class:) }
+      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
       let(:yield_stress) { described_class::MAX_YIELD_STRESS + 100 }
 
       it 'returns MAX_YIELD_STRESS' do
@@ -86,7 +87,7 @@ RSpec.describe Elements::Rebar do
 
   describe '#area' do
     describe 'when diameter is 6.4' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:, hooks_class:) }
+      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
       let(:yield_stress) { described_class::MAX_YIELD_STRESS - 100 }
 
       it 'returns the correct area' do
@@ -98,7 +99,7 @@ RSpec.describe Elements::Rebar do
 
   describe '#perimeter' do
     describe 'when diameter is 6.4' do
-      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:, hooks_class:) }
+      let(:rebar) { described_class.new(yield_stress:, elastic_module:, diameter:) }
       let(:yield_stress) { described_class::MAX_YIELD_STRESS - 100 }
 
       it 'returns the correct area' do
