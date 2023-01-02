@@ -1,5 +1,7 @@
 require 'yaml'
 
 module DB
-  STANDARD_REBAR = YAML.load_file('db/rebars.yml')
+  module Base
+    STANDARD_REBAR = YAML.load_file('db/rebars.yml')
+  end
 end
