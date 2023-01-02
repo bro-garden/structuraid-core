@@ -1,3 +1,5 @@
+require './lib/materials/base'
+
 module Materials
   class Steel < Base
     DEFAULT_ELASTIC_MODULE = 200_000
