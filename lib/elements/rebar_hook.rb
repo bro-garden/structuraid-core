@@ -9,14 +9,7 @@ module Elements
 
     attr_reader :angle, :length, :diameter
 
-    def setup_properties(diameter, angle)
-      @diameter = diameter
-      use_angle_of(angle)
-    end
-
     def use_angle_of(angle)
-      return nil unless angle
-
       @angle = angle
       @length = calculate_length
     end

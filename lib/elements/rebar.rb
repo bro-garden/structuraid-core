@@ -28,14 +28,14 @@ module Elements
 
     def add_start_hook_of(hook, angle)
       @start_hook = hook
-      @start_hook.setup_properties(diameter, angle)
+      @start_hook.use_angle_of(angle)
 
       @start_hook
     end
 
     def add_end_hook_of(hook, angle)
       @end_hook = hook
-      @end_hook.setup_properties(diameter, angle)
+      @end_hook.use_angle_of(angle)
 
       @end_hook
     end
