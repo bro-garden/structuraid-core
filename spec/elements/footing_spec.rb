@@ -8,7 +8,9 @@ RSpec.describe Elements::Footing do
   let(:concrete) { Materials::Concrete.new_reinfoced_concrete(elastic_module: 20_000, design_compression_strength: 20) }
 
   describe '#change_concrete_to' do
-    let(:concrete2) { Materials::Concrete.new_reinfoced_concrete(elastic_module: 20_000, design_compression_strength: 24) }
+    let(:concrete2) do
+      Materials::Concrete.new_reinfoced_concrete(elastic_module: 20_000, design_compression_strength: 24)
+    end
 
     it 'changes concrete' do
       footing.change_concrete_to(concrete2)
