@@ -1,24 +1,13 @@
 require 'db/base'
-require './lib/materials/steel'
+require 'elements/rebar'
+require 'materials/steel'
 
 module Elements
-  class RebarHook < Materials::Steel
-    MAX_FY = 550.to_f
+  class RebarHook < Rebar
     MIN180_HOOK_LENGTH = 60.to_f
     MIN_HOOK_LENGTH = 75.to_f
 
     attr_reader :angle, :length, :diameter
-
-    def initialize(yield_stress:, elastic_module:)
-      @diameter = nil
-      @length = nil
-      @angle = nil
-
-      super(
-        yield_stress:,
-        elastic_module:
-      )
-    end
 
     def setup_properties(diameter, angle)
       @diameter = diameter

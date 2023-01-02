@@ -2,8 +2,12 @@ require 'spec_helper'
 require 'elements/rebar_hook'
 
 RSpec.describe Elements::RebarHook do
+  subject(:hook) { described_class.new(number: 18, material: steel) }
+
+  let(:elastic_module) { 200_000 }
+  let(:yield_stress) { 420 }
+  let(:steel) { Materials::Steel.new(yield_stress:, elastic_module:) }
   let(:diameter) { 6.4 }
-  let(:hook) { described_class.new(yield_stress: 420, elastic_module: 200_000) }
 
   describe '#setup_properties' do
     describe 'when diameter is 6.4 and angle is 90' do
