@@ -4,7 +4,7 @@ module Materials
 
     attr_reader :elastic_module, :yield_stress
 
-    def initialize(elastic_module: DEFAULT_ELASTIC_MODULE, yield_stress:)
+    def initialize(yield_stress:, elastic_module: DEFAULT_ELASTIC_MODULE)
       @elastic_module = elastic_module.to_f
       @yield_stress = yield_stress.to_f
     end
