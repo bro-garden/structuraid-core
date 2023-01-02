@@ -1,4 +1,4 @@
-require './db/base'
+require 'db/base'
 require './lib/materials/steel'
 
 module Elements

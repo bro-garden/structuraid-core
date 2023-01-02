@@ -1,5 +1,5 @@
 require 'spec_helper'
-require './db/base'
+require 'db/base'
 require 'elements/rebar'
 require 'elements/rebar_hook'
 
