@@ -24,3 +24,6 @@ RSpec/MultipleMemoizedHelpers:
 
 RSpec/NestedGroups:
   Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false
