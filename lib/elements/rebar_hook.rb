@@ -9,8 +9,8 @@ module Elements
 
     attr_reader :angle, :length, :diameter
 
-    def initialize(yield_stress:, elastic_module:, diameter:)
-      @diameter = diameter
+    def initialize(yield_stress:, elastic_module:)
+      @diameter = nil
       @length = nil
       @angle = nil
 
@@ -20,7 +20,14 @@ module Elements
       )
     end
 
+    def setup_properties(diameter, angle)
+      @diameter = diameter
+      use_angle_of(angle)
+    end
+
     def use_angle_of(angle)
+      return nil unless angle
+
       @angle = angle
       @length = calculate_length
     end
