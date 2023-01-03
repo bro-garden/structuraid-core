@@ -4,15 +4,13 @@ require 'elements/steel_reinforcement/base'
 module Elements
   module SteelReinforcement
     class RebarHook < Base
-      attr_reader :angle, :length
+      attr_accessor :angle
 
-      def use_angle(angle)
-        @angle = angle
-        @length = calculate_length
+      def initialize(number:, material:, standard_bars:)
+        @angle = nil
+
+        super(number:, material:, standard_bars:)
       end
-
-      private
-
     end
   end
 end
