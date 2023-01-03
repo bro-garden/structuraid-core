@@ -1,6 +1,6 @@
 module Elements
   class Footing
-    attr_reader :step, :length_x, :length_y, :height, :material
+    attr_reader :length_x, :length_y, :height, :material
 
     def initialize(length_x:, length_y:, height:, material:)
       @length_x = length_x.to_f
