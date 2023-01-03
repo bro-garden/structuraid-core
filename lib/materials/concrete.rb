@@ -2,7 +2,7 @@ require 'materials/base'
 
 module Materials
   class Concrete < Base
-    attr_accessor :elastic_module, :design_compression_strength, :specific_weight
+    attr_reader :elastic_module, :design_compression_strength, :specific_weight
 
     def initialize(elastic_module:, design_compression_strength:, specific_weight:)
       @elastic_module = elastic_module.to_f
