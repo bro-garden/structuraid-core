@@ -23,18 +23,12 @@ module Elements
         rebar_perimeter.to_f
       end
 
-      def add_start_hook(hook, angle)
+      def add_start_hook(hook)
         @start_hook = hook
-        @start_hook.angle = angle
-
-        @start_hook
       end
 
-      def add_end_hook(hook, angle)
+      def add_end_hook(hook)
         @end_hook = hook
-        @end_hook.angle = angle
-
-        @end_hook
       end
 
       def delete_start_hook
