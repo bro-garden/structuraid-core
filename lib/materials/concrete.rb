@@ -1,3 +1,5 @@
+require 'materials/base'
+
 module Materials
   class Concrete < Base
     attr_reader :elastic_module, :design_compression_strength
