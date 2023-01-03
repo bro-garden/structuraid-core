@@ -1,4 +1,4 @@
-require './lib/materials/base'
+require 'materials/base'
 
 module Materials
   class Soil < Base

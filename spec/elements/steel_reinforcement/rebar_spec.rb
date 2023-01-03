@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'db/base'
-require 'elements/rebar'
-require 'elements/rebar_hook'
+require 'elements/steel_reinforcement/rebar'
+require 'elements/steel_reinforcement/rebar_hook'
 require 'materials/steel'
 
-RSpec.describe Elements::Rebar do
+RSpec.describe Elements::SteelReinforcement::Rebar do
   let(:elastic_module) { 200_000 }
   let(:yield_stress) { 420 }
   let(:steel) { Materials::Steel.new(yield_stress:, elastic_module:) }
@@ -29,15 +29,15 @@ RSpec.describe Elements::Rebar do
 
   describe '#add_start_hook_of 90' do
     let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { Elements::RebarHook.new(number:, material: steel) }
+    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_start_hook_of(hook, 90)).to be_a(Elements::RebarHook)
+      expect(rebar.add_start_hook_of(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
     it 'adds a start hook' do
       rebar.add_start_hook_of(hook, 90)
-      expect(rebar.start_hook).to be_a(Elements::RebarHook)
+      expect(rebar.start_hook).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
     describe '#delete_start_hook' do
@@ -50,15 +50,15 @@ RSpec.describe Elements::Rebar do
 
   describe '#add_end_hook_of 90' do
     let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { Elements::RebarHook.new(number:, material: steel) }
+    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_end_hook_of(hook, 90)).to be_a(Elements::RebarHook)
+      expect(rebar.add_end_hook_of(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
     it 'adds a start hook' do
       rebar.add_end_hook_of(hook, 90)
-      expect(rebar.end_hook).to be_a(Elements::RebarHook)
+      expect(rebar.end_hook).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
     describe '#delete_end_hook' do

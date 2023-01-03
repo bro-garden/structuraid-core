@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'elements/rebar_hook'
+require 'elements/steel_reinforcement/rebar_hook'
 
-RSpec.describe Elements::RebarHook do
+RSpec.describe Elements::SteelReinforcement::RebarHook do
   subject(:hook) { described_class.new(number: 18, material: steel) }
 
   let(:elastic_module) { 200_000 }
