@@ -4,12 +4,9 @@ require 'elements/steel_reinforcement/base'
 module Elements
   module SteelReinforcement
     class RebarHook < Base
-      MIN180_HOOK_LENGTH = 60.to_f
-      MIN_HOOK_LENGTH = 75.to_f
+      attr_reader :angle, :length
 
-      attr_reader :angle, :length, :diameter
-
-      def use_angle_of(angle)
+      def use_angle(angle)
         @angle = angle
         @length = calculate_length
       end
@@ -19,11 +16,11 @@ module Elements
       def calculate_length
         case angle
         when 90
-          [12 * diameter, MIN_HOOK_LENGTH].max
+          12 * diameter
         when 180
-          [4 * diameter, MIN180_HOOK_LENGTH].max
+          4 * diameter
         else
-          [6 * diameter, MIN_HOOK_LENGTH].max
+          6 * diameter
         end
       end
     end

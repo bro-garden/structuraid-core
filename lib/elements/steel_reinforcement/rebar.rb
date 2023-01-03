@@ -4,7 +4,14 @@ require 'elements/steel_reinforcement/base'
 module Elements
   module SteelReinforcement
     class Rebar < Base
-      attr_reader :diameter, :number, :start_hook, :end_hook, :material
+      attr_reader :start_hook, :end_hook
+
+      def initialize(number:, material:, standard_bars:)
+        @start_hook = nil
+        @end_hook = nil
+
+        super(number:, material:, standard_bars:)
+      end
 
       def area
         rebar_area = Math::PI * (diameter**2) / 4
@@ -16,16 +23,16 @@ module Elements
         rebar_perimeter.to_f
       end
 
-      def add_start_hook_of(hook, angle)
+      def add_start_hook(hook, angle)
         @start_hook = hook
-        @start_hook.use_angle_of(angle)
+        @start_hook.use_angle(angle)
 
         @start_hook
       end
 
-      def add_end_hook_of(hook, angle)
+      def add_end_hook(hook, angle)
         @end_hook = hook
-        @end_hook.use_angle_of(angle)
+        @end_hook.use_angle(angle)
 
         @end_hook
       end

@@ -1,14 +1,15 @@
 module Elements
-  class Base
-    def initialize(number:, material:)
-      @diameter = diameter.to_f
-      @number = number
-      @material = material
-      @start_hook = nil
-      @end_hook = nil
+  module SteelReinforcement
+    class Base
+      attr_reader :diameter, :number, :material
 
-      rebar_data = DB::Base::STANDARD_REBAR.find { |bar_data| bar_data['number'] == number }
-      @diameter = rebar_data['diameter'].to_f
+      def initialize(number:, material:, standard_bars:)
+        @number = number
+        @material = material
+
+        rebar_data = standard_bars.find_standard_rebar(number:)
+        @diameter = rebar_data['diameter'].to_f
+      end
     end
   end
 end

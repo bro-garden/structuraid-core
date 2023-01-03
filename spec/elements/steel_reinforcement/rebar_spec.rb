@@ -12,7 +12,7 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   let(:number) { 18 }
 
   describe '.build_by_standard' do
-    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
 
     it 'returns a Rebar instance' do
       expect(rebar).to be_a(described_class)
@@ -27,16 +27,16 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
     end
   end
 
-  describe '#add_start_hook_of 90' do
-    let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
+  describe '#add_start_hook 90' do
+    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel, standard_bars: DB::Base) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_start_hook_of(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
+      expect(rebar.add_start_hook(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
     it 'adds a start hook' do
-      rebar.add_start_hook_of(hook, 90)
+      rebar.add_start_hook(hook, 90)
       expect(rebar.start_hook).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
@@ -48,16 +48,16 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
     end
   end
 
-  describe '#add_end_hook_of 90' do
-    let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
+  describe '#add_end_hook 90' do
+    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel, standard_bars: DB::Base) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_end_hook_of(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
+      expect(rebar.add_end_hook(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
     it 'adds a start hook' do
-      rebar.add_end_hook_of(hook, 90)
+      rebar.add_end_hook(hook, 90)
       expect(rebar.end_hook).to be_a(Elements::SteelReinforcement::RebarHook)
     end
 
@@ -70,7 +70,7 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   end
 
   describe '#area' do
-    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
 
     it 'returns the correct area' do
       diameter = rebar.diameter
@@ -80,7 +80,7 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   end
 
   describe '#perimeter' do
-    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
 
     it 'returns the correct area' do
       diameter = rebar.diameter
