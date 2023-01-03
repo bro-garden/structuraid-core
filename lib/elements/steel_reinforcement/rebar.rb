@@ -6,11 +6,11 @@ module Elements
     class Rebar < Base
       attr_reader :start_hook, :end_hook
 
-      def initialize(number:, material:, standard_bars:)
+      def initialize(number:, material:, standard_rebars: DB::Base)
         @start_hook = nil
         @end_hook = nil
 
-        super(number:, material:, standard_bars:)
+        super(number:, material:, standard_rebars:)
       end
 
       def area
@@ -25,14 +25,14 @@ module Elements
 
       def add_start_hook(hook, angle)
         @start_hook = hook
-        @start_hook.use_angle(angle)
+        @start_hook.angle = angle
 
         @start_hook
       end
 
       def add_end_hook(hook, angle)
         @end_hook = hook
-        @end_hook.use_angle(angle)
+        @end_hook.angle = angle
 
         @end_hook
       end

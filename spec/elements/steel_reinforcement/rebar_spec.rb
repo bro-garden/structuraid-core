@@ -12,7 +12,7 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   let(:number) { 18 }
 
   describe '.build_by_standard' do
-    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:rebar) { described_class.new(number:, material: steel) }
 
     it 'returns a Rebar instance' do
       expect(rebar).to be_a(described_class)
@@ -28,8 +28,8 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   end
 
   describe '#add_start_hook 90' do
-    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
-    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
       expect(rebar.add_start_hook(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
@@ -49,8 +49,8 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   end
 
   describe '#add_end_hook 90' do
-    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
-    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:rebar) { described_class.new(number:, material: steel) }
+    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
       expect(rebar.add_end_hook(hook, 90)).to be_a(Elements::SteelReinforcement::RebarHook)
@@ -70,7 +70,7 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   end
 
   describe '#area' do
-    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:rebar) { described_class.new(number:, material: steel) }
 
     it 'returns the correct area' do
       diameter = rebar.diameter
@@ -80,7 +80,7 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
   end
 
   describe '#perimeter' do
-    let(:rebar) { described_class.new(number:, material: steel, standard_bars: DB::Base) }
+    let(:rebar) { described_class.new(number:, material: steel) }
 
     it 'returns the correct area' do
       diameter = rebar.diameter

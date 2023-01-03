@@ -6,10 +6,10 @@ module Elements
     class RebarHook < Base
       attr_accessor :angle
 
-      def initialize(number:, material:, standard_bars:)
+      def initialize(number:, material:, standard_rebars: DB::Base)
         @angle = nil
 
-        super(number:, material:, standard_bars:)
+        super(number:, material:, standard_rebars:)
       end
     end
   end
