@@ -1,35 +1,29 @@
 module Elements
   class Footing
-    attr_reader :concrete
+    attr_accessor :step, :length_x, :length_y, :height, :material
 
-    attr_accessor :step, :dimension1, :dimension2, :height
-
-    def initialize(dimension1:, dimension2:, height:, concrete:, step: 100)
-      @dimension1 = dimension1.to_f
-      @dimension2 = dimension2.to_f
+    def initialize(length_x:, length_y:, height:, concrete:, step: 100)
+      @length_x = length_x.to_f
+      @length_y = length_y.to_f
       @height = height.to_f
       @step = step.to_f
-      @concrete = concrete
-    end
-
-    def change_concrete_to(concrete)
-      @concrete = concrete
+      @material = concrete
     end
 
     def incrase_height_by_step
       @height = height + step
     end
 
-    def incrase_dimension1_by_step
-      @dimension1 = dimension1.to_f + step
+    def incrase_length_x_by_step
+      @length_x = length_x.to_f + step
     end
 
-    def incrase_dimension2_by_step
-      @dimension2 = dimension2.to_f + step
+    def incrase_length_y_by_step
+      @length_y = length_y.to_f + step
     end
 
-    def area
-      dimension1 * dimension2
+    def horizontal_area
+      length_x * length_y
     end
   end
 end
