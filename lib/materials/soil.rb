@@ -1,3 +1,5 @@
+require 'materials/base'
+
 module Materials
   class Soil < Base
     attr_reader :bearing_capacity
