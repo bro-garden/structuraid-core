@@ -9,5 +9,9 @@ module Engineering
       @value_y = value_y.to_f
       @value_z = value_z.to_f
     end
+
+    def magnitude
+      Math.sqrt(value_x**2 + value_y**2 + value_z**2)
+    end
   end
 end
