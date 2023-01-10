@@ -2,7 +2,11 @@ require 'engineering/base'
 
 module Engineering
   class Vector < Base
-    attr_accessor :value_x, :value_y, value_z
+    attr_accessor :value_x, :value_y, :value_z
+
+    def self.with_value(value:, direction:)
+      new(value_x: value * direction[0], value_y: value * direction[1], value_z: value * direction[2])
+    end
 
     def initialize(value_x:, value_y:, value_z:)
       @value_x = value_x.to_f
@@ -14,7 +18,7 @@ module Engineering
       Math.sqrt(value_x**2 + value_y**2 + value_z**2)
     end
 
-    def module
+    def direction
       vector_magnitude = magnitude
 
       [
