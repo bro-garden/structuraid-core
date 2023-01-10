@@ -13,5 +13,15 @@ module Engineering
     def magnitude
       Math.sqrt(value_x**2 + value_y**2 + value_z**2)
     end
+
+    def module
+      vector_magnitude = magnitude
+
+      [
+        @value_x / vector_magnitude,
+        @value_y / vector_magnitude,
+        @value_z / vector_magnitude
+      ]
+    end
   end
 end
