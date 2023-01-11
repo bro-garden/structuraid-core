@@ -5,7 +5,11 @@ module Engineering
     attr_accessor :value_x, :value_y, :value_z
 
     def self.with_value(value:, direction:)
-      new(value_x: value * direction[0], value_y: value * direction[1], value_z: value * direction[2])
+      new(
+        value_x: value.to_f * direction[0],
+        value_y: value.to_f * direction[1],
+        value_z: value.to_f * direction[2]
+      )
     end
 
     def initialize(value_x:, value_y:, value_z:)

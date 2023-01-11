@@ -6,7 +6,7 @@ module Loads
     attr_reader :location
 
     def initialize(value:, location:)
-      @value = value
+      @value = value.to_f
       @location = location
     end
   end
