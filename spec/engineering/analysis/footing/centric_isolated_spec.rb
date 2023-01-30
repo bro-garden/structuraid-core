@@ -46,16 +46,4 @@ RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
       expect(centric_isolated_footing.bending_solicitation).to be(expected_bending_solicitation)
     end
   end
-
-  # describe 'when create an instance with a worong cut_direction' do
-  #   let(:wrong_cut_direction) { :length_z }
-
-  #   it 'returns an error' do
-  #     expect(described_class.new(column:,
-  #                                footing:,
-  #                                effective_height:,
-  #                                load_from_column:,
-  #                                cut_direction: wrong_cut_direction)).to raise_error(ArgumentError)
-  #   end
-  # end
 end
