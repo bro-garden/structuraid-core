@@ -1,4 +1,4 @@
-require 'elements/r_c/footing/base'
+require 'elements/rc/footing/base'
 
 module Elements
   module RC

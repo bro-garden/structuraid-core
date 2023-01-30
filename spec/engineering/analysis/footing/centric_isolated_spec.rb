@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'engineering/analysis/footing/centric_isolated'
-require 'elements/r_c/column/rectangular'
-require 'elements/r_c/footing/isolated'
+require 'elements/rc/column/rectangular'
+require 'elements/rc/footing/isolated'
 require 'loads/point_load'
 
 RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
@@ -41,7 +41,8 @@ RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
 
   describe '#bending_solicitation' do
     it 'returns the rigth bending moment' do
-      expected_bending_solicitation = 0.25 * centric_isolated_footing.max_shear_solicitation * footing.send(cut_direction)
+      max_shear_solicitation = centric_isolated_footing.max_shear_solicitation
+      expected_bending_solicitation = 0.25 * max_shear_solicitation * footing.send(cut_direction)
       expect(centric_isolated_footing.bending_solicitation).to be(expected_bending_solicitation)
     end
   end

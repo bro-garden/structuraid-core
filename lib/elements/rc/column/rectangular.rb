@@ -1,4 +1,4 @@
-require 'elements/r_c/column/base'
+require 'elements/rc/column/base'
 
 module Elements
   module RC

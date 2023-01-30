@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'elements/r_c/footing/isolated'
+require 'elements/rc/footing/isolated'
 require 'materials/concrete'
 
 RSpec.describe Elements::RC::Footing::Isolated do
