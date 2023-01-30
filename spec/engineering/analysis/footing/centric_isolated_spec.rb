@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'engineering/analysis/footing/centric_isolated'
 require 'elements/r_c/column/rectangular'
-require 'elements/footing'
+require 'elements/r_c/footing/isolated'
 require 'loads/point_load'
 
 RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
@@ -13,7 +13,7 @@ RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
     Elements::RC::Column::Rectangular.new(length_x: 500, length_y: 300, height: 2900, material: 'concrete')
   end
   let(:footing) do
-    Elements::Footing.new(length_x: 4000, length_y: 4000, height: 400, material: 'concrete')
+    Elements::RC::Footing::Isolated.new(length_x: 4000, length_y: 4000, height: 400, material: 'concrete')
   end
   let(:load_from_column) { Loads::PointLoad.new(value: 1500, location: nil) }
   let(:effective_height) { 250 }
