@@ -16,10 +16,6 @@ module Engineering
           @cut_direction = cut_direction
         end
 
-        def solicitation
-          @load_from_column.value / @footing.horizontal_area
-        end
-
         def solicitation_load
           solicition * @footing.send(ortogonal_direction)
         end
@@ -32,7 +28,15 @@ module Engineering
           solicitation_load * (@footing.send(@cut_direction) - column.send(@cut_direction) - 2 * @effective_height)
         end
 
+        def bending_solicitation
+          0.25 * max_shear_solicitation * @footing.send(@cut_direction)
+        end
+
         private
+
+        def solicitation
+          @load_from_column.value / @footing.horizontal_area
+        end
 
         def ortogonal_direction
           ortogonal = ORTOGONALITIES - [@cut_direction]
