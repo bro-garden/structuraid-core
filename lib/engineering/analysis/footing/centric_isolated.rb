@@ -17,7 +17,7 @@ module Engineering
         end
 
         def solicitation_load
-          solicition * @footing.send(ortogonal_direction)
+          solicitation * @footing.send(ortogonal_direction)
         end
 
         def max_shear_solicitation
@@ -25,7 +25,7 @@ module Engineering
         end
 
         def shear_solicitation
-          solicitation_load * (@footing.send(@cut_direction) - column.send(@cut_direction) - 2 * @effective_height)
+          solicitation_load * (@footing.send(@cut_direction) - @column.send(@cut_direction) - 2 * @effective_height)
         end
 
         def bending_solicitation
