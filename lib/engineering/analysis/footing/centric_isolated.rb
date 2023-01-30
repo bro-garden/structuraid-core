@@ -3,11 +3,16 @@ module Engineering
     module Footing
       class CentricIsolated
         ORTOGONALITIES = %i[length_x length_y].freeze
+        CUT_DIRECTION_ERROR = 'Not valid cut direction, should one of thes: :length_x :length_y'.freeze
 
-        def initialize(column:, footing:, load_from_column:, cut_direction:)
+        def initialize(column:, footing:, effective_height:, load_from_column:, cut_direction:)
           @column = column
           @footing = footing
           @load_from_column = load_from_column
+          @effective_height = effective_height.to_f
+
+          raise ArgumentError, CUT_DIRECTION_ERROR unless ORTOGONALITIES.any?(cut_direction)
+
           @cut_direction = cut_direction
         end
 
@@ -15,9 +20,19 @@ module Engineering
           @load_from_column.value / @footing.horizontal_area
         end
 
-        def solicitation_load(length_ortogonal_to_cut)
-          solicition * length_ortogonal_to_cut
+        def solicitation_load
+          solicition * @footing.send(ortogonal_direction)
         end
+
+        def max_shear_solicitation
+          solicitation_load * @footing.send(@cut_direction)
+        end
+
+        def shear_solicitation
+          solicitation_load * (@footing.send(@cut_direction) - column.send(@cut_direction) - 2 * @effective_height)
+        end
+
+        private
 
         def ortogonal_direction
           ortogonal = ORTOGONALITIES - [@cut_direction]
