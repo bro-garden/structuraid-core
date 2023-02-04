@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'elements/rc/footing/isolated'
+require 'elements/footing'
 require 'materials/concrete'
 
-RSpec.describe Elements::RC::Footing::Isolated do
+RSpec.describe Elements::Footing do
   subject(:footing) { described_class.new(length_x: 100, length_y: 100, height: 100, material: concrete) }
 
   let(:concrete) do
