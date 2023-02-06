@@ -38,9 +38,9 @@ module Engineering
           @load_from_column.value / @footing.horizontal_area
         end
 
-        def ortogonal_direction
-          ortogonal = ORTOGONALITIES - [@cut_direction]
-          ortogonal.last
+        def orthogonal_direction
+          orthogonal = ORTHOGONALITIES - [@cut_direction]
+          orthogonal.last
         end
       end
     end
