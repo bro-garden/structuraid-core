@@ -27,3 +27,6 @@ RSpec/NestedGroups:
 
 Lint/MissingSuper:
   Enabled: false
+
+Style/ClassVars:
+  Enabled: false
