@@ -2,7 +2,7 @@ module Engineering
   module Analysis
     module Footing
       class CentricIsolated
-        ORTOGONALITIES = %i[length_x length_y].freeze
+        ORTHOGONALITIES = %i[length_x length_y].freeze
         CUT_DIRECTION_ERROR = 'Not valid cut direction, should one of thes: :length_x :length_y'.freeze
 
         def initialize(column:, footing:, effective_height:, load_from_column:, cut_direction:)
