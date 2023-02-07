@@ -22,11 +22,11 @@ module DesignCodes
           obj.call
         end
 
+        private
+
         def use_schema(schema_klass)
           @@schema_klass ||= schema_klass
         end
-
-        private
 
         def schema_klass
           @@schema_klass

@@ -13,14 +13,6 @@ module DesignCodes
         @@required = []
         @@optional = []
 
-        def required_params(params)
-          @@required = params
-        end
-
-        def optional_params(params)
-          @@optional = params
-        end
-
         def validate!(params)
           required.each do |required_param|
             raise DesignCodes::MissingParamError, required_param if params[required_param].nil?
@@ -37,14 +29,22 @@ module DesignCodes
 
         def structurize(params)
           structured_args_names = [*required, *optional]
+          structured_klass = Struct.new(*structured_args_names, :schema, keyword_init: true)
+          sliced_params = params.slice(*structured_args_names)
+          sliced_params.merge!(schema: name)
 
-          structured_klass = Struct.new(*structured_args_names)
-          structured_args_values = structured_args_names.map { |arg_name| params[arg_name] }
-
-          structured_klass.new(*structured_args_values)
+          structured_klass.new(sliced_params)
         end
 
         private
+
+        def required_params(params)
+          @@required = params
+        end
+
+        def optional_params(params)
+          @@optional = params
+        end
 
         def required
           @@required
