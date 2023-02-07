@@ -10,9 +10,6 @@ module DesignCodes
       end
 
       module ClassMethods
-        @@required = []
-        @@optional = []
-
         def validate!(params)
           required.each do |required_param|
             raise DesignCodes::MissingParamError, required_param if params[required_param].nil?
@@ -39,19 +36,19 @@ module DesignCodes
         private
 
         def required_params(params)
-          @@required = params
+          @required = params
         end
 
         def optional_params(params)
-          @@optional = params
+          @optional = params
         end
 
         def required
-          @@required
+          @required
         end
 
         def optional
-          @@optional
+          @optional
         end
       end
     end
