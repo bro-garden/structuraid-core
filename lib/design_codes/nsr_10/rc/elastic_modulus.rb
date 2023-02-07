@@ -1,4 +1,3 @@
-require 'byebug'
 require 'design_codes/utils/code_requirement'
 require 'design_codes/schemas/rc/elastic_modulus_schema'
 

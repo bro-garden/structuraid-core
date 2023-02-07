@@ -33,6 +33,14 @@ module DesignCodes
           structured_klass.new(sliced_params)
         end
 
+        def required
+          @required
+        end
+
+        def optional
+          @optional
+        end
+
         private
 
         def required_params(params)
@@ -41,14 +49,6 @@ module DesignCodes
 
         def optional_params(params)
           @optional = params
-        end
-
-        def required
-          @required
-        end
-
-        def optional
-          @optional
         end
       end
     end

@@ -22,14 +22,14 @@ module DesignCodes
           obj.call
         end
 
+        def schema_klass
+          @schema_klass
+        end
+
         private
 
         def use_schema(schema_klass)
           @schema_klass = schema_klass
-        end
-
-        def schema_klass
-          @schema_klass
         end
       end
     end
