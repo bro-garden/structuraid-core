@@ -3,33 +3,33 @@ module Engineering
     module Footing
       class CentricIsolated
         ORTHOGONALITIES = %i[length_x length_y].freeze
-        CUT_DIRECTION_ERROR = 'Not valid cut direction, should one of thes: :length_x :length_y'.freeze
+        SECTION_DIRECTION_ERROR = 'Not valid cut direction, should one of thes: :length_x :length_y'.freeze
 
-        def initialize(column:, footing:, effective_height:, load_from_column:, cut_direction:)
+        def initialize(column:, footing:, effective_height:, load_from_column:, section_direction:)
           @column = column
           @footing = footing
           @load_from_column = load_from_column
           @effective_height = effective_height.to_f
 
-          raise ArgumentError, CUT_DIRECTION_ERROR unless ORTOGONALITIES.any?(cut_direction)
+          raise ArgumentError, SECTION_DIRECTION_ERROR unless ORTHOGONALITIES.any?(section_direction)
 
-          @cut_direction = cut_direction
+          @section_direction = section_direction
         end
 
         def solicitation_load
-          solicitation * @footing.send(ortogonal_direction)
+          solicitation * @footing.public_send(orthogonal_direction)
         end
 
         def max_shear_solicitation
-          solicitation_load * @footing.send(@cut_direction)
+          solicitation_load * @footing.public_send(@section_direction)
         end
 
         def shear_solicitation
-          solicitation_load * (@footing.send(@cut_direction) - @column.send(@cut_direction) - 2 * @effective_height)
+          solicitation_load * (@footing.public_send(@section_direction) - @column.public_send(@section_direction) - 2 * @effective_height)
         end
 
         def bending_solicitation
-          0.25 * max_shear_solicitation * @footing.send(@cut_direction)
+          0.25 * max_shear_solicitation * @footing.public_send(@section_direction)
         end
 
         private

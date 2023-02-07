@@ -6,7 +6,7 @@ require 'loads/point_load'
 
 RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
   subject(:centric_isolated_footing) do
-    described_class.new(column:, footing:, effective_height:, load_from_column:, cut_direction:)
+    described_class.new(column:, footing:, effective_height:, load_from_column:, section_direction:)
   end
 
   let(:column) do
@@ -17,12 +17,12 @@ RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
   end
   let(:load_from_column) { Loads::PointLoad.new(value: 1500, location: nil) }
   let(:effective_height) { 250 }
-  let(:cut_direction) { :length_x }
-  let(:ortogonal_direction) { :length_y }
+  let(:section_direction) { :length_x }
+  let(:orthogonal_direction) { :length_y }
 
   describe '#solicitation_load' do
     it 'returns the solicitation load for the cut direction' do
-      expected_solicitation = load_from_column.value * footing.send(ortogonal_direction) / footing.horizontal_area
+      expected_solicitation = load_from_column.value * footing.public_send(orthogonal_direction) / footing.horizontal_area
       expect(centric_isolated_footing.solicitation_load).to eq(expected_solicitation)
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
   describe '#bending_solicitation' do
     it 'returns the rigth bending moment' do
       max_shear_solicitation = centric_isolated_footing.max_shear_solicitation
-      expected_bending_solicitation = 0.25 * max_shear_solicitation * footing.send(cut_direction)
+      expected_bending_solicitation = 0.25 * max_shear_solicitation * footing.public_send(section_direction)
       expect(centric_isolated_footing.bending_solicitation).to be(expected_bending_solicitation)
     end
   end
