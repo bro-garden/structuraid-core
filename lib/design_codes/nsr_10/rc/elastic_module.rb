@@ -11,7 +11,7 @@ module DesignCodes
 
         # NSR-10 C.8.5.1
         def call
-          byebug
+          4700 * Math.sqrt(params.design_compression_strength)
         end
       end
     end

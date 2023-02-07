@@ -6,8 +6,7 @@ module DesignCodes
       class ElasticModuleSchema
         include DesignCodes::Utils::SchemaDefinition
 
-        required_params %i[ultimate_strength]
-        optional_params %i[density]
+        required_params %i[design_compression_strength]
       end
     end
   end
