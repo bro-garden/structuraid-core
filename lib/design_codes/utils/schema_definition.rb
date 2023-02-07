@@ -23,11 +23,11 @@ module DesignCodes
 
         def validate!(params)
           required.each do |required_param|
-            raise DesignCodes::MissingParamError, required_param if params.keys.none?(required_param)
+            raise DesignCodes::MissingParamError, required_param if params[required_param].nil?
           end
 
           optional.each do |optional_param|
-            raise DesignCodes::MissingParamError, optional_param if params.keys.none?(optional_param)
+            raise DesignCodes::MissingParamError, optional_param if params[optional_param].nil?
           rescue DesignCodes::MissingParamError => e
             Warning.warn(e.message)
           end
