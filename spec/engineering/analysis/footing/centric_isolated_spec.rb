@@ -3,6 +3,8 @@ require 'engineering/analysis/footing/centric_isolated'
 require 'elements/column/rectangular'
 require 'elements/footing'
 require 'loads/point_load'
+require 'errors/engineering/analysis/section_direction_error'
+require 'byebug'
 
 RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
   subject(:centric_isolated_footing) do
@@ -22,8 +24,8 @@ RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
 
   describe '#solicitation_load' do
     it 'returns the solicitation load for the cut direction' do
-      expected_solicitation = load_from_column.value * footing.public_send(orthogonal_direction) / footing.horizontal_area
-      expect(centric_isolated_footing.solicitation_load).to eq(expected_solicitation)
+      expectet_total_load = load_from_column.value * footing.public_send(orthogonal_direction)
+      expect(centric_isolated_footing.solicitation_load).to eq(expectet_total_load / footing.horizontal_area)
     end
   end
 
