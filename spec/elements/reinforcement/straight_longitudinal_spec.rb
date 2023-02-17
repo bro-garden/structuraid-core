@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'elements/reinforcement/straight_longitudinal'
 require 'engineering/locations/relative'
-require 'elements/steel_reinforcement/rebar'
+require 'elements/reinforcement/rebar'
 require 'materials/steel'
 
 RSpec.describe Elements::Reinforcement::StraightLongitudinal do
@@ -65,7 +65,7 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
 
   describe '#add' do
     let(:rebar) do
-      Elements::SteelReinforcement::Rebar.new(
+      Elements::Reinforcement::Rebar.new(
         number: 3,
         material: Materials::Steel.new(yield_stress: 4200)
       )
@@ -84,13 +84,13 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
   describe '#change' do
     let(:material) { Materials::Steel.new(yield_stress: 4200) }
     let(:first_rebar) do
-      Elements::SteelReinforcement::Rebar.new(
+      Elements::Reinforcement::Rebar.new(
         number: 3,
         material:
       )
     end
     let(:rebar_changed) do
-      Elements::SteelReinforcement::Rebar.new(
+      Elements::Reinforcement::Rebar.new(
         number: 5,
         material:
       )

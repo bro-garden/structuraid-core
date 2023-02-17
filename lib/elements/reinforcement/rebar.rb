@@ -1,16 +1,19 @@
-require 'db/base'
-require 'elements/steel_reinforcement/base'
+require 'elements/reinforcement/base'
+require 'elements/reinforcement/utils/rebar_data'
 
 module Elements
-  module SteelReinforcement
+  module Reinforcement
     class Rebar < Base
-      attr_reader :start_hook, :end_hook
+      include Utils::RebarData
 
-      def initialize(number:, material:, standard_rebars: DB::Base)
+      attr_reader :start_hook, :end_hook, :diameter, :number, :material
+
+      def initialize(number:, material:)
         @start_hook = nil
         @end_hook = nil
-
-        super(number:, material:, standard_rebars:)
+        @number = number
+        @material = material
+        @diameter = find_standard_diameter(rebar_number: number)
       end
 
       def area
