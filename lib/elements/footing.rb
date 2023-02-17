@@ -1,6 +1,11 @@
 module Elements
   class Footing
-    attr_reader :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom
+    attr_reader :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom,
+                :longitudinal_top_reinforcement_length_1, :longitudinal_bottom_reinforcement_length_1,
+                :longitudinal_top_reinforcement_length_2, :longitudinal_bottom_reinforcement_length_2,
+                :main_section
+
+    VALID_SECTIONS = %i[length_1 length_2].freeze
 
     def initialize(
       length_1:,
@@ -22,8 +27,11 @@ module Elements
       @cover_bottom = cover_bottom.to_f
       @reinforcement_length_1 = nil
       @reinforcement_length_1 = nil
-      @longitudinal_top_reinforcement = longitudinal_top_reinforcement
-      @longitudinal_bottom_reinforcement = longitudinal_bottom_reinforcement
+      @longitudinal_top_reinforcement_length_1 = longitudinal_top_reinforcement
+      @longitudinal_bottom_reinforcement_length_1 = longitudinal_bottom_reinforcement
+      @longitudinal_top_reinforcement_length_2 = longitudinal_top_reinforcement
+      @longitudinal_bottom_reinforcement_length_2 = longitudinal_bottom_reinforcement
+      @main_section = :length_1
     end
 
     def horizontal_area
