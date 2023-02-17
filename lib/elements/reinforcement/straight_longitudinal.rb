@@ -24,12 +24,16 @@ module Elements
 
       def add(number_of_rebars:, rebar:, length:)
         layout = available_layout
-        layout.add_or_modify(number_of_rebars, rebar, length)
+        layout.add_or_modify(number_of_rebars:, rebar:, length:)
+
+        layout
       end
 
-      def change(id_of_layout_to_change:, number_of_rebars:, rebar:)
+      def change(id_of_layout_to_change:, number_of_rebars:, rebar:, length:)
         layout = find(id_of_layout_to_change)
-        layout.add_or_modify(number_of_rebars, rebar)
+        layout.add_or_modify(number_of_rebars:, rebar:, length:)
+
+        layout
       end
 
       private

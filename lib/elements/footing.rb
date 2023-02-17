@@ -1,9 +1,6 @@
 module Elements
   class Footing
-    attr_reader :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom,
-                :longitudinal_top_reinforcement_length_1, :longitudinal_bottom_reinforcement_length_1,
-                :longitudinal_top_reinforcement_length_2, :longitudinal_bottom_reinforcement_length_2,
-                :main_section
+    attr_accessor :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom
 
     VALID_SECTIONS = %i[length_1 length_2].freeze
 
@@ -35,7 +32,7 @@ module Elements
     end
 
     def horizontal_area
-      length_1 * length_2
+      @length_1 * @length_2
     end
 
     private
