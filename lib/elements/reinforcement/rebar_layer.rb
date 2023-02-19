@@ -2,7 +2,7 @@ require 'elements/reinforcement/base'
 
 module Elements
   module Reinforcement
-    class Layout < Base
+    class RebarLayer < Base
       attr_accessor :start_location, :end_location, :rebar, :id
 
       def initialize(start_location:, end_location:, id:)
