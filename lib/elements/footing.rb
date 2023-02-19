@@ -12,8 +12,10 @@ module Elements
       cover_lateral:,
       cover_top:,
       cover_bottom:,
-      longitudinal_top_reinforcement:,
-      longitudinal_bottom_reinforcement:
+      longitudinal_top_reinforcement_length_1:,
+      longitudinal_bottom_reinforcement_length_1:,
+      longitudinal_top_reinforcement_length_2:,
+      longitudinal_bottom_reinforcement_length_2:
     )
       @length_1 = length_1.to_f
       @length_2 = length_2.to_f
@@ -24,10 +26,10 @@ module Elements
       @cover_bottom = cover_bottom.to_f
       @reinforcement_length_1 = nil
       @reinforcement_length_1 = nil
-      @longitudinal_top_reinforcement_length_1 = longitudinal_top_reinforcement
-      @longitudinal_bottom_reinforcement_length_1 = longitudinal_bottom_reinforcement
-      @longitudinal_top_reinforcement_length_2 = longitudinal_top_reinforcement
-      @longitudinal_bottom_reinforcement_length_2 = longitudinal_bottom_reinforcement
+      @longitudinal_top_reinforcement_length_1 = longitudinal_top_reinforcement_length_1
+      @longitudinal_bottom_reinforcement_length_1 = longitudinal_bottom_reinforcement_length_1
+      @longitudinal_top_reinforcement_length_2 = longitudinal_top_reinforcement_length_2
+      @longitudinal_bottom_reinforcement_length_2 = longitudinal_bottom_reinforcement_length_2
       @main_section = :length_1
     end
 

@@ -13,13 +13,25 @@ RSpec.describe Elements::Footing do
       cover_lateral: 50,
       cover_top: 50,
       cover_bottom: 75,
-      longitudinal_top_reinforcement:,
-      longitudinal_bottom_reinforcement:
+      longitudinal_top_reinforcement_length_1:,
+      longitudinal_bottom_reinforcement_length_1:,
+      longitudinal_top_reinforcement_length_2:,
+      longitudinal_bottom_reinforcement_length_2:
     )
   end
 
-  let(:longitudinal_top_reinforcement) { Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1) }
-  let(:longitudinal_bottom_reinforcement) { Elements::Reinforcement::StraightLongitudinal.new(z_base: 50) }
+  let(:longitudinal_top_reinforcement_length_1) do
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1)
+  end
+  let(:longitudinal_top_reinforcement_length_2) do
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1)
+  end
+  let(:longitudinal_bottom_reinforcement_length_1) do
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 50)
+  end
+  let(:longitudinal_bottom_reinforcement_length_2) do
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 50)
+  end
   let(:concrete) do
     Materials::Concrete.new(elastic_module: 20_000, design_compression_strength: 20, specific_weight: 24)
   end

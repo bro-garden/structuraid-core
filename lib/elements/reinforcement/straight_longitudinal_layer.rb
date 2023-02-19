@@ -2,24 +2,24 @@ require 'elements/reinforcement/base'
 
 module Elements
   module Reinforcement
-    class RebarLayer < Base
+    class StraightLongitudinalLayer < Base
       attr_accessor :start_location, :end_location, :rebar, :id
 
-      def initialize(start_location:, end_location:, id:)
+      def initialize(
+        start_location:,
+        end_location:,
+        number_of_rebars:,
+        rebar:,
+        id:
+      )
         @id = id
         @start_location = start_location
         @end_location = end_location
-        @number_of_rebars = nil
-        @rebar = nil
-        @length = nil
+        @number_of_rebars = number_of_rebars
+        @rebar = rebar
       end
 
-      def available?
-        @number_of_rebars.nil? && @rebar.nil?
-      end
-
-      def add_or_modify(number_of_rebars:, rebar:, length:)
-        @length = length
+      def modify(number_of_rebars:, rebar:)
         @number_of_rebars = number_of_rebars
         @rebar = rebar
       end

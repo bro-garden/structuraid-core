@@ -1,5 +1,5 @@
 require 'elements/reinforcement/base'
-require 'elements/reinforcement/rebar_layer'
+require 'elements/reinforcement/straight_longitudinal_layer'
 
 module Elements
   module Reinforcement
@@ -7,50 +7,47 @@ module Elements
       def initialize(z_base:, direction: 1)
         @z_base = z_base
         @direction = direction
-        @rebar_layers = []
+        @straight_longitudinal_layers = []
       end
 
       def modify_z_base(z_base:)
         @z_base = z_base.to_f
-        update_z_base_of_rebar_layers unless @rebar_layers.empty?
+        update_z_base_of_straight_longitudinal_layers unless @straight_longitudinal_layers.empty?
       end
 
-      def add_rebar_layer(start_location:, end_location:)
+      def add_straight_longitudinal_layer(start_location:, end_location:, number_of_rebars:, rebar:)
         start_location.value_z = @z_base
         end_location.value_z = @z_base
-        id = @rebar_layers.empty? ? 1 : @rebar_layers.last.id
-        @rebar_layers << Elements::Reinforcement::RebarLayer.new(start_location:, end_location:, id:)
+        id = @straight_longitudinal_layers.empty? ? 1 : @straight_longitudinal_layers.last.id
+        @straight_longitudinal_layers << Elements::Reinforcement::StraightLongitudinalLayer.new(
+          start_location:,
+          end_location:,
+          number_of_rebars:,
+          rebar:,
+          id:
+        )
+
+        @straight_longitudinal_layers.last
       end
 
-      def add(number_of_rebars:, rebar:, length:)
-        rebar_layer = available_rebar_layer
-        rebar_layer.add_or_modify(number_of_rebars:, rebar:, length:)
+      def change(id_of_straight_longitudinal_layer_to_change:, number_of_rebars:, rebar:, length:)
+        straight_longitudinal_layer = find(id_of_straight_longitudinal_layer_to_change)
+        straight_longitudinal_layer.modify(number_of_rebars:, rebar:, length:)
 
-        rebar_layer
-      end
-
-      def change(id_of_rebar_layer_to_change:, number_of_rebars:, rebar:, length:)
-        rebar_layer = find(id_of_rebar_layer_to_change)
-        rebar_layer.add_or_modify(number_of_rebars:, rebar:, length:)
-
-        rebar_layer
+        straight_longitudinal_layer
       end
 
       private
 
-      def update_z_base_of_rebar_layers
-        @rebar_layers.each do |rebar_layer|
-          rebar_layer.start_location.value_z = @z_base
-          rebar_layer.end_location.value_z = @z_base
+      def update_z_base_of_straight_longitudinal_layers
+        @straight_longitudinal_layers.each do |straight_longitudinal_layer|
+          straight_longitudinal_layer.start_location.value_3 = @z_base
+          straight_longitudinal_layer.end_location.value_3 = @z_base
         end
       end
 
-      def available_rebar_layer
-        @rebar_layers.find(&:available?)
-      end
-
-      def find(id_of_rebar_layer_to_change)
-        @rebar_layers.find { |existing_rebar_layer| existing_rebar_layer.id == id_of_rebar_layer_to_change }
+      def find(id_of_straight_longitudinal_layer_to_change)
+        @straight_longitudinal_layers.find { |existing_straight_longitudinal_layer| existing_straight_longitudinal_layer.id == id_of_straight_longitudinal_layer_to_change }
       end
     end
   end
