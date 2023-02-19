@@ -7,19 +7,19 @@ module Elements
       def initialize(z_base:, direction: 1)
         @z_base = z_base
         @direction = direction
-        @straight_longitudinal_layers = []
+        @layers = []
       end
 
       def modify_z_base(z_base:)
         @z_base = z_base.to_f
-        update_z_base_of_straight_longitudinal_layers unless @straight_longitudinal_layers.empty?
+        update_z_base_of_layers unless @layers.empty?
       end
 
-      def add_straight_longitudinal_layer(start_location:, end_location:, number_of_rebars:, rebar:)
-        start_location.value_z = @z_base
-        end_location.value_z = @z_base
-        id = @straight_longitudinal_layers.empty? ? 1 : @straight_longitudinal_layers.last.id
-        @straight_longitudinal_layers << Elements::Reinforcement::StraightLongitudinalLayer.new(
+      def add_layer(start_location:, end_location:, number_of_rebars:, rebar:)
+        start_location.value_3 = @z_base
+        end_location.value_3 = @z_base
+        id = @layers.empty? ? 1 : @layers.last.id
+        @layers << Elements::Reinforcement::StraightLongitudinalLayer.new(
           start_location:,
           end_location:,
           number_of_rebars:,
@@ -27,27 +27,29 @@ module Elements
           id:
         )
 
-        @straight_longitudinal_layers.last
+        @layers.last
       end
 
-      def change(id_of_straight_longitudinal_layer_to_change:, number_of_rebars:, rebar:, length:)
-        straight_longitudinal_layer = find(id_of_straight_longitudinal_layer_to_change)
-        straight_longitudinal_layer.modify(number_of_rebars:, rebar:, length:)
+      def change(id_of_layer_to_change:, number_of_rebars:, rebar:)
+        straight_longitudinal_layer = find(id_of_layer_to_change)
+        straight_longitudinal_layer.modify(number_of_rebars:, rebar:)
 
         straight_longitudinal_layer
       end
 
       private
 
-      def update_z_base_of_straight_longitudinal_layers
-        @straight_longitudinal_layers.each do |straight_longitudinal_layer|
+      def update_z_base_of_layers
+        @layers.each do |straight_longitudinal_layer|
           straight_longitudinal_layer.start_location.value_3 = @z_base
           straight_longitudinal_layer.end_location.value_3 = @z_base
         end
       end
 
-      def find(id_of_straight_longitudinal_layer_to_change)
-        @straight_longitudinal_layers.find { |existing_straight_longitudinal_layer| existing_straight_longitudinal_layer.id == id_of_straight_longitudinal_layer_to_change }
+      def find(id_of_layer_to_change)
+        @layers.find do |existing_straight_longitudinal_layer|
+          existing_straight_longitudinal_layer.id == id_of_layer_to_change
+        end
       end
     end
   end
