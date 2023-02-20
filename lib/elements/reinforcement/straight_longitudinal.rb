@@ -1,5 +1,6 @@
 require 'elements/reinforcement/base'
 require 'elements/reinforcement/straight_longitudinal_layer'
+require 'errors/reinforcement/empty_layers'
 
 module Elements
   module Reinforcement
@@ -37,6 +38,25 @@ module Elements
         straight_longitudinal_layer.modify(number_of_rebars:, rebar:)
 
         straight_longitudinal_layer
+      end
+
+      def centroid_height
+        if @layers.empty?
+          raise Elements::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
+        end
+
+        inertia = 0
+
+        @layers.each do |layer|
+          layer_centroid_height = @z_base + 0.5 * layer.diameter * @direction
+          inertia += layer.area * layer_centroid_height
+        end
+
+        inertia / area
+      end
+
+      def area
+        @layers.map(&:area).reduce(:+)
       end
 
       private
