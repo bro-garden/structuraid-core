@@ -5,6 +5,8 @@ require 'errors/reinforcement/empty_layers'
 module Elements
   module Reinforcement
     class StraightLongitudinal < Base
+      attr_accessor :layers
+
       def initialize(z_base:, distribution_direction:, direction: 1)
         @z_base = z_base
         @direction = direction

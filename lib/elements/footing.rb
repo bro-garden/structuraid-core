@@ -37,6 +37,23 @@ module Elements
       @length_1 * @length_2
     end
 
+    def effective_height(section_direction, location)
+      case section_direction
+      when :length_1
+        if location == :top
+          longitudinal_top_reinforcement_length_1.centroid_height
+        else
+          @height - longitudinal_bottom_reinforcement_length_1.centroid_height
+        end
+      when :length_2
+        if location == :top
+          longitudinal_top_reinforcement_length_2.centroid_height
+        else
+          @height - longitudinal_bottom_reinforcement_length_2.centroid_height
+        end
+      end
+    end
+
     private
 
     def aspect_ratio
