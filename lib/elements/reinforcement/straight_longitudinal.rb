@@ -4,10 +4,11 @@ require 'elements/reinforcement/straight_longitudinal_layer'
 module Elements
   module Reinforcement
     class StraightLongitudinal < Base
-      def initialize(z_base:, direction: 1)
+      def initialize(z_base:, distribution_direction:, direction: 1)
         @z_base = z_base
         @direction = direction
         @layers = []
+        @distribution_direction = distribution_direction
       end
 
       def modify_z_base(z_base:)
@@ -24,7 +25,8 @@ module Elements
           end_location:,
           number_of_rebars:,
           rebar:,
-          id:
+          id:,
+          distribution_direction: @distribution_direction
         )
 
         @layers.last

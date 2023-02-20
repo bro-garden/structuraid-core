@@ -21,16 +21,16 @@ RSpec.describe Elements::Footing do
   end
 
   let(:longitudinal_top_reinforcement_length_1) do
-    Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1)
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1, distribution_direction: :length_1)
   end
   let(:longitudinal_top_reinforcement_length_2) do
-    Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1)
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 450, direction: -1, distribution_direction: :length_2)
   end
   let(:longitudinal_bottom_reinforcement_length_1) do
-    Elements::Reinforcement::StraightLongitudinal.new(z_base: 50)
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 50, distribution_direction: :length_1)
   end
   let(:longitudinal_bottom_reinforcement_length_2) do
-    Elements::Reinforcement::StraightLongitudinal.new(z_base: 50)
+    Elements::Reinforcement::StraightLongitudinal.new(z_base: 50, distribution_direction: :length_2)
   end
   let(:concrete) do
     Materials::Concrete.new(elastic_module: 20_000, design_compression_strength: 20, specific_weight: 24)

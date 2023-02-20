@@ -5,7 +5,7 @@ require 'elements/reinforcement/rebar'
 require 'materials/steel'
 
 RSpec.describe Elements::Reinforcement::StraightLongitudinal do
-  subject(:reinforcement) { described_class.new(z_base: 450, direction: -1) }
+  subject(:reinforcement) { described_class.new(z_base: 450, direction: -1, distribution_direction: :length_1) }
 
   let(:start_location) { Engineering::Locations::Relative.new(value_1: -950, value_2: -450, value_3: 0) }
   let(:end_location) { Engineering::Locations::Relative.new(value_1: 950, value_2: 450, value_3: 0) }
