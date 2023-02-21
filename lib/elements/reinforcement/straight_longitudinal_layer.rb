@@ -6,12 +6,12 @@ module Elements
     class StraightLongitudinalLayer < Base
       attr_accessor :start_location, :end_location, :rebar, :id
 
-      VALID_DIRECTIONS = %i[length_1 length_2].freeze
+      VALID_DIRECTIONS = %i[length_1 length_2 length_3].freeze
 
       def initialize(
         start_location:,
         end_location:,
-        number_of_rebars:,
+        amount_of_rebars:,
         rebar:,
         id:,
         distribution_direction:
@@ -23,14 +23,17 @@ module Elements
         @id = id
         @start_location = start_location
         @end_location = end_location
-        @number_of_rebars = number_of_rebars
+        @amount_of_rebars = amount_of_rebars
         @rebar = rebar
         @distribution_direction = distribution_direction
       end
 
       def modify(number_of_rebars:, rebar:)
+        current_rebar = @rebar
         @number_of_rebars = number_of_rebars
         @rebar = rebar
+
+
       end
 
       def area
