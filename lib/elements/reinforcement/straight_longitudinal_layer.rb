@@ -45,6 +45,14 @@ module Elements
         @amount_of_rebars * @rebar.area
       end
 
+      def inertia
+        area * centroid_height
+      end
+
+      def centroid_height
+        start_location.value_3
+      end
+
       def diameter
         @rebar.diameter
       end
