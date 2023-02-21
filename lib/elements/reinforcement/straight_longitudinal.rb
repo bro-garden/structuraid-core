@@ -33,6 +33,10 @@ module Elements
         new_rebar:
       )
         straight_longitudinal_layer = find(id_of_layer_to_change)
+
+        offset = (straight_longitudinal_layer.diameter - new_rebar.diameter) / 2
+        offset *= -1 unless @above_middle
+
         straight_longitudinal_layer.modify_rebar_configuration(
           amount_of_new_rebars:,
           new_rebar:,
