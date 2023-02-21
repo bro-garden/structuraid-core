@@ -47,13 +47,14 @@ module Elements
         end
 
         inertia = 0
+        total_area = 0
 
         @layers.each do |layer|
-          layer_centroid_height = @z_base + 0.5 * layer.diameter * @direction
-          inertia += layer.area * layer_centroid_height
+          total_area += layer.area
+          inertia += layer.inertia
         end
 
-        inertia / area
+        inertia / total_area
       end
 
       def area

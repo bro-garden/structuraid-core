@@ -33,3 +33,6 @@ Naming/VariableNumber:
 
 Metrics/ParameterLists:
   Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
