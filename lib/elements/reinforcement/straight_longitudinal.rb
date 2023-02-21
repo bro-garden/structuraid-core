@@ -11,14 +11,14 @@ module Elements
         @distribution_direction = distribution_direction
       end
 
-      def add_layer(start_location:, end_location:, number_of_rebars:, rebar:)
+      def add_layer(start_location:, end_location:, amount_of_rebars:, rebar:)
         id = @layers.empty? ? 1 : @layers.last.id
         start_location = modify_value_3_of_location(start_location, 0.5 * rebar.diameter)
         end_location = modify_value_3_of_location(end_location, 0.5 * rebar.diameter)
         @layers << Elements::Reinforcement::StraightLongitudinalLayer.new(
           start_location:,
           end_location:,
-          number_of_rebars:,
+          amount_of_rebars:,
           rebar:,
           id:,
           distribution_direction: @distribution_direction
@@ -27,13 +27,16 @@ module Elements
         @layers.last
       end
 
-      def change(id_of_layer_to_change:, number_of_rebars:, rebar:, start_location: nil, end_location: nil)
+      def change_layer_rebar_configuration(
+        id_of_layer_to_change:,
+        amount_of_new_rebars:,
+        new_rebar:
+      )
         straight_longitudinal_layer = find(id_of_layer_to_change)
-        straight_longitudinal_layer.modify(
-          number_of_rebars:,
-          rebar:,
-          start_location:,
-          end_location:
+        straight_longitudinal_layer.modify_rebar_configuration(
+          amount_of_new_rebars:,
+          new_rebar:,
+          offset:
         )
 
         straight_longitudinal_layer
