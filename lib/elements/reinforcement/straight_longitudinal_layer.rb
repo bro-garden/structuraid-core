@@ -4,7 +4,7 @@ require 'errors/reinforcement/invalid_distribution_direction'
 module Elements
   module Reinforcement
     class StraightLongitudinalLayer < Base
-      attr_accessor :start_location, :end_location, :rebar, :id
+      attr_accessor :start_location, :end_location, :rebar, :id, :amount_of_rebars
 
       VALID_DIRECTIONS = %i[length_1 length_2 length_3].freeze
 
@@ -28,16 +28,21 @@ module Elements
         @distribution_direction = distribution_direction
       end
 
-      def modify(number_of_rebars:, rebar:)
-        current_rebar = @rebar
-        @number_of_rebars = number_of_rebars
-        @rebar = rebar
+      def modify_rebar_configuration(
+        amount_of_new_rebars:,
+        new_rebar:,
+        offset:
+      )
+        @amount_of_rebars = amount_of_new_rebars
+        @rebar = new_rebar
+        start_location.value_3 += offset
+        end_location.value_3 += offset
 
-
+        @rebar
       end
 
       def area
-        @number_of_rebars * @rebar.area
+        @amount_of_rebars * @rebar.area
       end
 
       def diameter
