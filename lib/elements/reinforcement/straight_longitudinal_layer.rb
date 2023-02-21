@@ -1,5 +1,6 @@
 require 'elements/reinforcement/base'
 require 'errors/reinforcement/invalid_distribution_direction'
+require 'engineering/vector'
 
 module Elements
   module Reinforcement
@@ -58,22 +59,23 @@ module Elements
       end
 
       def length
-        delta = deltas_start_to_end
+        vector = length_vector
 
-        delta[0] = 0 if @distribution_direction == :length_1
-        delta[1] = 0 if @distribution_direction == :length_2
+        vector.value_x = 0 if @distribution_direction == :length_1
+        vector.value_y = 0 if @distribution_direction == :length_2
+        vector.value_z = 0 if @distribution_direction == :length_3
 
-        Math.sqrt(delta[0]**2 + delta[1]**2 + delta[2]**2)
+        vector.magnitude
       end
 
       private
 
-      def deltas_start_to_end
-        [
-          end_location.value_1 - start_location.value_1,
-          end_location.value_2 - start_location.value_2,
-          end_location.value_3 - start_location.value_3
-        ]
+      def length_vector
+        Engineering::Vector.new(
+          value_x: end_location.value_1 - start_location.value_1,
+          value_y: end_location.value_2 - start_location.value_2,
+          value_z: end_location.value_3 - start_location.value_3
+        )
       end
     end
   end
