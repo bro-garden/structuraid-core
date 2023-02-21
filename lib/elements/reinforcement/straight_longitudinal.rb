@@ -46,6 +46,15 @@ module Elements
         straight_longitudinal_layer
       end
 
+      def move_layer_by_its_axis_3(id_of_layer_to_change:, offset:)
+        offset *= -1 if @above_middle
+
+        straight_longitudinal_layer = find(id_of_layer_to_change)
+        straight_longitudinal_layer.move_axis_3(offset:)
+
+        straight_longitudinal_layer
+      end
+
       def centroid_height
         if @layers.empty?
           raise Elements::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
