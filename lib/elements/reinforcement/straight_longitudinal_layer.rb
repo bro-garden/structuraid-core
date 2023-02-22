@@ -32,13 +32,16 @@ module Elements
       def modify_rebar_configuration(
         amount_of_new_rebars:,
         new_rebar:,
-        offset:
+        above_middle:
       )
+
+        offset = (diameter - new_rebar.diameter) / 2
+        offset *= -1 unless above_middle
+
         @amount_of_rebars = amount_of_new_rebars
         @rebar = new_rebar
-        @start_location.value_3 = @start_location.value_3 + offset
-        @end_location.value_3 = @end_location.value_3 + offset
 
+        reposition(above_middle:, offset:)
         @rebar
       end
 

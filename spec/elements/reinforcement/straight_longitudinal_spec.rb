@@ -52,7 +52,7 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
     before do
       reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
       reinforcement.change_layer_rebar_configuration(
-        id_of_layer_to_change: reinforcement.instance_variable_get(:@layers).first.id,
+        layer_id: reinforcement.instance_variable_get(:@layers).first.id,
         amount_of_new_rebars: 5,
         new_rebar: rebar_changed
       )
@@ -74,7 +74,7 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
     before do
       reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
       reinforcement.move_layer_by_its_axis_3(
-        id_of_layer_to_change: reinforcement.instance_variable_get(:@layers).first.id,
+        layer_id: reinforcement.instance_variable_get(:@layers).first.id,
         offset: 100
       )
     end

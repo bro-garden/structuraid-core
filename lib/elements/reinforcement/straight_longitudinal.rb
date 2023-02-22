@@ -30,29 +30,24 @@ module Elements
       end
 
       def change_layer_rebar_configuration(
-        id_of_layer_to_change:,
+        layer_id:,
         amount_of_new_rebars:,
         new_rebar:
       )
-        straight_longitudinal_layer = find(id_of_layer_to_change)
-
-        offset = (straight_longitudinal_layer.diameter - new_rebar.diameter) / 2
-        offset *= -1 unless @above_middle
+        straight_longitudinal_layer = find(layer_id)
 
         straight_longitudinal_layer.modify_rebar_configuration(
           amount_of_new_rebars:,
           new_rebar:,
-          offset:
+          above_middle: @above_middle
         )
 
         straight_longitudinal_layer
       end
 
-      def move_layer_by_its_axis_3(id_of_layer_to_change:, offset:)
-        offset *= -1 if @above_middle
-
-        straight_longitudinal_layer = find(id_of_layer_to_change)
-        straight_longitudinal_layer.move_axis_3(offset:)
+      def move_layer_by_its_axis_3(layer_id:, offset:)
+        straight_longitudinal_layer = find(layer_id)
+        straight_longitudinal_layer.reposition(above_middle: @above_middle, offset:)
 
         straight_longitudinal_layer
       end
@@ -79,23 +74,11 @@ module Elements
 
       private
 
-      def update_z_base_of_layers
-        @layers.each do |straight_longitudinal_layer|
-          straight_longitudinal_layer.start_location.value_3 = @z_base
-          straight_longitudinal_layer.end_location.value_3 = @z_base
-        end
-      end
-
-      def find(id_of_layer_to_change)
+      def find(layer_id)
         @layers.find do |existing_straight_longitudinal_layer|
-          existing_straight_longitudinal_layer.id == id_of_layer_to_change
+          existing_straight_longitudinal_layer.id == layer_id
         end
       end
-
-      # def modify_value_3_of_location(location, offset)
-      #   location.value_3 = @above_middle ? location.value_3 - offset : location.value_3 + offset
-      #   location
-      # end
     end
   end
 end
