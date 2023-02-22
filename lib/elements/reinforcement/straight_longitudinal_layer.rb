@@ -42,6 +42,14 @@ module Elements
         @rebar
       end
 
+      def reposition(above_middle:, offset: nil)
+        offset ||= 0.5 * diameter
+
+        [@start_location, @end_location].each do |location|
+          location.value_3 = above_middle ? location.value_3 - offset : location.value_3 + offset
+        end
+      end
+
       def area
         @amount_of_rebars * @rebar.area
       end

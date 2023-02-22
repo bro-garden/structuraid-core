@@ -14,10 +14,7 @@ module Elements
       def add_layer(start_location:, end_location:, amount_of_rebars:, rebar:)
         id = @layers.empty? ? 1 : @layers.last.id
 
-        start_location = modify_value_3_of_location(start_location, 0.5 * rebar.diameter)
-        end_location = modify_value_3_of_location(end_location, 0.5 * rebar.diameter)
-
-        @layers << Elements::Reinforcement::StraightLongitudinalLayer.new(
+        new_layer = Elements::Reinforcement::StraightLongitudinalLayer.new(
           start_location:,
           end_location:,
           amount_of_rebars:,
@@ -26,7 +23,10 @@ module Elements
           distribution_direction: @distribution_direction
         )
 
-        @layers.last
+        new_layer.reposition(above_middle: @above_middle)
+        @layers << new_layer
+
+        new_layer
       end
 
       def change_layer_rebar_configuration(
@@ -92,10 +92,10 @@ module Elements
         end
       end
 
-      def modify_value_3_of_location(location, offset)
-        location.value_3 = @above_middle ? location.value_3 - offset : location.value_3 + offset
-        location
-      end
+      # def modify_value_3_of_location(location, offset)
+      #   location.value_3 = @above_middle ? location.value_3 - offset : location.value_3 + offset
+      #   location
+      # end
     end
   end
 end
