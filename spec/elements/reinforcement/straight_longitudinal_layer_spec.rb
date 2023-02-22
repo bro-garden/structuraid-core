@@ -16,8 +16,9 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
     )
   end
 
-  let(:start_location) { Engineering::Locations::Relative.new(value_1: -950, value_2: -450, value_3:) }
-  let(:end_location) { Engineering::Locations::Relative.new(value_1: 950, value_2: 450, value_3:) }
+  let(:start_location) { Engineering::Locations::Relative.new(value_1: -1 * value_1, value_2: -450, value_3:) }
+  let(:end_location) { Engineering::Locations::Relative.new(value_1:, value_2: 450, value_3:) }
+  let(:value_1) { 950 }
   let(:value_3) { 50 }
   let(:amount_of_rebars) { 3 }
   let(:material) { Materials::Steel.new(yield_stress: 4200) }
@@ -162,6 +163,18 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
       expect(
         straight_longitudinal_layer.inertia
       ).to eq(amount_of_rebars * first_rebar.area * straight_longitudinal_layer.centroid_height)
+    end
+  end
+
+  describe '#length' do
+    before do
+      straight_longitudinal_layer.reposition(above_middle: true)
+    end
+
+    let(:distribution_direction) { :length_2 }
+
+    it 'returns the length of the layer' do
+      expect(straight_longitudinal_layer.length).to eq(2 * value_1)
     end
   end
 end
