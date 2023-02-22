@@ -5,7 +5,7 @@ require 'engineering/vector'
 module Elements
   module Reinforcement
     class StraightLongitudinalLayer < Base
-      attr_accessor :start_location, :end_location, :rebar, :id, :amount_of_rebars
+      attr_reader :start_location, :end_location, :rebar, :id, :amount_of_rebars
 
       VALID_DIRECTIONS = %i[length_1 length_2 length_3].freeze
 
@@ -36,8 +36,8 @@ module Elements
       )
         @amount_of_rebars = amount_of_new_rebars
         @rebar = new_rebar
-        start_location.value_3 = start_location.value_3 + offset
-        end_location.value_3 = end_location.value_3 + offset
+        @start_location.value_3 = @start_location.value_3 + offset
+        @end_location.value_3 = @end_location.value_3 + offset
 
         @rebar
       end
@@ -51,11 +51,16 @@ module Elements
       end
 
       def centroid_height
-        start_location.value_3
+        @start_location.value_3
       end
 
       def diameter
         @rebar.diameter
+      end
+
+      def move_axis_3(offset:)
+        @start_location.value_3 = @start_location.value_3 + offset
+        @end_location.value_3 = @end_location.value_3 + offset
       end
 
       def length
