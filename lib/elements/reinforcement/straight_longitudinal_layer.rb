@@ -69,11 +69,6 @@ module Elements
         @rebar.diameter
       end
 
-      def move_axis_3(offset:)
-        @start_location.value_3 = @start_location.value_3 + offset
-        @end_location.value_3 = @end_location.value_3 + offset
-      end
-
       def length
         vector = length_vector
 

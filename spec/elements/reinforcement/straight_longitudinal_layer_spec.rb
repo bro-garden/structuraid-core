@@ -29,7 +29,7 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
     )
   end
 
-  describe '.new with wrong distribution_direction' do
+  describe '.new with invalid distribution_direction' do
     let(:distribution_direction) { :length_5 }
 
     it 'raises error' do
@@ -120,6 +120,48 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
           ).to eq(value_3 + first_rebar.diameter * 0.5 + offset)
         end
       end
+    end
+  end
+
+  describe '#area' do
+    let(:distribution_direction) { :length_1 }
+
+    it 'returns the area of the layer' do
+      expect(straight_longitudinal_layer.area).to eq(amount_of_rebars * first_rebar.area)
+    end
+  end
+
+  describe '#diameter' do
+    let(:distribution_direction) { :length_1 }
+
+    it 'returns the diameter of the layer' do
+      expect(straight_longitudinal_layer.diameter).to eq(first_rebar.diameter)
+    end
+  end
+
+  describe '#centroid_height' do
+    before do
+      straight_longitudinal_layer.reposition(above_middle: true)
+    end
+
+    let(:distribution_direction) { :length_2 }
+
+    it 'returns the centroid height of the layer' do
+      expect(straight_longitudinal_layer.centroid_height).to eq(value_3 - first_rebar.diameter * 0.5)
+    end
+  end
+
+  describe '#inertia' do
+    before do
+      straight_longitudinal_layer.reposition(above_middle: true)
+    end
+
+    let(:distribution_direction) { :length_1 }
+
+    it 'returns the inertia of the layer' do
+      expect(
+        straight_longitudinal_layer.inertia
+      ).to eq(amount_of_rebars * first_rebar.area * straight_longitudinal_layer.centroid_height)
     end
   end
 end
