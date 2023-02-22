@@ -37,53 +37,22 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
 
     it 'sets the centroid height of straight_longitudinal_layer at start_location' do
       expect(
-        reinforcement.instance_variable_get(:@layers).first.start_location.value_3
+        reinforcement.instance_variable_get(:@layers).first.instance_variable_get(:@start_location).value_3
       ).to eq(expected_centroid_height_of_layer)
     end
 
     it 'sets the centroid height of straight_longitudinal_layer at end_location' do
       expect(
-        reinforcement.instance_variable_get(:@layers).first.end_location.value_3
+        reinforcement.instance_variable_get(:@layers).first.instance_variable_get(:@end_location).value_3
       ).to eq(expected_centroid_height_of_layer)
     end
   end
 
-  describe '#change_layer_rebar_configuration' do
-    before do
-      reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
-      reinforcement.change_layer_rebar_configuration(
-        layer_id: reinforcement.instance_variable_get(:@layers).first.id,
-        amount_of_new_rebars: 5,
-        new_rebar: rebar_changed
-      )
-    end
-
-    it "updates selected layer's rebar" do
-      expect(reinforcement.instance_variable_get(:@layers).first.rebar).to eq(rebar_changed)
-    end
-
-    it "updates selected layer's centroid height" do
-      expected_centroid_height_of_layer = cover_bottom + rebar_changed.diameter * 0.5
-      expect(
-        reinforcement.instance_variable_get(:@layers).first.start_location.value_3
-      ).to eq(expected_centroid_height_of_layer)
-    end
-  end
-
-  describe '#move_layer_by_its_axis_3' do
-    before do
-      reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
-      reinforcement.move_layer_by_its_axis_3(
-        layer_id: reinforcement.instance_variable_get(:@layers).first.id,
-        offset: 100
-      )
-    end
-
-    it "updates selected layer's centroid height" do
-      expected_centroid_height_of_layer = cover_bottom + first_rebar.diameter * 0.5 + 100
-      expect(
-        reinforcement.instance_variable_get(:@layers).first.start_location.value_3
-      ).to eq(expected_centroid_height_of_layer)
+  describe '#centroid_height' do
+    describe 'when there are no layers added' do
+      it 'raises error' do
+        expect { reinforcement.centroid_height }.to raise_error(Elements::Reinforcement::EmptyLayers)
+      end
     end
   end
 
