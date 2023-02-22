@@ -11,7 +11,6 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
       end_location:,
       amount_of_rebars:,
       rebar: first_rebar,
-      id:,
       distribution_direction:
     )
   end
@@ -22,7 +21,6 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
   let(:value_3) { 50 }
   let(:amount_of_rebars) { 3 }
   let(:material) { Materials::Steel.new(yield_stress: 4200) }
-  let(:id) { 1 }
   let(:first_rebar) do
     Elements::Reinforcement::Rebar.new(
       number: 3,
@@ -49,13 +47,13 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
 
         it 'sets the centroid height of straight_longitudinal_layer at start_location' do
           expect(
-            straight_longitudinal_layer.start_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@start_location).value_3
           ).to eq(value_3 - first_rebar.diameter * 0.5)
         end
 
         it 'sets the centroid height of straight_longitudinal_layer at end_location' do
           expect(
-            straight_longitudinal_layer.end_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@end_location).value_3
           ).to eq(value_3 - first_rebar.diameter * 0.5)
         end
       end
@@ -70,13 +68,13 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
 
         it 'sets the centroid height of straight_longitudinal_layer at start_location' do
           expect(
-            straight_longitudinal_layer.start_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@start_location).value_3
           ).to eq(value_3 - first_rebar.diameter * 0.5 - offset)
         end
 
         it 'sets the centroid height of straight_longitudinal_layer at end_location' do
           expect(
-            straight_longitudinal_layer.end_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@end_location).value_3
           ).to eq(value_3 - first_rebar.diameter * 0.5 - offset)
         end
       end
@@ -90,13 +88,13 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
 
         it 'sets the centroid height of straight_longitudinal_layer at start_location' do
           expect(
-            straight_longitudinal_layer.start_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@start_location).value_3
           ).to eq(value_3 + first_rebar.diameter * 0.5)
         end
 
         it 'sets the centroid height of straight_longitudinal_layer at end_location' do
           expect(
-            straight_longitudinal_layer.end_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@end_location).value_3
           ).to eq(value_3 + first_rebar.diameter * 0.5)
         end
       end
@@ -111,13 +109,13 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinalLayer do
 
         it 'sets the centroid height of straight_longitudinal_layer at start_location' do
           expect(
-            straight_longitudinal_layer.start_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@start_location).value_3
           ).to eq(value_3 + first_rebar.diameter * 0.5 + offset)
         end
 
         it 'sets the centroid height of straight_longitudinal_layer at end_location' do
           expect(
-            straight_longitudinal_layer.end_location.value_3
+            straight_longitudinal_layer.instance_variable_get(:@end_location).value_3
           ).to eq(value_3 + first_rebar.diameter * 0.5 + offset)
         end
       end

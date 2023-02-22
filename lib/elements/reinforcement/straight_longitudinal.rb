@@ -5,6 +5,8 @@ require 'errors/reinforcement/empty_layers'
 module Elements
   module Reinforcement
     class StraightLongitudinal < Base
+      attr_reader :layers
+
       def initialize(distribution_direction:, above_middle: false)
         @above_middle = above_middle
         @layers = []
@@ -12,14 +14,11 @@ module Elements
       end
 
       def add_layer(start_location:, end_location:, amount_of_rebars:, rebar:)
-        id = @layers.empty? ? 1 : @layers.last.id
-
         new_layer = Elements::Reinforcement::StraightLongitudinalLayer.new(
           start_location:,
           end_location:,
           amount_of_rebars:,
           rebar:,
-          id:,
           distribution_direction: @distribution_direction
         )
 
@@ -27,29 +26,6 @@ module Elements
         @layers << new_layer
 
         new_layer
-      end
-
-      def change_layer_rebar_configuration(
-        layer_id:,
-        amount_of_new_rebars:,
-        new_rebar:
-      )
-        straight_longitudinal_layer = find(layer_id)
-
-        straight_longitudinal_layer.modify_rebar_configuration(
-          amount_of_new_rebars:,
-          new_rebar:,
-          above_middle: @above_middle
-        )
-
-        straight_longitudinal_layer
-      end
-
-      def move_layer_by_its_axis_3(layer_id:, offset:)
-        straight_longitudinal_layer = find(layer_id)
-        straight_longitudinal_layer.reposition(above_middle: @above_middle, offset:)
-
-        straight_longitudinal_layer
       end
 
       def centroid_height
@@ -70,14 +46,6 @@ module Elements
 
       def area
         @layers.map(&:area).reduce(:+)
-      end
-
-      private
-
-      def find(layer_id)
-        @layers.find do |existing_straight_longitudinal_layer|
-          existing_straight_longitudinal_layer.id == layer_id
-        end
       end
     end
   end

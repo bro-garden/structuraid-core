@@ -5,7 +5,7 @@ require 'engineering/vector'
 module Elements
   module Reinforcement
     class StraightLongitudinalLayer < Base
-      attr_reader :start_location, :end_location, :rebar, :id, :amount_of_rebars
+      attr_reader :rebar, :amount_of_rebars
 
       VALID_DIRECTIONS = %i[length_1 length_2 length_3].freeze
 
@@ -14,14 +14,12 @@ module Elements
         end_location:,
         amount_of_rebars:,
         rebar:,
-        id:,
         distribution_direction:
       )
         if VALID_DIRECTIONS.none?(distribution_direction)
           raise Elements::Reinforcement::InvalidDistributionDirection.new(distribution_direction, VALID_DIRECTIONS)
         end
 
-        @id = id
         @start_location = start_location
         @end_location = end_location
         @amount_of_rebars = amount_of_rebars
@@ -83,9 +81,9 @@ module Elements
 
       def length_vector
         Engineering::Vector.new(
-          value_x: end_location.value_1 - start_location.value_1,
-          value_y: end_location.value_2 - start_location.value_2,
-          value_z: end_location.value_3 - start_location.value_3
+          value_x: @end_location.value_1 - @start_location.value_1,
+          value_y: @end_location.value_2 - @start_location.value_2,
+          value_z: @end_location.value_3 - @start_location.value_3
         )
       end
     end
