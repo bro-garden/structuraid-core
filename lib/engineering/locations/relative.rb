@@ -10,10 +10,6 @@ module Engineering
         @value_2 = value_2.to_f
         @value_3 = value_3.to_f
       end
-
-      def to_a
-        [@value_1, @value_2, @value_3]
-      end
     end
   end
 end
