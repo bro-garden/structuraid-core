@@ -24,8 +24,6 @@ module Elements
       @cover_lateral = cover_lateral.to_f
       @cover_top = cover_top.to_f
       @cover_bottom = cover_bottom.to_f
-      @reinforcement_length_1 = nil
-      @reinforcement_length_1 = nil
       @longitudinal_top_reinforcement_length_1 = longitudinal_top_reinforcement_length_1
       @longitudinal_bottom_reinforcement_length_1 = longitudinal_bottom_reinforcement_length_1
       @longitudinal_top_reinforcement_length_2 = longitudinal_top_reinforcement_length_2
