@@ -42,6 +42,35 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
     end
   end
 
+  describe '#change_layer_rebar_configuration' do
+    before do
+      reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
+      reinforcement.change_layer_rebar_configuration(
+        id_of_layer_to_change: reinforcement.instance_variable_get(:@layers).first.id,
+        amount_of_new_rebars: 5,
+        new_rebar: rebar_changed
+      )
+    end
+
+    let(:rebar_changed) do
+      Elements::Reinforcement::Rebar.new(
+        number: 8,
+        material:
+      )
+    end
+
+    it "updates selected layer's rebar" do
+      expect(reinforcement.instance_variable_get(:@layers).first.rebar).to eq(rebar_changed)
+    end
+
+    it "updates selected layer's centroid height" do
+      expected_centroid_height_of_layer = cover_bottom + rebar_changed.diameter * 0.5
+      expect(
+        reinforcement.instance_variable_get(:@layers).first.start_location.value_3
+      ).to eq(expected_centroid_height_of_layer)
+    end
+  end
+
   # describe '#change' do
   #   let(:rebar_changed) do
   #     Elements::Reinforcement::Rebar.new(
