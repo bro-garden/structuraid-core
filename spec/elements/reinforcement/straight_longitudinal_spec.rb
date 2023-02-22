@@ -17,6 +17,12 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
       material:
     )
   end
+  let(:rebar_changed) do
+    Elements::Reinforcement::Rebar.new(
+      number: 8,
+      material:
+    )
+  end
 
   describe '#add_layer' do
     before do
@@ -52,13 +58,6 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
       )
     end
 
-    let(:rebar_changed) do
-      Elements::Reinforcement::Rebar.new(
-        number: 8,
-        material:
-      )
-    end
-
     it "updates selected layer's rebar" do
       expect(reinforcement.instance_variable_get(:@layers).first.rebar).to eq(rebar_changed)
     end
@@ -85,6 +84,32 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
       expect(
         reinforcement.instance_variable_get(:@layers).first.start_location.value_3
       ).to eq(expected_centroid_height_of_layer)
+    end
+  end
+
+  describe '#area' do
+    before do
+      reinforcement.add_layer(
+        start_location:,
+        end_location:,
+        amount_of_rebars: amount_of_first_rebar,
+        rebar: first_rebar
+      )
+      reinforcement.add_layer(
+        start_location:,
+        end_location:,
+        amount_of_rebars: amount_of_changed_rebar,
+        rebar: rebar_changed
+      )
+    end
+
+    let(:amount_of_first_rebar) { 3 }
+    let(:amount_of_changed_rebar) { 5 }
+
+    it 'returns the total area of all layers' do
+      expect(reinforcement.area).to eq(
+        amount_of_changed_rebar * rebar_changed.area + amount_of_first_rebar * first_rebar.area
+      )
     end
   end
 end
