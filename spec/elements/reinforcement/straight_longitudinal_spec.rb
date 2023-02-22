@@ -54,6 +54,18 @@ RSpec.describe Elements::Reinforcement::StraightLongitudinal do
         expect { reinforcement.centroid_height }.to raise_error(Elements::Reinforcement::EmptyLayers)
       end
     end
+
+    describe 'when there are layers added' do
+      before do
+        reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
+      end
+
+      let(:expected_centroid_height) { cover_bottom + first_rebar.diameter * 0.5 }
+
+      it 'returns the centroid height of all layers' do
+        expect(reinforcement.centroid_height).to eq(expected_centroid_height)
+      end
+    end
   end
 
   describe '#area' do
