@@ -29,23 +29,17 @@ module Elements
       end
 
       def centroid_height
-        if @layers.empty?
-          raise Elements::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
-        end
+        return inertia / area unless @layers.empty?
 
-        inertia = 0
-        total_area = 0
-
-        @layers.each do |layer|
-          total_area += layer.area
-          inertia += layer.inertia
-        end
-
-        inertia / total_area
+        raise Elements::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
       end
 
       def area
         @layers.map(&:area).reduce(:+)
+      end
+
+      def inertia
+        @layers.map(&:inertia).reduce(:+)
       end
     end
   end
