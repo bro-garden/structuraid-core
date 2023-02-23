@@ -7,7 +7,7 @@ module Engineering
         ORTHOGONALITIES = %i[length_x length_y].freeze
         SECTION_DIRECTION_ERROR = 'Not valid cut direction, should one of thes: :length_x :length_y'.freeze
 
-        def initialize(column:, footing:, effective_height:, load_from_column:, section_direction:)
+        def initialize(column:, footing:, load_from_column:, section_direction:)
           if ORTHOGONALITIES.none?(section_direction)
             raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
           end
@@ -15,7 +15,6 @@ module Engineering
           @column = column
           @footing = footing
           @load_from_column = load_from_column
-          @effective_height = effective_height.to_f
           @section_direction = section_direction
         end
 
@@ -27,11 +26,11 @@ module Engineering
           solicitation_load * @footing.public_send(@section_direction)
         end
 
-        def shear_solicitation
+        def shear_solicitation_at_d_from_column
           footing_section_length = @footing.public_send(@section_direction)
           column_section_length = @column.public_send(@section_direction)
 
-          solicitation_load * (footing_section_length - column_section_length - 2 * @effective_height)
+          solicitation_load * (footing_section_length - column_section_length)
         end
 
         def bending_solicitation
