@@ -44,14 +44,28 @@ RSpec.describe Elements::Footing do
       material: rebar_material
     )
   end
-  let(:start_location) do
+  let(:start_location_1) do
     Engineering::Locations::Relative.new(
       value_1: -0.5 * length_1 + cover_lateral,
       value_2: -0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
-  let(:end_location) do
+  let(:end_location_1) do
+    Engineering::Locations::Relative.new(
+      value_1: 0.5 * length_1 - cover_lateral,
+      value_2: 0.5 * length_2 - cover_lateral,
+      value_3: cover_bottom
+    )
+  end
+  let(:start_location_2) do
+    Engineering::Locations::Relative.new(
+      value_1: -0.5 * length_1 + cover_lateral,
+      value_2: -0.5 * length_2 + cover_lateral,
+      value_3: cover_bottom
+    )
+  end
+  let(:end_location_2) do
     Engineering::Locations::Relative.new(
       value_1: 0.5 * length_1 - cover_lateral,
       value_2: 0.5 * length_2 - cover_lateral,
@@ -61,14 +75,14 @@ RSpec.describe Elements::Footing do
 
   before do
     footing.longitudinal_bottom_reinforcement_length_1.add_layer(
-      start_location:,
-      end_location:,
+      start_location: start_location_1,
+      end_location: end_location_1,
       amount_of_rebars: 2,
       rebar: rebar_n3
     )
     footing.longitudinal_bottom_reinforcement_length_2.add_layer(
-      start_location:,
-      end_location:,
+      start_location: start_location_2,
+      end_location: end_location_2,
       amount_of_rebars: 2,
       rebar: rebar_n3
     )
@@ -80,6 +94,32 @@ RSpec.describe Elements::Footing do
   describe '#horizontal_area' do
     it 'returns the horizontal area of the footing' do
       expect(footing.horizontal_area).to eq(length_1 * length_2)
+    end
+  end
+
+  describe '#effective_height' do
+    describe 'when the footing has no longitudinal reinforcement' do
+      it 'returns nil' do
+        expect(
+          footing.effective_height(section_direction: %i[length_1 length_2].sample, above_middle: true)
+        ).to be_nil
+      end
+    end
+
+    describe 'when the footing has longituinal reinforcement' do
+      it 'returns the effective height of the footing for :lenth_1 section cut' do
+        expected_effective_height = height - cover_bottom - 0.5 * rebar_n3.diameter
+        expect(
+          footing.effective_height(section_direction: :length_1, above_middle: false)
+        ).to eq(expected_effective_height)
+      end
+
+      it 'returns the effective height of the footing for :lenth_2 section cut' do
+        expected_effective_height = height - cover_bottom - rebar_n3.diameter - 0.5 * rebar_n3.diameter
+        expect(
+          footing.effective_height(section_direction: :length_2, above_middle: false)
+        ).to eq(expected_effective_height)
+      end
     end
   end
 end

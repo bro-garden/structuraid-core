@@ -39,20 +39,12 @@ module Elements
       @length_1 * @length_2
     end
 
-    def effective_height(section_direction, location)
+    def effective_height(section_direction:, above_middle:)
       case section_direction
       when :length_1
-        if location == :top
-          longitudinal_top_reinforcement_length_1.centroid_height
-        else
-          @height - longitudinal_bottom_reinforcement_length_1.centroid_height
-        end
+        length_1_section_effective_area(above_middle:)
       when :length_2
-        if location == :top
-          longitudinal_top_reinforcement_length_2.centroid_height
-        else
-          @height - longitudinal_bottom_reinforcement_length_2.centroid_height
-        end
+        length_2_section_effective_area(above_middle:)
       end
     end
 
@@ -60,6 +52,30 @@ module Elements
 
     def aspect_ratio
       @length_1 / @length_2
+    end
+
+    def length_1_section_effective_area(above_middle:)
+      if above_middle
+        return nil unless @longitudinal_top_reinforcement_length_1
+
+        @longitudinal_top_reinforcement_length_1.centroid_height
+      else
+        return nil unless @longitudinal_bottom_reinforcement_length_1
+
+        @height - @longitudinal_bottom_reinforcement_length_1.centroid_height
+      end
+    end
+
+    def length_2_section_effective_area(above_middle:)
+      if above_middle
+        return nil unless @longitudinal_top_reinforcement_length_2
+
+        @longitudinal_top_reinforcement_length_2.centroid_height
+      else
+        return nil unless @longitudinal_bottom_reinforcement_length_2
+
+        @height - @longitudinal_bottom_reinforcement_length_2.centroid_height
+      end
     end
   end
 end
