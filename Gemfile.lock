@@ -44,6 +44,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (2.6.1)
+    require_all (3.0.0)
     rexml (3.2.5)
     rspec (3.11.0)
       rspec-core (~> 3.11.0)
@@ -92,6 +93,7 @@ DEPENDENCIES
   byebug
   colorize
   guard-rspec
+  require_all (~> 3.0.0)
   rspec (= 3.11.0)
   rubocop
   rubocop-rspec
