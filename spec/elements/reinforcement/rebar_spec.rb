@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'db/base'
-require 'elements/steel_reinforcement/rebar'
-require 'elements/steel_reinforcement/rebar_hook'
+require 'elements/reinforcement/rebar'
+require 'elements/reinforcement/rebar_hook'
 require 'materials/steel'
 
-RSpec.describe Elements::SteelReinforcement::Rebar do
+RSpec.describe Elements::Reinforcement::Rebar do
   let(:elastic_module) { 200_000 }
   let(:yield_stress) { 420 }
   let(:steel) { Materials::Steel.new(yield_stress:, elastic_module:) }
@@ -29,15 +29,15 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
 
   describe '#add_start_hook' do
     let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
+    let(:hook) { Elements::Reinforcement::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_start_hook(hook)).to be_a(Elements::SteelReinforcement::RebarHook)
+      expect(rebar.add_start_hook(hook)).to be_a(Elements::Reinforcement::RebarHook)
     end
 
     it 'adds a start hook' do
       rebar.add_start_hook(hook)
-      expect(rebar.start_hook).to be_a(Elements::SteelReinforcement::RebarHook)
+      expect(rebar.start_hook).to be_a(Elements::Reinforcement::RebarHook)
     end
 
     describe '#delete_start_hook' do
@@ -50,15 +50,15 @@ RSpec.describe Elements::SteelReinforcement::Rebar do
 
   describe '#add_end_hook' do
     let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { Elements::SteelReinforcement::RebarHook.new(number:, material: steel) }
+    let(:hook) { Elements::Reinforcement::RebarHook.new(number:, material: steel) }
 
     it 'returns a RebarHook instance' do
-      expect(rebar.add_end_hook(hook)).to be_a(Elements::SteelReinforcement::RebarHook)
+      expect(rebar.add_end_hook(hook)).to be_a(Elements::Reinforcement::RebarHook)
     end
 
     it 'adds a start hook' do
       rebar.add_end_hook(hook)
-      expect(rebar.end_hook).to be_a(Elements::SteelReinforcement::RebarHook)
+      expect(rebar.end_hook).to be_a(Elements::Reinforcement::RebarHook)
     end
 
     describe '#delete_end_hook' do

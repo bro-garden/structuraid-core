@@ -27,3 +27,12 @@ RSpec/NestedGroups:
 
 Lint/MissingSuper:
   Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
