@@ -4,15 +4,13 @@ module Engineering
   module Analysis
     module Footing
       class CentricIsolated
-        ORTHOGONALITIES = %i[length_x length_y].freeze
-        SECTION_DIRECTION_ERROR = 'Not valid cut direction, should one of thes: :length_x :length_y'.freeze
+        ORTHOGONALITIES = %i[length_1 length_2].freeze
 
-        def initialize(column:, footing:, load_from_column:, section_direction:)
+        def initialize(footing:, load_from_column:, section_direction:)
           if ORTHOGONALITIES.none?(section_direction)
             raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
           end
 
-          @column = column
           @footing = footing
           @load_from_column = load_from_column
           @section_direction = section_direction
@@ -26,11 +24,10 @@ module Engineering
           solicitation_load * @footing.public_send(@section_direction)
         end
 
-        def shear_solicitation_at_d_from_column
+        def shear_solicitation_at(distance_from_footing_center:)
           footing_section_length = @footing.public_send(@section_direction)
-          column_section_length = @column.public_send(@section_direction)
 
-          solicitation_load * (footing_section_length - column_section_length)
+          solicitation_load * (footing_section_length - distance_from_footing_center)
         end
 
         def bending_solicitation
