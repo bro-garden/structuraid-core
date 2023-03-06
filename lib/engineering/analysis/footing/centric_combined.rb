@@ -18,11 +18,11 @@ module Engineering
         end
 
         def solicitation_load
-          solicitation * @footing.public_send(orthogonal_direction)
+          solicitation * orthogonal_length
         end
 
         def max_shear_solicitation
-          solicitation_load * @footing.public_send(@section_direction)
+          solicitation_load * section_length
         end
 
         def absolute_centroid
@@ -36,6 +36,14 @@ module Engineering
         end
 
         private
+
+        def section_length
+          @footing.public_send(@section_direction)
+        end
+
+        def orthogonal_length
+          @footing.public_send(orthogonal_direction)
+        end
 
         def moment_and_load_totals
           moment_xx = 0
