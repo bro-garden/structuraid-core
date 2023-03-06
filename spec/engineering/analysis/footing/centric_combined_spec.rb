@@ -45,7 +45,7 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
   let(:loads_from_columns) do
     [
       Loads::PointLoad.new(
-        value: 10000,
+        value: 10_000,
         location: Engineering::Locations::Absolute.new(
           value_x: 2500,
           value_y: 2500,
@@ -53,7 +53,7 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
         )
       ),
       Loads::PointLoad.new(
-        value: 40000,
+        value: 40_000,
         location: Engineering::Locations::Absolute.new(
           value_x: 5500,
           value_y: 6500,
@@ -71,4 +71,17 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
     end
   end
 
+  describe '#absolute_centroid' do
+    let(:expected_centroid) do
+      Engineering::Locations::Absolute.new(
+        value_x: 4900,
+        value_y: 5700,
+        value_z: 0
+      )
+    end
+
+    it 'returns the right absolute centroid' do
+      expect(centric_combined_footing.absolute_centroid.to_a).to match_array(expected_centroid.to_a)
+    end
+  end
 end

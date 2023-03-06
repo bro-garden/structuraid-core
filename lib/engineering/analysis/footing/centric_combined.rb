@@ -21,10 +21,6 @@ module Engineering
           solicitation * orthogonal_length
         end
 
-        def max_shear_solicitation
-          solicitation_load * section_length
-        end
-
         def absolute_centroid
           moment_xx, moment_yy, total_load = *moment_and_load_totals
 
