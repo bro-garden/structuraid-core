@@ -49,7 +49,7 @@ module Engineering
         end
 
         def orthogonal_direction
-          orthogonal = ORTHOGONALITIES - [@cut_direction]
+          orthogonal = ORTHOGONALITIES - [@section_direction]
           orthogonal.last
         end
       end
