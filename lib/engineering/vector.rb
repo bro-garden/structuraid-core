@@ -4,6 +4,14 @@ module Engineering
   class Vector < Base
     attr_accessor :value_i, :value_j, :value_k
 
+    def self.based_on_relative_location(location:)
+      new(
+        value_i: location.value_1,
+        value_j: location.value_2,
+        value_k: location.value_3
+      )
+    end
+
     def self.with_value(value:, direction:)
       new(
         value_i: value.to_f * direction[0],

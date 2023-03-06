@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'engineering/vector'
+require 'engineering/locations/relative'
 
 RSpec.describe Engineering::Vector do
   let(:value_i) { 3.0 }
@@ -64,6 +65,55 @@ RSpec.describe Engineering::Vector do
 
     it 'sets right value_k' do
       expect(vector.value_k).to be(value_k)
+    end
+  end
+
+  describe '.based_on_relative_location' do
+    let(:relative_location) { Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
+    let(:value_1) { 3.0 }
+    let(:value_2) { 0.0 }
+    let(:value_3) { 4.0 }
+
+    let(:expected_magnitude) { Math.sqrt(value_1**2 + value_2**2 + value_3**2) }
+    let(:expected_direction) do
+      [
+        value_1 / expected_magnitude,
+        value_2 / expected_magnitude,
+        value_3 / expected_magnitude
+      ]
+    end
+    let(:vector) { described_class.based_on_relative_location(location: relative_location) }
+
+    it 'returns an instance of described class' do
+      expect(vector).to be_an_instance_of(described_class)
+    end
+
+    it 'sets right value_i' do
+      expect(vector.value_i).to be(value_1)
+    end
+
+    it 'sets right value_j' do
+      expect(vector.value_j).to be(value_2)
+    end
+
+    it 'sets right value_k' do
+      expect(vector.value_k).to be(value_3)
+    end
+
+    describe '#direction' do
+      it 'returns an array' do
+        expect(vector.direction).to be_a(Array)
+      end
+
+      it 'returns right direction' do
+        expect(vector.direction).to match_array(expected_direction)
+      end
+    end
+
+    describe '#magnitude' do
+      it 'returns right magnitude' do
+        expect(vector.magnitude).to be(expected_magnitude)
+      end
     end
   end
 end
