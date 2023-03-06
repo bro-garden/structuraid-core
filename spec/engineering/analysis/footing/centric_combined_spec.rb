@@ -45,18 +45,18 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
   let(:loads_from_columns) do
     [
       Loads::PointLoad.new(
-        value: 10_000,
-        location: Engineering::Locations::Absolute.new(
-          value_x: 2500,
-          value_y: 2500,
-          value_z: 0
-        )
-      ),
-      Loads::PointLoad.new(
         value: 40_000,
         location: Engineering::Locations::Absolute.new(
           value_x: 5500,
           value_y: 6500,
+          value_z: 0
+        )
+      ),
+      Loads::PointLoad.new(
+        value: 10_000,
+        location: Engineering::Locations::Absolute.new(
+          value_x: 2500,
+          value_y: 2500,
           value_z: 0
         )
       )
@@ -71,17 +71,29 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
     end
   end
 
-  describe '#absolute_centroid' do
-    let(:expected_centroid) do
-      Engineering::Locations::Absolute.new(
-        value_x: 4900,
-        value_y: 5700,
-        value_z: 0
-      )
+  describe 'private methods' do
+    describe '#absolute_centroid' do
+      let(:expected_centroid) do
+        Engineering::Locations::Absolute.new(
+          value_x: 4900,
+          value_y: 5700,
+          value_z: 0
+        )
+      end
+
+      it 'returns the right absolute centroid' do
+        expect(centric_combined_footing.send(:absolute_centroid).to_a).to match_array(expected_centroid.to_a)
+      end
     end
 
-    it 'returns the right absolute centroid' do
-      expect(centric_combined_footing.absolute_centroid.to_a).to match_array(expected_centroid.to_a)
+    describe '#sort_point_loads_relative_to_centroid' do
+      it 'returns sorted columns loads' do
+        expected_sorted_loads = [
+          loads_from_columns[1],
+          loads_from_columns[0]
+        ]
+        expect(centric_combined_footing.send(:sort_point_loads_relative_to_centroid)).to eq(expected_sorted_loads)
+      end
     end
   end
 end

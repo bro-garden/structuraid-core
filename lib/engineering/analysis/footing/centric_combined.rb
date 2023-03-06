@@ -1,5 +1,7 @@
 require 'errors/engineering/analysis/section_direction_error'
 require 'engineering/locations/absolute'
+require 'engineering/locations/relative'
+require 'engineering/vector'
 
 module Engineering
   module Analysis
@@ -21,6 +23,10 @@ module Engineering
           solicitation * orthogonal_length
         end
 
+        private
+
+        attr_reader :footing, :section_direction, :loads_from_columns
+
         def absolute_centroid
           moment_xx, moment_yy, total_load = *moment_and_load_totals
 
@@ -31,9 +37,23 @@ module Engineering
           )
         end
 
-        private
-
-        attr_reader :footing, :section_direction, :loads_from_columns
+        def sort_point_loads_relative_to_centroid
+          loads_from_columns.sort! do |load_1, load_2|
+            vector_centroid_to_load_1 = Engineering::Vector.based_on_relative_location(
+              location: Engineering::Locations::Relative.absolute_location_relative_to(
+                location_to_relativize: load_1.location,
+                reference_location: absolute_centroid
+              )
+            )
+            vector_centroid_to_load_2 = Engineering::Vector.based_on_relative_location(
+              location: Engineering::Locations::Relative.absolute_location_relative_to(
+                location_to_relativize: load_2.location,
+                reference_location: absolute_centroid
+              )
+            )
+            vector_centroid_to_load_1.direction[0] <=> vector_centroid_to_load_2.direction[0]
+          end
+        end
 
         def section_length
           footing.public_send(section_direction)
