@@ -37,12 +37,14 @@ module Engineering
 
         private
 
+        attr_reader :footing, :section_direction, :loads_from_columns
+
         def section_length
-          @footing.public_send(@section_direction)
+          footing.public_send(section_direction)
         end
 
         def orthogonal_length
-          @footing.public_send(orthogonal_direction)
+          footing.public_send(orthogonal_direction)
         end
 
         def moment_and_load_totals
@@ -50,7 +52,7 @@ module Engineering
           moment_yy = 0
           total_load = 0
 
-          @loads_from_columns.each do |load_from_column|
+          loads_from_columns.each do |load_from_column|
             moment_xx += load_from_column.value * load_from_column.location.value_x
             moment_yy += load_from_column.value * load_from_column.location.value_y
             total_load += load_from_column.value
@@ -60,11 +62,11 @@ module Engineering
         end
 
         def value_z_mean
-          @loads_from_columns.sum { |load_from_column| load_from_column.location.value_z } / @loads_from_columns.size
+          loads_from_columns.sum { |load_from_column| load_from_column.location.value_z } / loads_from_columns.size
         end
 
         def solicitation
-          @loads_from_columns.sum(&:value) / @footing.horizontal_area
+          loads_from_columns.sum(&:value) / @footing.horizontal_area
         end
 
         def orthogonal_direction
