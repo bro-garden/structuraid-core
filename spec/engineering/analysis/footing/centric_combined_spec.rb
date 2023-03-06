@@ -13,7 +13,7 @@ require 'elements/footing'
 require 'byebug'
 
 RSpec.describe Engineering::Analysis::Footing::CentricCombined do
-  subject(:centric_isolated_footing) do
+  subject(:centric_combined_footing) do
     described_class.new(footing:, loads_from_columns:, section_direction:)
   end
 
@@ -45,7 +45,7 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
   let(:loads_from_columns) do
     [
       Loads::PointLoad.new(
-        value: 1000,
+        value: 10000,
         location: Engineering::Locations::Absolute.new(
           value_x: 2500,
           value_y: 2500,
@@ -53,7 +53,7 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
         )
       ),
       Loads::PointLoad.new(
-        value: 4000,
+        value: 40000,
         location: Engineering::Locations::Absolute.new(
           value_x: 5500,
           value_y: 6500,
@@ -61,6 +61,14 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
         )
       )
     ]
+  end
+
+  describe '#solicitation_load' do
+    let(:expected_solicitation) { loads_from_columns.sum(&:value) / length_1 }
+
+    it 'returns the right solicitation on the food' do
+      expect(centric_combined_footing.solicitation_load).to be(expected_solicitation)
+    end
   end
 
 end
