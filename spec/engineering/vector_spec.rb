@@ -2,14 +2,14 @@ require 'spec_helper'
 require 'engineering/vector'
 
 RSpec.describe Engineering::Vector do
-  let(:value_x) { 3.0 }
-  let(:value_y) { 4.0 }
-  let(:value_z) { 0.0 }
+  let(:value_i) { 3.0 }
+  let(:value_j) { 4.0 }
+  let(:value_k) { 0.0 }
 
   describe '#magnitude' do
-    subject(:vector) { described_class.new(value_x:, value_y:, value_z:) }
+    subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
 
-    let(:expected_magnitude) { Math.sqrt(value_x**2 + value_y**2 + value_z**2) }
+    let(:expected_magnitude) { Math.sqrt(value_i**2 + value_j**2 + value_k**2) }
 
     it 'returns right magnitude' do
       expect(vector.magnitude).to be(expected_magnitude)
@@ -17,15 +17,15 @@ RSpec.describe Engineering::Vector do
   end
 
   describe '#direction' do
-    subject(:vector) { described_class.new(value_x:, value_y:, value_z:) }
+    subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
 
     let(:expected_unit_vector) do
       vector_magnitude = vector.magnitude
 
       [
-        value_x / vector_magnitude,
-        value_y / vector_magnitude,
-        value_z / vector_magnitude
+        value_i / vector_magnitude,
+        value_j / vector_magnitude,
+        value_k / vector_magnitude
       ]
     end
 
@@ -41,12 +41,12 @@ RSpec.describe Engineering::Vector do
   describe '.with_value' do
     subject(:vector) { described_class.with_value(value:, direction:) }
 
-    let(:value) { Math.sqrt(value_x**2 + value_y**2 + value_z**2) }
+    let(:value) { Math.sqrt(value_i**2 + value_j**2 + value_k**2) }
     let(:direction) do
       [
-        value_x / value,
-        value_y / value,
-        value_z / value
+        value_i / value,
+        value_j / value,
+        value_k / value
       ]
     end
 
@@ -54,16 +54,16 @@ RSpec.describe Engineering::Vector do
       expect(vector).to be_an_instance_of(described_class)
     end
 
-    it 'sets right value_x' do
-      expect(vector.value_x).to be(value_x)
+    it 'sets right value_i' do
+      expect(vector.value_i).to be(value_i)
     end
 
-    it 'sets right value_y' do
-      expect(vector.value_y).to be(value_y)
+    it 'sets right value_j' do
+      expect(vector.value_j).to be(value_j)
     end
 
-    it 'sets right value_z' do
-      expect(vector.value_z).to be(value_z)
+    it 'sets right value_k' do
+      expect(vector.value_k).to be(value_k)
     end
   end
 end
