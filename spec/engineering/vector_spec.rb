@@ -3,13 +3,13 @@ require 'engineering/vector'
 require 'engineering/locations/relative'
 
 RSpec.describe Engineering::Vector do
+  subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
+
   let(:value_i) { 3.0 }
   let(:value_j) { 4.0 }
   let(:value_k) { 0.0 }
 
   describe '#magnitude' do
-    subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
-
     let(:expected_magnitude) { Math.sqrt(value_i**2 + value_j**2 + value_k**2) }
 
     it 'returns right magnitude' do
@@ -18,8 +18,6 @@ RSpec.describe Engineering::Vector do
   end
 
   describe '#direction' do
-    subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
-
     let(:expected_unit_vector) do
       vector_magnitude = vector.magnitude
 
@@ -36,6 +34,32 @@ RSpec.describe Engineering::Vector do
 
     it 'returns right module' do
       expect(vector.direction).to eq(expected_unit_vector)
+    end
+  end
+
+  describe '#-' do
+    let(:vector_to_substract) do
+      described_class.new(
+        value_i: value_i_expected,
+        value_j: value_j_expected,
+        value_k: value_k_expected
+      )
+    end
+    let(:value_i_expected) { 15.0 }
+    let(:value_j_expected) { 20.0 }
+    let(:value_k_expected) { 0.0 }
+
+    it 'returns a vector new instance' do
+      expect(vector.- vector_to_substract).to be_a(described_class)
+    end
+
+    it 'returns a new vector isntance with right components values' do
+      resulting_vector = vector.- vector_to_substract
+      expected_magnitude = Math.sqrt(
+        (value_i_expected - value_i)**2 + (value_j_expected - value_j)**2 + (value_k_expected - value_k)**2
+      )
+
+      expect(resulting_vector.magnitude).to be(expected_magnitude)
     end
   end
 

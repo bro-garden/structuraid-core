@@ -39,5 +39,13 @@ module Engineering
         @value_k / vector_magnitude
       ]
     end
+
+    def -(other)
+      Engineering::Vector.new(
+        value_i: value_i - other.value_i,
+        value_j: value_j - other.value_j,
+        value_k: value_k - other.value_k
+      )
+    end
   end
 end
