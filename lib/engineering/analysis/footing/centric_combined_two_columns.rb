@@ -7,7 +7,7 @@ require 'engineering/vector'
 module Engineering
   module Analysis
     module Footing
-      class CentricCombined
+      class CentricCombinedTwoColumns
         ORTHOGONALITIES = %i[length_1 length_2].freeze
 
         def initialize(footing:, loads_from_columns:, section_direction:)

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'engineering/analysis/footing/centric_combined'
+require 'engineering/analysis/footing/centric_combined_two_columns'
 require 'elements/reinforcement/straight_longitudinal'
 require 'materials/concrete'
 require 'materials/steel'
@@ -12,7 +12,7 @@ require 'elements/column/rectangular'
 require 'elements/footing'
 require 'byebug'
 
-RSpec.describe Engineering::Analysis::Footing::CentricCombined do
+RSpec.describe Engineering::Analysis::Footing::CentricCombinedTwoColumns do
   subject(:centric_combined_footing) do
     described_class.new(footing:, loads_from_columns:, section_direction:)
   end
