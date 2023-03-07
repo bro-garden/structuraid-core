@@ -36,20 +36,22 @@ module Engineering
 
         private
 
+        attr_reader :footing, :load_from_column, :section_direction
+
         def section_length
-          @footing.public_send(@section_direction)
+          footing.public_send(section_direction)
         end
 
         def orthogonal_length
-          @footing.public_send(orthogonal_direction)
+          footing.public_send(orthogonal_direction)
         end
 
         def solicitation
-          @load_from_column.value / @footing.horizontal_area
+          load_from_column.value / footing.horizontal_area
         end
 
         def orthogonal_direction
-          orthogonal = ORTHOGONALITIES - [@section_direction]
+          orthogonal = ORTHOGONALITIES - [section_direction]
           orthogonal.last
         end
       end
