@@ -47,16 +47,16 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
       Loads::PointLoad.new(
         value: 40_000,
         location: Engineering::Locations::Absolute.new(
-          value_x: 5500,
-          value_y: 6500,
+          value_x: 0,
+          value_y: 4000,
           value_z: 0
         )
       ),
       Loads::PointLoad.new(
         value: 10_000,
         location: Engineering::Locations::Absolute.new(
-          value_x: 2500,
-          value_y: 2500,
+          value_x: 0,
+          value_y: -1000,
           value_z: 0
         )
       )
@@ -75,8 +75,8 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
     describe '#absolute_centroid' do
       let(:expected_centroid) do
         Engineering::Locations::Absolute.new(
-          value_x: 4900,
-          value_y: 5700,
+          value_x: 0,
+          value_y: 3000,
           value_z: 0
         )
       end
@@ -93,6 +93,40 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombined do
           loads_from_columns[0]
         ]
         expect(centric_combined_footing.send(:sort_point_loads_relative_to_centroid)).to eq(expected_sorted_loads)
+      end
+    end
+
+    describe '#vector_left_load_to_footing_edge' do
+      it 'returns a vector' do
+        expect(centric_combined_footing.send(:vector_left_load_to_footing_edge)).to be_a(Engineering::Vector)
+      end
+
+      it 'returns a vector with magnitude of 05 * section_length' do
+        vecotr_to_edge = centric_combined_footing.send(:vector_left_load_to_footing_edge)
+        expect(vecotr_to_edge.magnitude).to be(length_1 * 0.5)
+      end
+
+      it 'returns a vector with right components' do
+        expected_direction = [0.0, -1.0, 0.0]
+        vecotr_to_edge = centric_combined_footing.send(:vector_left_load_to_footing_edge)
+        expect(vecotr_to_edge.direction).to match_array(expected_direction)
+      end
+    end
+
+    describe '#vector_right_load_to_footing_edge' do
+      it 'returns a vector' do
+        expect(centric_combined_footing.send(:vector_right_load_to_footing_edge)).to be_a(Engineering::Vector)
+      end
+
+      it 'returns a vector with magnitude of 05 * section_length' do
+        vecotr_to_edge = centric_combined_footing.send(:vector_right_load_to_footing_edge)
+        expect(vecotr_to_edge.magnitude).to be(length_1 * 0.5)
+      end
+
+      it 'returns a vector with right components' do
+        expected_direction = [0.0, 1.0, 0.0]
+        vecotr_to_edge = centric_combined_footing.send(:vector_right_load_to_footing_edge)
+        expect(vecotr_to_edge.direction).to match_array(expected_direction)
       end
     end
   end
