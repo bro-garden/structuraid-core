@@ -17,31 +17,41 @@ module Engineering
         end
 
         def solicitation_load
-          solicitation * @footing.public_send(orthogonal_direction)
+          solicitation * orthogonal_length
         end
 
         def max_shear_solicitation
-          solicitation_load * @footing.public_send(@section_direction)
+          solicitation_load * section_length
         end
 
         def shear_solicitation_at(distance_from_footing_center:)
-          footing_section_length = @footing.public_send(@section_direction)
+          footing_section_length = section_length
 
           solicitation_load * (footing_section_length - distance_from_footing_center)
         end
 
         def bending_solicitation
-          0.25 * max_shear_solicitation * @footing.public_send(@section_direction)
+          0.25 * max_shear_solicitation * section_length
         end
 
         private
 
+        attr_reader :footing, :load_from_column, :section_direction
+
+        def section_length
+          footing.public_send(section_direction)
+        end
+
+        def orthogonal_length
+          footing.public_send(orthogonal_direction)
+        end
+
         def solicitation
-          @load_from_column.value / @footing.horizontal_area
+          load_from_column.value / footing.horizontal_area
         end
 
         def orthogonal_direction
-          orthogonal = ORTHOGONALITIES - [@cut_direction]
+          orthogonal = ORTHOGONALITIES - [section_direction]
           orthogonal.last
         end
       end
