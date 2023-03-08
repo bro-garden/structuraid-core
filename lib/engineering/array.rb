@@ -4,9 +4,34 @@ module Engineering
   class Array < Array
     def *(other)
       run_validations_against(other)
+      assemble_answer(other)
     end
 
     private
+
+    def assemble_answer(other)
+      answer = []
+
+      other.first.size.times do |other_column_index|
+        size.times do |self_row_index|
+          answer[self_row_index] = [] unless answer[self_row_index]
+          answer[self_row_index][other_column_index] = [] unless answer[self_row_index][other_column_index]
+
+          answer[self_row_index][other_column_index] = sum_values(other, self_row_index, other_column_index)
+        end
+      end
+
+      answer
+    end
+
+    def sum_values(other, self_row_index, other_column_index)
+      value_of_index = 0
+      self[self_row_index].size.times do |index|
+        value_of_index += self[self_row_index][index] * other[index][other_column_index]
+      end
+
+      value_of_index
+    end
 
     def run_validations_against(other)
       validate_arrays
