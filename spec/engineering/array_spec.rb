@@ -43,11 +43,101 @@ RSpec.describe Engineering::Array do
       end
 
       describe 'when sizes are right' do
-        let(:a) { described_class.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
-        let(:b) { described_class.new [[2], [3], [5]] }
+        describe "when 'a' is 1x3 and 'b' is 3x1" do
+          let(:a) { described_class.new [[1, 2, 3]] }
+          let(:b) { described_class.new [[2], [3], [5]] }
+          let(:expected_result) do
+            [
+              [a[0][0] * b[0][0] + a[0][1] * b[1][0] + a[0][2] * b[2][0]]
+            ]
+          end
+          let(:expected_size) do
+            {
+              rows: expected_result.size,
+              columns: expected_result.first.size
+            }
+          end
 
-        it 'BLABLABLABLA raises an error' do
-          expect { a * b }.not_to raise_error(Engineering::ArrayOperationError)
+          it 'returns an Engineering::Array object' do
+            expect(a * b).to be_an_instance_of(described_class)
+          end
+
+          it 'returns the right array resulting on the operation' do
+            expect(a * b).to match_array(expected_result)
+          end
+
+          it 'returns an array with expected dimension' do
+            expect((a * b).array_size).to match(expected_size)
+          end
+        end
+
+        describe "when 'a' is 3x3 and 'b' is 3x1" do
+          let(:a) { described_class.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+          let(:b) { described_class.new [[2], [3], [5]] }
+          let(:expected_result) do
+            [
+              [a[0][0] * b[0][0] + a[0][1] * b[1][0] + a[0][2] * b[2][0]],
+              [a[1][0] * b[0][0] + a[1][1] * b[1][0] + a[1][2] * b[2][0]],
+              [a[2][0] * b[0][0] + a[2][1] * b[1][0] + a[2][2] * b[2][0]]
+            ]
+          end
+          let(:expected_size) do
+            {
+              rows: expected_result.size,
+              columns: expected_result.first.size
+            }
+          end
+
+          it 'returns an Engineering::Array object' do
+            expect(a * b).to be_an_instance_of(described_class)
+          end
+
+          it 'returns the right esulting on the operation' do
+            expect(a * b).to match_array(expected_result)
+          end
+
+          it 'returns an array with expected dimension' do
+            expect((a * b).array_size).to match(expected_size)
+          end
+        end
+
+        describe "when 'a' is 3x3 and 'b' is 3x2" do
+          let(:a) { described_class.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
+          let(:b) { described_class.new [[2, 3], [3, 4], [5, 6]] }
+          let(:expected_result) do
+            [
+              [
+                a[0][0] * b[0][0] + a[0][1] * b[1][0] + a[0][2] * b[2][0],
+                a[0][0] * b[0][1] + a[0][1] * b[1][1] + a[0][2] * b[2][1]
+              ],
+              [
+                a[1][0] * b[0][0] + a[1][1] * b[1][0] + a[1][2] * b[2][0],
+                a[1][0] * b[0][1] + a[1][1] * b[1][1] + a[1][2] * b[2][1]
+              ],
+              [
+                a[2][0] * b[0][0] + a[2][1] * b[1][0] + a[2][2] * b[2][0],
+                a[2][0] * b[0][1] + a[2][1] * b[1][1] + a[2][2] * b[2][1]
+              ]
+            ]
+          end
+          let(:expected_size) do
+            {
+              rows: expected_result.size,
+              columns: expected_result.first.size
+            }
+          end
+
+          it 'returns an Engineering::Array object' do
+            expect(a * b).to be_an_instance_of(described_class)
+          end
+
+          it 'returns the right esulting on the operation' do
+            expect(a * b).to match_array(expected_result)
+          end
+
+          it 'returns an array with expected dimension' do
+            expect((a * b).array_size).to match(expected_size)
+          end
         end
       end
     end
