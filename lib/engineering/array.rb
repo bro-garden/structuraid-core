@@ -44,6 +44,13 @@ module Engineering
       validate_arrays
       other.send(:validate_arrays)
       other.send(:valid_size_with?, first.size)
+      validate_columns_rows(other)
+    end
+
+    def validate_columns_rows(other)
+      return if array_size[:columns] == other.array_size[:rows]
+
+      raise Engineering::ArrayOperationError.new(operation_key: :columns_rows)
     end
 
     def validate_arrays
