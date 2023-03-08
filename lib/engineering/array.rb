@@ -7,10 +7,17 @@ module Engineering
       assemble_answer(other)
     end
 
+    def array_size
+      {
+        rows: size,
+        columns: first.size
+      }
+    end
+
     private
 
     def assemble_answer(other)
-      answer = []
+      answer = Engineering::Array.new([])
 
       other.first.size.times do |other_column_index|
         size.times do |self_row_index|
