@@ -2,6 +2,10 @@ require 'errors/engineering/array_operation_error'
 
 module Engineering
   class Array < Array
+    def initialize(*rows)
+      super(rows)
+    end
+
     def *(other)
       run_validations_against(other)
       assemble_answer(other)
