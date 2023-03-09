@@ -6,8 +6,8 @@ require 'byebug'
 RSpec.describe Engineering::Array do
   describe '#*' do
     describe 'when a is not an array of multiple dimension' do
-      let(:a) { described_class.new [1, 2, 3, 4, 5, 6, 7, 8, 9] }
-      let(:b) { described_class.new [2, 3, 5] }
+      let(:a) { described_class.new(1, 2, 3, 4, 5, 6, 7, 8, 9) }
+      let(:b) { described_class.new(2, 3, 5) }
 
       it 'raises an error' do
         expect { a * b }.to raise_error(Engineering::ArrayOperationError)
@@ -15,8 +15,8 @@ RSpec.describe Engineering::Array do
     end
 
     describe 'when b is not an array of multiple dimension' do
-      let(:a) { described_class.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
-      let(:b) { described_class.new [2, 3, 5] }
+      let(:a) { described_class.new([1, 2, 3], [4, 5, 6], [7, 8, 9]) }
+      let(:b) { described_class.new(2, 3, 5) }
 
       it 'raises an error' do
         expect { a * b }.to raise_error(Engineering::ArrayOperationError)
@@ -25,8 +25,8 @@ RSpec.describe Engineering::Array do
 
     describe 'when a and b are arrays of multiple dimension' do
       describe 'when each item of any of the arrays (a or b) has no the same size of the other one' do
-        let(:a) { described_class.new [[1, 2, 3], [5, 6], [7, 8, 9]] }
-        let(:b) { described_class.new [[2], [3], [5]] }
+        let(:a) { described_class.new([1, 2, 3], [5, 6], [7, 8, 9]) }
+        let(:b) { described_class.new([2], [3], [5]) }
 
         it 'raises an error' do
           expect { a * b }.to raise_error(Engineering::ArrayOperationError)
@@ -34,8 +34,8 @@ RSpec.describe Engineering::Array do
       end
 
       describe "when amount of columns of 'a' ar diferent from amount of rows of 'b'" do
-        let(:a) { described_class.new [[1, 2, 3], [5, 6, 7], [7, 8, 9]] }
-        let(:b) { described_class.new [[2], [3]] }
+        let(:a) { described_class.new([1, 2, 3], [5, 6, 7], [7, 8, 9]) }
+        let(:b) { described_class.new([2], [3]) }
 
         it 'raises an error' do
           expect { a * b }.to raise_error(Engineering::ArrayOperationError)
@@ -44,8 +44,8 @@ RSpec.describe Engineering::Array do
 
       describe 'when sizes are right' do
         describe "when 'a' is 1x3 and 'b' is 3x1" do
-          let(:a) { described_class.new [[1, 2, 3]] }
-          let(:b) { described_class.new [[2], [3], [5]] }
+          let(:a) { described_class.new([1, 2, 3]) }
+          let(:b) { described_class.new([2], [3], [5]) }
           let(:expected_result) do
             [
               [a[0][0] * b[0][0] + a[0][1] * b[1][0] + a[0][2] * b[2][0]]
@@ -72,8 +72,8 @@ RSpec.describe Engineering::Array do
         end
 
         describe "when 'a' is 3x3 and 'b' is 3x1" do
-          let(:a) { described_class.new [[1, 2, 3], [4, 5, 6]] }
-          let(:b) { described_class.new [[7, 8], [9, 10], [11, 12]] }
+          let(:a) { described_class.new([1, 2, 3], [4, 5, 6]) }
+          let(:b) { described_class.new([7, 8], [9, 10], [11, 12]) }
           let(:expected_result) do
             [
               [
@@ -107,8 +107,8 @@ RSpec.describe Engineering::Array do
         end
 
         describe "when 'a' is 3x3 and 'b' is 3x2" do
-          let(:a) { described_class.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]] }
-          let(:b) { described_class.new [[2, 3], [3, 5], [5, 2]] }
+          let(:a) { described_class.new([1, 2, 3], [4, 5, 6], [7, 8, 9]) }
+          let(:b) { described_class.new([2, 3], [3, 5], [5, 2]) }
           let(:expected_result) do
             [
               [
@@ -147,14 +147,14 @@ RSpec.describe Engineering::Array do
 
         describe "when 'a' is 4x4 and 'b' is 4x1" do
           let(:a) do
-            described_class.new [
+            described_class.new(
               [0.96593, 0.0, 0.0, 0.25882],
               [0.0, 1.0, 0.0, 0.0],
               [0.0, 0.0, 1.0, 0.0],
               [-0.25882, 0.0, 0.0, 0.96593]
-            ]
+            )
           end
-          let(:b) { described_class.new [[1.0], [1.0], [1.0], [1.0]] }
+          let(:b) { described_class.new([1.0], [1.0], [1.0], [1.0]) }
           let(:expected_result) do
             [
               [
