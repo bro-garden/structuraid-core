@@ -270,5 +270,19 @@ RSpec.describe Engineering::Array do
         expect(a + b).to match_array(expected_result)
       end
     end
+
+    describe "when 'a' and 'b' are 3x3" do
+      let(:a) { described_class.new([1, 2, 5], [1, 2, 5], [3, 1, 5]) }
+      let(:b) { described_class.new([2, 3, 3], [-2, -3, -3], [3, -1, 5]) }
+      let(:expected_result) { described_class.new([3, 5, 8], [-1, -1, 2], [6, 0, 10]) }
+
+      it 'returns an Engineering::Array object' do
+        expect(a + b).to be_an_instance_of(described_class)
+      end
+
+      it 'returns right answer' do
+        expect(a + b).to match_array(expected_result)
+      end
+    end
   end
 end

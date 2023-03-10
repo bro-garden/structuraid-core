@@ -11,6 +11,22 @@ module Engineering
       assemble_answer(other)
     end
 
+    def -(other)
+      unless array_size == other.array_size
+        raise Engineering::ArrayOperationError.new(operation_key: :diferent_size)
+      end
+
+      Engineering::Array.new(*sum_from_self(other, :diff))
+    end
+
+    def +(other)
+      unless array_size == other.array_size
+        raise Engineering::ArrayOperationError.new(operation_key: :diferent_size)
+      end
+
+      Engineering::Array.new(*sum_from_self(other, :sum))
+    end
+
     def array_size
       {
         rows: size,
@@ -33,6 +49,27 @@ module Engineering
       end
 
       answer
+    end
+
+    def sum_from_self(other, operation = :sum)
+      answer = []
+
+      size.times do |row_index|
+        answer << []
+        modified_other_row = modify_row_items(other[row_index], operation)
+
+        answer[row_index] = self[row_index].zip(modified_other_row).map(&:sum)
+      end
+
+      answer
+    end
+
+    def modify_row_items(row, operation)
+      if operation == :diff
+        row.map { |column| column * -1 }
+      else
+        row
+      end
     end
 
     def sum_values(other, self_row_index, other_column_index)
