@@ -6,8 +6,8 @@ require 'byebug'
 RSpec.describe Engineering::Array do
   describe '#*' do
     describe 'when a is not an array of multiple dimension' do
-      let(:a) { described_class.new(1, 2, 3, 4, 5, 6, 7, 8, 9) }
-      let(:b) { described_class.new(2, 3, 5) }
+      let(:a) { described_class.new([1, 2, 3, 4, 5, 6, 7, 8, 9]) }
+      let(:b) { described_class.new([2, 3, 5]) }
 
       it 'raises an error' do
         expect { a * b }.to raise_error(Engineering::ArrayOperationError)
@@ -16,7 +16,7 @@ RSpec.describe Engineering::Array do
 
     describe 'when b is not an array of multiple dimension' do
       let(:a) { described_class.new([1, 2, 3], [4, 5, 6], [7, 8, 9]) }
-      let(:b) { described_class.new(2, 3, 5) }
+      let(:b) { described_class.new([2, 3, 5]) }
 
       it 'raises an error' do
         expect { a * b }.to raise_error(Engineering::ArrayOperationError)
@@ -190,6 +190,45 @@ RSpec.describe Engineering::Array do
             expect((a * b).array_size).to match(expected_size)
           end
         end
+      end
+    end
+  end
+
+  describe '#-' do
+    describe "when 'a' and 'b' are of different size" do
+      let(:a) { described_class.new([1, 2, 3, 4, 5, 6, 7, 8, 9]) }
+      let(:b) { described_class.new([2, 3, 5]) }
+
+      it 'raises an error' do
+        expect { a - b }.to raise_error(Engineering::ArrayOperationError)
+      end
+    end
+
+    describe "when 'a' and 'b' are 3x1" do
+      let(:a) { described_class.new([1], [2], [5]) }
+      let(:b) { described_class.new([2], [3], [3]) }
+      let(:expected_result) { described_class.new([-1], [-1], [2]) }
+
+      it 'returns an Engineering::Array object' do
+        expect(a - b).to be_an_instance_of(described_class)
+      end
+
+      it 'returns right answer' do
+        expect(a - b).to match_array(expected_result)
+      end
+    end
+
+    describe "when 'a' and 'b' are 1x3" do
+      let(:a) { described_class.new([1, 2, 5]) }
+      let(:b) { described_class.new([2, 3, 3]) }
+      let(:expected_result) { described_class.new([-1, -1, 2]) }
+
+      it 'returns an Engineering::Array object' do
+        expect(a - b).to be_an_instance_of(described_class)
+      end
+
+      it 'returns right answer' do
+        expect(a - b).to match_array(expected_result)
       end
     end
   end
