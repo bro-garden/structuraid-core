@@ -1,0 +1,56 @@
+require 'spec_helper'
+require 'engineering/locations/relative'
+require 'engineering/locations/absolute'
+require 'engineering/array'
+require 'engineering/vector'
+
+RSpec.describe Engineering::Locations::Relative do
+  subject(:relative) { described_class.new(value_1:, value_2:, value_3:, origin:) }
+
+  let(:value_1) { 3.0 }
+  let(:value_2) { 4.0 }
+  let(:value_3) { 6.0 }
+  let(:origin) { Engineering::Locations::Absolute.new(value_x: 10.0, value_y: 15.0, value_z: 3.0) }
+
+  describe '#to_a' do
+    it 'returns an Engineering::Array' do
+      expect(relative.to_a).to be_an_instance_of(Engineering::Array)
+    end
+
+    it 'returns right module' do
+      expect(relative.to_a).to match_array([[value_1], [value_2], [value_3]])
+    end
+  end
+
+  describe '#to_vector' do
+    it 'returns an Engineering::Vector' do
+      expect(relative.to_vector).to be_an_instance_of(Engineering::Vector)
+    end
+
+    it 'returns a vector with same components values as the relative location components' do
+      expect(relative.to_vector.to_a).to match_array(relative.to_a)
+    end
+  end
+
+  describe '#align_axis_1_with' do
+    let(:another_relative) do
+      described_class.new(
+        value_1: -value_1,
+        value_2: -value_2,
+        value_3:,
+        origin:
+      )
+    end
+    let(:vector) { Engineering::Vector.based_on_location(location: relative) }
+
+    it 'updates angle' do
+      relative.align_axis_1_with(vector:)
+      expect(relative.angle).not_to be(0.0)
+    end
+
+    it "updates location's coordinates" do
+      another_relative.align_axis_1_with(vector:)
+      expect(another_relative.to_a).to match_array([[-5.0], [0.0], [6.0]])
+    end
+  end
+end
