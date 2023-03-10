@@ -4,11 +4,13 @@ module Engineering
   class Vector < Base
     attr_accessor :value_i, :value_j, :value_k
 
-    def self.based_on_relative_location(location:)
+    def self.based_on_location(location:)
+      array_location = location.to_a
+
       new(
-        value_i: location.value_1,
-        value_j: location.value_2,
-        value_k: location.value_3
+        value_i: array_location[0][0],
+        value_j: array_location[1][0],
+        value_k: array_location[2][0]
       )
     end
 
@@ -45,6 +47,14 @@ module Engineering
         value_i: value_i - other.value_i,
         value_j: value_j - other.value_j,
         value_k: value_k - other.value_k
+      )
+    end
+
+    def to_a
+      Engineering::Array.new(
+        [value_i],
+        [value_j],
+        [value_k]
       )
     end
   end

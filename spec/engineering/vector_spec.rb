@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'engineering/vector'
 require 'engineering/locations/relative'
+require 'engineering/locations/absolute'
 
 RSpec.describe Engineering::Vector do
   subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
@@ -92,11 +93,12 @@ RSpec.describe Engineering::Vector do
     end
   end
 
-  describe '.based_on_relative_location' do
-    let(:relative_location) { Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
+  describe '.based_on_location' do
+    let(:relative_location) { Engineering::Locations::Relative.new(value_1:, value_2:, value_3:, origin:) }
     let(:value_1) { 3.0 }
     let(:value_2) { 0.0 }
     let(:value_3) { 4.0 }
+    let(:origin) { Engineering::Locations::Absolute.new(value_x: 0.0, value_y: 0.0, value_z: 0.0) }
 
     let(:expected_magnitude) { Math.sqrt(value_1**2 + value_2**2 + value_3**2) }
     let(:expected_direction) do
@@ -106,7 +108,7 @@ RSpec.describe Engineering::Vector do
         value_3 / expected_magnitude
       ]
     end
-    let(:vector) { described_class.based_on_relative_location(location: relative_location) }
+    let(:vector) { described_class.based_on_location(location: relative_location) }
 
     it 'returns an instance of described class' do
       expect(vector).to be_an_instance_of(described_class)
