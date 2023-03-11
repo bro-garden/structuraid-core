@@ -5,15 +5,16 @@ require 'byebug'
 module Engineering
   module Locations
     class Relative < Base
-      attr_reader :value_1, :value_2, :value_3, :angle
+      attr_reader :value_1, :value_2, :value_3, :angle, :origin
 
-      def self.from_location_to_location(location_to_relativize:, reference_location:)
-        array_location = location.to_a
+      def self.from_location_to_location(from:, to:)
+        array_location = to.to_a - from.to_a
 
         new(
-          value_i: array_location[0][0],
-          value_j: array_location[1][0],
-          value_k: array_location[2][0]
+          value_1: array_location[0][0],
+          value_2: array_location[1][0],
+          value_3: array_location[2][0],
+          origin: from
         )
       end
 

@@ -12,6 +12,25 @@ RSpec.describe Engineering::Locations::Relative do
   let(:value_3) { 6.0 }
   let(:origin) { Engineering::Locations::Absolute.new(value_x: 10.0, value_y: 15.0, value_z: 3.0) }
 
+  describe '.from_location_to_location' do
+    let(:from) { Engineering::Locations::Absolute.new(value_x: 10.0, value_y: 15.0, value_z: 3.0) }
+    let(:to) { Engineering::Locations::Absolute.new(value_x: 5.0, value_y: 15.0, value_z: 9.0) }
+    let(:relative_from_to) { described_class.from_location_to_location(from:, to:) }
+
+    it 'returns an Engineering::Locations::Relative' do
+      expect(relative_from_to).to be_an_instance_of(described_class)
+    end
+
+    it 'returns a relative location with correct components values' do
+      expected_array = [[-5.0], [0.0], [6.0]]
+      expect(relative_from_to.to_a).to match_array(expected_array)
+    end
+
+    it 'exposes right origin attribute' do
+      expect(relative_from_to.origin.to_a).to match_array(origin.to_a)
+    end
+  end
+
   describe '#to_a' do
     it 'returns an Engineering::Array' do
       expect(relative.to_a).to be_an_instance_of(Engineering::Array)
