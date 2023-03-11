@@ -1,4 +1,5 @@
 require 'engineering/locations/base'
+require 'engineering/locations/absolute'
 require 'engineering/array'
 require 'byebug'
 
@@ -29,7 +30,7 @@ module Engineering
       def align_axis_1_with(vector:)
         @angle = Math.atan2(vector.value_j, vector.value_i)
 
-        transformed = transformer_array_global_to_local * to_a
+        transformed = transformer_array_global_to_relative * to_a
         @value_1 = transformed[0][0]
         @value_2 = transformed[1][0]
         @value_3 = transformed[2][0]
@@ -45,17 +46,40 @@ module Engineering
         )
       end
 
+      def to_absolute_location
+        transformed = transformer_array_relative_to_global * to_a
+        @angle = 0.0
+
+        initialize_absolute_from_array(array: transformed + origin.to_a)
+      end
+
       def to_vector
         Engineering::Vector.based_on_location(location: self)
       end
 
       private
 
-      def transformer_array_global_to_local
+      def transformer_array_global_to_relative
         Engineering::Array.new(
           [Math.cos(angle), Math.sin(angle), 0],
           [-Math.sin(angle), Math.cos(angle), 0],
           [0, 0, 1]
+        )
+      end
+
+      def transformer_array_relative_to_global
+        Engineering::Array.new(
+          [Math.cos(angle), -Math.sin(angle), 0],
+          [Math.sin(angle), Math.cos(angle), 0],
+          [0, 0, 1]
+        )
+      end
+
+      def initialize_absolute_from_array(array:)
+        Engineering::Locations::Absolute.new(
+          value_x: array[0][0],
+          value_y: array[1][0],
+          value_z: array[2][0]
         )
       end
     end

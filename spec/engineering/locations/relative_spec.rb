@@ -62,14 +62,38 @@ RSpec.describe Engineering::Locations::Relative do
     end
     let(:vector) { Engineering::Vector.based_on_location(location: relative) }
 
-    it 'updates angle' do
+    before do
       relative.align_axis_1_with(vector:)
+      another_relative.align_axis_1_with(vector:)
+    end
+
+    it 'updates angle' do
       expect(relative.angle).not_to be(0.0)
     end
 
     it "updates location's coordinates" do
-      another_relative.align_axis_1_with(vector:)
       expect(another_relative.to_a).to match_array([[-5.0], [0.0], [6.0]])
+    end
+  end
+
+  describe '#to_absolute' do
+    let(:vector) { Engineering::Vector.based_on_location(location: relative) }
+    let(:original_relative_values) { relative.to_a }
+
+    before do
+      relative.align_axis_1_with(vector:)
+    end
+
+    it "updates location's coordinates" do
+      expect(relative.to_a).to match_array(original_relative_values)
+    end
+
+    it "returns absolute location's object" do
+      expect(relative.to_absolute_location).to be_an_instance_of(Engineering::Locations::Absolute)
+    end
+
+    it "returns right absolute location's coordinates" do
+      expect(relative.to_absolute_location.to_a).to match_array([[13.0], [19.0], [9.0]])
     end
   end
 end
