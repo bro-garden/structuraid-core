@@ -4,20 +4,26 @@ module Engineering
   class Vector < Base
     attr_accessor :value_i, :value_j, :value_k
 
-    def self.based_on_relative_location(location:)
-      new(
-        value_i: location.value_1,
-        value_j: location.value_2,
-        value_k: location.value_3
-      )
-    end
+    class << self
+      def based_on_location(location:)
+        initialize_from_array(array: location.to_a)
+      end
 
-    def self.with_value(value:, direction:)
-      new(
-        value_i: value.to_f * direction[0],
-        value_j: value.to_f * direction[1],
-        value_k: value.to_f * direction[2]
-      )
+      def with_value(value:, direction:)
+        new(
+          value_i: value.to_f * direction[0],
+          value_j: value.to_f * direction[1],
+          value_k: value.to_f * direction[2]
+        )
+      end
+
+      def initialize_from_array(array:)
+        new(
+          value_i: array[0][0],
+          value_j: array[1][0],
+          value_k: array[2][0]
+        )
+      end
     end
 
     def initialize(value_i:, value_j:, value_k:)
@@ -33,11 +39,23 @@ module Engineering
     def direction
       vector_magnitude = magnitude
 
-      [
-        @value_i / vector_magnitude,
-        @value_j / vector_magnitude,
-        @value_k / vector_magnitude
-      ]
+      Engineering::Array.new(
+        [@value_i / vector_magnitude],
+        [@value_j / vector_magnitude],
+        [@value_k / vector_magnitude]
+      )
+    end
+
+    def -(other)
+      Engineering::Vector.initialize_from_array(array: to_a - other.to_a)
+    end
+
+    def to_a
+      Engineering::Array.new(
+        [value_i],
+        [value_j],
+        [value_k]
+      )
     end
 
     def -(other)

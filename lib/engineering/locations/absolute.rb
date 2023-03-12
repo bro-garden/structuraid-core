@@ -1,9 +1,10 @@
 require 'engineering/locations/base'
+require 'engineering/array'
 
 module Engineering
   module Locations
     class Absolute < Base
-      attr_accessor :value_x, :value_y, :value_z
+      attr_reader :value_x, :value_y, :value_z
 
       def initialize(value_x:, value_y:, value_z:)
         @value_x = value_x.to_f
@@ -12,7 +13,11 @@ module Engineering
       end
 
       def to_a
-        [@value_x, @value_y, @value_z]
+        Engineering::Array.new(
+          [value_x],
+          [value_y],
+          [value_z]
+        )
       end
     end
   end
