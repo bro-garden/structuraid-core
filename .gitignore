@@ -58,3 +58,6 @@ build-iPhoneSimulator/
 lcov.info
 /coverage/
 .DS_Store
+
+# rspec failure tracking
+.rspec_status

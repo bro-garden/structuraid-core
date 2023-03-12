@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
-ruby '3.1.2'
+gemspec
+
 gem 'byebug'
 gem 'colorize'
 gem 'guard-rspec'
+gem 'rake'
 gem 'require_all', '~> 3.0.0'
 gem 'rspec', '3.11.0'
 gem 'rubocop'
