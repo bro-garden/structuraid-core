@@ -17,8 +17,6 @@ module Engineering
         )
       end
 
-      private
-
       def initialize_from_array(array:)
         new(
           value_i: array[0][0],
@@ -41,15 +39,15 @@ module Engineering
     def direction
       vector_magnitude = magnitude
 
-      Engineering::Vector.new(
-        @value_i / vector_magnitude,
-        @value_j / vector_magnitude,
-        @value_k / vector_magnitude
+      Engineering::Array.new(
+        [@value_i / vector_magnitude],
+        [@value_j / vector_magnitude],
+        [@value_k / vector_magnitude]
       )
     end
 
     def -(other)
-      initialize_from_array(array: to_a - other.to_a)
+      Engineering::Vector.initialize_from_array(array: to_a - other.to_a)
     end
 
     def to_a
