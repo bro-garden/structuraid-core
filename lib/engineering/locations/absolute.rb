@@ -1,5 +1,5 @@
 require 'engineering/locations/base'
-require 'engineering/array'
+require 'matrix'
 
 module Engineering
   module Locations
@@ -12,11 +12,13 @@ module Engineering
         @value_z = value_z.to_f
       end
 
-      def to_a
-        Engineering::Array.new(
-          [value_x],
-          [value_y],
-          [value_z]
+      def to_matrix
+        Matrix.column_vector(
+          [
+            value_x,
+            value_y,
+            value_z
+          ]
         )
       end
     end

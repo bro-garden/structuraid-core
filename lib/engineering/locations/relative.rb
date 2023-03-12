@@ -1,6 +1,6 @@
 require 'engineering/locations/base'
 require 'engineering/locations/absolute'
-require 'engineering/array'
+require 'matrix'
 require 'byebug'
 
 module Engineering
@@ -11,7 +11,7 @@ module Engineering
       attr_reader :angle, :origin
 
       def self.from_location_to_location(from:, to:)
-        array_location = to.to_a - from.to_a
+        array_location = (to.to_matrix - from.to_matrix).to_a
 
         new(
           value_1: array_location[0][0],
@@ -32,7 +32,7 @@ module Engineering
       def align_axis_1_with(vector:)
         @angle = Math.atan2(vector.value_j, vector.value_i)
 
-        transformed = transformer_array_global_to_relative * to_a
+        transformed = (transformer_array_global_to_relative * to_matrix).to_a
         @value_1 = transformed[0][0]
         @value_2 = transformed[1][0]
         @value_3 = transformed[2][0]
@@ -40,19 +40,21 @@ module Engineering
         self
       end
 
-      def to_a
-        Engineering::Array.new(
-          [value_1],
-          [value_2],
-          [value_3]
+      def to_matrix
+        Matrix.column_vector(
+          [
+            value_1,
+            value_2,
+            value_3
+          ]
         )
       end
 
       def to_absolute_location
-        transformed = transformer_array_relative_to_global * to_a
+        transformed = transformer_array_relative_to_global * to_matrix
         @angle = 0.0
 
-        initialize_absolute_from_array(array: transformed + origin.to_a)
+        initialize_absolute_from_array(matrix: transformed + origin.to_matrix)
       end
 
       def to_vector
@@ -62,26 +64,26 @@ module Engineering
       private
 
       def transformer_array_global_to_relative
-        Engineering::Array.new(
+        Matrix[
           [Math.cos(angle), Math.sin(angle), 0],
           [-Math.sin(angle), Math.cos(angle), 0],
           [0, 0, 1]
-        )
+        ]
       end
 
       def transformer_array_relative_to_global
-        Engineering::Array.new(
+        Matrix[
           [Math.cos(angle), -Math.sin(angle), 0],
           [Math.sin(angle), Math.cos(angle), 0],
           [0, 0, 1]
-        )
+        ]
       end
 
-      def initialize_absolute_from_array(array:)
+      def initialize_absolute_from_array(matrix:)
         Engineering::Locations::Absolute.new(
-          value_x: array[0][0],
-          value_y: array[1][0],
-          value_z: array[2][0]
+          value_x: matrix.to_a[0][0],
+          value_y: matrix.to_a[1][0],
+          value_z: matrix.to_a[2][0]
         )
       end
     end

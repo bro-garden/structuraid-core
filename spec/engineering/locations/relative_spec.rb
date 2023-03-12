@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'engineering/locations/relative'
 require 'engineering/locations/absolute'
-require 'engineering/array'
+require 'matrix'
 require 'engineering/vector'
 
 RSpec.describe Engineering::Locations::Relative do
@@ -23,21 +23,21 @@ RSpec.describe Engineering::Locations::Relative do
 
     it 'returns a relative location with correct components values' do
       expected_array = [[-5.0], [0.0], [6.0]]
-      expect(relative_from_to.to_a).to match_array(expected_array)
+      expect(relative_from_to.to_matrix.to_a).to match_array(expected_array)
     end
 
     it 'exposes right origin attribute' do
-      expect(relative_from_to.origin.to_a).to match_array(origin.to_a)
+      expect(relative_from_to.origin.to_matrix.to_a).to match_array(origin.to_matrix.to_a)
     end
   end
 
-  describe '#to_a' do
-    it 'returns an Engineering::Array' do
-      expect(relative.to_a).to be_an_instance_of(Engineering::Array)
+  describe '#to_matrix' do
+    it 'returns an Matrix object' do
+      expect(relative.to_matrix).to be_an_instance_of(Matrix)
     end
 
     it 'returns right module' do
-      expect(relative.to_a).to match_array([[value_1], [value_2], [value_3]])
+      expect(relative.to_matrix.to_a).to match_array([[value_1], [value_2], [value_3]])
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe Engineering::Locations::Relative do
     end
 
     it 'returns a vector with same components values as the relative location components' do
-      expect(relative.to_vector.to_a).to match_array(relative.to_a)
+      expect(relative.to_vector.to_matrix.to_a).to match_array(relative.to_matrix.to_a)
     end
   end
 
@@ -72,20 +72,20 @@ RSpec.describe Engineering::Locations::Relative do
     end
 
     it "updates location's coordinates" do
-      expect(another_relative.to_a).to match_array([[-5.0], [0.0], [6.0]])
+      expect(another_relative.to_matrix.to_a).to match_array([[-5.0], [0.0], [6.0]])
     end
   end
 
   describe '#to_absolute' do
     let(:vector) { Engineering::Vector.based_on_location(location: relative) }
-    let(:original_relative_values) { relative.to_a }
+    let(:original_relative_values) { relative.to_matrix.to_a }
 
     before do
       relative.align_axis_1_with(vector:)
     end
 
     it "updates location's coordinates" do
-      expect(relative.to_a).to match_array(original_relative_values)
+      expect(relative.to_matrix.to_a).to match_array(original_relative_values)
     end
 
     it "returns absolute location's object" do
@@ -93,7 +93,7 @@ RSpec.describe Engineering::Locations::Relative do
     end
 
     it "returns right absolute location's coordinates" do
-      expect(relative.to_absolute_location.to_a).to match_array([[13.0], [19.0], [9.0]])
+      expect(relative.to_absolute_location.to_matrix.to_a).to match_array([[13.0], [19.0], [9.0]])
     end
   end
 end
