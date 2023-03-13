@@ -91,7 +91,7 @@ RSpec.describe Engineering::Locations::Relative do
       obtained = relative.to_matrix.to_a.map do |axis_value|
         [axis_value.first.round(1)]
       end
-      expect(obtained).to match_array(original_relative_values)
+      expect(obtained).to match_array(original_relative_values.map { |axis_value| [axis_value.first.round(1)] })
     end
 
     it "returns absolute location's object" do
