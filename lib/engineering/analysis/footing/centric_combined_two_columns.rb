@@ -3,7 +3,6 @@ require 'engineering/locations/absolute'
 require 'engineering/locations/relative'
 require 'engineering/vector'
 
-# rubocop:disable Metrics/ClassLength
 module Engineering
   module Analysis
     module Footing
@@ -38,11 +37,34 @@ module Engineering
           )
         end
 
+        def align_axis_1_whit_columns
+          relativize_loads_from_columns
+          aligner_vector = loads_from_columns.last.relative.to_vector
+
+          loads_from_columns.each do |load_from_column|
+            load_from_column.relative.align_axis_1_with(vector: aligner_vector)
+          end
+
+          loads_from_columns
+        end
+
         private
 
         attr_reader :footing, :section_direction, :loads_from_columns
 
         def geometry; end
+
+        def relativize_loads_from_columns
+          @loads_from_columns = loads_from_columns.map do |load|
+            {
+              load:,
+              relative: Engineering::Locations::Relative.from_location_to_location(
+                from: absolute_centroid,
+                to: load.location
+              )
+            }
+          end
+        end
 
         def section_length
           footing.public_send(section_direction)
@@ -82,4 +104,3 @@ module Engineering
     end
   end
 end
-# rubocop:enable Metrics/ClassLength
