@@ -6,7 +6,7 @@ module Engineering
 
     class << self
       def based_on_location(location:)
-        initialize_from_array(array: location.to_a)
+        initialize_from_array(matrix: location.to_matrix)
       end
 
       def with_value(value:, direction:)
@@ -17,11 +17,11 @@ module Engineering
         )
       end
 
-      def initialize_from_array(array:)
+      def initialize_from_array(matrix:)
         new(
-          value_i: array[0][0],
-          value_j: array[1][0],
-          value_k: array[2][0]
+          value_i: matrix.to_a[0][0],
+          value_j: matrix.to_a[1][0],
+          value_k: matrix.to_a[2][0]
         )
       end
     end
@@ -39,22 +39,26 @@ module Engineering
     def direction
       vector_magnitude = magnitude
 
-      Engineering::Array.new(
-        [@value_i / vector_magnitude],
-        [@value_j / vector_magnitude],
-        [@value_k / vector_magnitude]
+      Matrix.column_vector(
+        [
+          @value_i / vector_magnitude,
+          @value_j / vector_magnitude,
+          @value_k / vector_magnitude
+        ]
       )
     end
 
     def -(other)
-      Engineering::Vector.initialize_from_array(array: to_a - other.to_a)
+      Engineering::Vector.initialize_from_array(matrix: to_matrix - other.to_matrix)
     end
 
-    def to_a
-      Engineering::Array.new(
-        [value_i],
-        [value_j],
-        [value_k]
+    def to_matrix
+      Matrix.column_vector(
+        [
+          value_i,
+          value_j,
+          value_k
+        ]
       )
     end
 

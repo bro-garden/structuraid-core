@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'engineering/vector'
-require 'engineering/array'
+require 'matrix'
 require 'engineering/locations/relative'
 require 'engineering/locations/absolute'
 
@@ -31,11 +31,11 @@ RSpec.describe Engineering::Vector do
     end
 
     it 'returns an array' do
-      expect(vector.direction).to be_a(Array)
+      expect(vector.direction).to be_an_instance_of(Matrix)
     end
 
     it 'returns right module' do
-      expect(vector.direction).to eq(expected_unit_vector)
+      expect(vector.direction.to_a).to match_array(expected_unit_vector)
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe Engineering::Vector do
     let(:value_k_expected) { 0.0 }
 
     it 'returns a vector new instance' do
-      expect(vector - vector_to_substract).to be_a(described_class)
+      expect(vector - vector_to_substract).to be_an_instance_of(described_class)
     end
 
     it 'returns a new vector isntance with right components values' do
@@ -129,7 +129,7 @@ RSpec.describe Engineering::Vector do
 
     describe '#direction' do
       it 'returns an array' do
-        expect(vector.direction).to be_an_instance_of(Engineering::Array)
+        expect(vector.direction).to be_an_instance_of(Matrix)
       end
 
       it 'returns right direction' do
@@ -139,7 +139,7 @@ RSpec.describe Engineering::Vector do
 
     describe '#magnitude' do
       it 'returns right magnitude' do
-        expect(vector.magnitude).to be(expected_magnitude)
+        expect(vector.magnitude).to eq(expected_magnitude)
       end
     end
   end

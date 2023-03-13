@@ -10,7 +10,6 @@ require 'engineering/locations/absolute'
 require 'errors/engineering/analysis/section_direction_error'
 require 'elements/column/rectangular'
 require 'elements/footing'
-require 'byebug'
 
 RSpec.describe Engineering::Analysis::Footing::CentricIsolated do
   subject(:centric_isolated_footing) do
