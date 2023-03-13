@@ -70,4 +70,18 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombinedTwoColumns do
       expect(centric_combined_footing.solicitation_load).to be(expected_solicitation)
     end
   end
+
+  describe '#absolute_centroid' do
+    let(:expected_centroid) { Engineering::Locations::Absolute.new(value_x: 0, value_y: 3000, value_z: 0) }
+
+    it 'returns an Engineering::Locations::Absolute object' do
+      expect(centric_combined_footing.absolute_centroid).to be_an_instance_of(Engineering::Locations::Absolute)
+    end
+
+    it 'returns right centroif' do
+      expect(
+        centric_combined_footing.absolute_centroid.to_matrix.to_a
+      ).to match_array(expected_centroid.to_matrix.to_a)
+    end
+  end
 end
