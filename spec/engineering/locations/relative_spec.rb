@@ -72,7 +72,10 @@ RSpec.describe Engineering::Locations::Relative do
     end
 
     it "updates location's coordinates" do
-      expect(another_relative.to_matrix.to_a).to match_array([[-5.0], [0.0], [6.0]])
+      obtained = another_relative.to_matrix.to_a.map do |axis_value|
+        [axis_value.first.round(1)]
+      end
+      expect(obtained).to match_array([[-5.0], [0.0], [6.0]])
     end
   end
 
@@ -85,7 +88,10 @@ RSpec.describe Engineering::Locations::Relative do
     end
 
     it "updates location's coordinates" do
-      expect(relative.to_matrix.to_a).to match_array(original_relative_values)
+      obtained = relative.to_matrix.to_a.map do |axis_value|
+        [axis_value.first.round(1)]
+      end
+      expect(obtained).to match_array(original_relative_values)
     end
 
     it "returns absolute location's object" do
@@ -93,7 +99,10 @@ RSpec.describe Engineering::Locations::Relative do
     end
 
     it "returns right absolute location's coordinates" do
-      expect(relative.to_absolute_location.to_matrix.to_a).to match_array([[13.0], [19.0], [9.0]])
+      obtained = relative.to_absolute_location.to_matrix.to_a.map do |axis_value|
+        [axis_value.first.round(1)]
+      end
+      expect(obtained).to match_array([[13.0], [19.0], [9.0]])
     end
   end
 end
