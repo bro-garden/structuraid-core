@@ -18,7 +18,6 @@ module Engineering
           @footing = footing
           @loads_from_columns = loads_from_columns
           @section_direction = section_direction
-          sort_point_loads_relative_to_centroid
         end
 
         def solicitation_load
@@ -28,12 +27,6 @@ module Engineering
         def shear
           geometry
         end
-
-        private
-
-        attr_reader :footing, :section_direction, :loads_from_columns
-
-        def geometry; end
 
         def absolute_centroid
           moment_xx, moment_yy, total_load = *moment_and_load_totals
@@ -45,64 +38,11 @@ module Engineering
           )
         end
 
-        def vector_left_load_to_footing_edge
-          Engineering::Vector.with_value(
-            value: section_length * 0.5,
-            direction: vector_centroid_to_left_load.direction
-          )
-        end
+        private
 
-        def vector_right_load_to_footing_edge
-          Engineering::Vector.with_value(
-            value: section_length * 0.5,
-            direction: vector_centroid_to_right_load.direction
-          )
-        end
+        attr_reader :footing, :section_direction, :loads_from_columns
 
-        def vector_centroid_to_left_load
-          Engineering::Vector.based_on_relative_location(
-            location: Engineering::Locations::Relative.absolute_location_relative_to(
-              location_to_relativize: loads_from_columns.first.location,
-              reference_location: absolute_centroid
-            )
-          )
-        end
-
-        def vector_centroid_to_right_load
-          Engineering::Vector.based_on_relative_location(
-            location: Engineering::Locations::Relative.absolute_location_relative_to(
-              location_to_relativize: loads_from_columns.last.location,
-              reference_location: absolute_centroid
-            )
-          )
-        end
-
-        def sort_point_loads_relative_to_centroid
-          loads_from_columns.sort! do |load_1, load_2|
-            vector_centroid_to_load_1 = create_vector(from: absolute_centroid, to: load_1)
-            vector_centroid_to_load_2 = create_vector(from: absolute_centroid, to: load_2)
-
-            pair_of_locations = pair_to_sort(vector_centroid_to_load_1:, vector_centroid_to_load_2:)
-            pair_of_locations[0] <=> pair_of_locations[1]
-          end
-        end
-
-        def create_vector(from:, to:)
-          Engineering::Vector.based_on_relative_location(
-            location: Engineering::Locations::Relative.absolute_location_relative_to(
-              location_to_relativize: to.location,
-              reference_location: from
-            )
-          )
-        end
-
-        def pair_to_sort(vector_centroid_to_load_1:, vector_centroid_to_load_2:)
-          if vector_centroid_to_load_1.direction[0] == vector_centroid_to_load_2.direction[0]
-            [vector_centroid_to_load_1.direction[1], vector_centroid_to_load_2.direction[1]]
-          else
-            [vector_centroid_to_load_1.direction[0], vector_centroid_to_load_2.direction[0]]
-          end
-        end
+        def geometry; end
 
         def section_length
           footing.public_send(section_direction)
