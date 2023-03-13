@@ -1,7 +1,6 @@
 require 'engineering/locations/base'
 require 'engineering/locations/absolute'
 require 'matrix'
-require 'byebug'
 
 module Engineering
   module Locations
