@@ -5,23 +5,25 @@ module Engineering
     attr_accessor :value_i, :value_j, :value_k
 
     class << self
-      def based_on_location(location:)
-        initialize_from_array(matrix: location.to_matrix)
+      def from_location(location:)
+        from_matrix(location.to_matrix)
       end
 
       def with_value(value:, direction:)
+        value_float = value.to_f
+
         new(
-          value_i: value.to_f * direction[0],
-          value_j: value.to_f * direction[1],
-          value_k: value.to_f * direction[2]
+          value_i: value_float * direction[0],
+          value_j: value_float * direction[1],
+          value_k: value_float * direction[2]
         )
       end
 
-      def initialize_from_array(matrix:)
+      def from_matrix(matrix:)
         new(
-          value_i: matrix.to_a[0][0],
-          value_j: matrix.to_a[1][0],
-          value_k: matrix.to_a[2][0]
+          value_i: matrix[0, 0],
+          value_j: matrix[1, 0],
+          value_k: matrix[2, 0]
         )
       end
     end
@@ -41,15 +43,15 @@ module Engineering
 
       Matrix.column_vector(
         [
-          @value_i / vector_magnitude,
-          @value_j / vector_magnitude,
-          @value_k / vector_magnitude
+          value_i / vector_magnitude,
+          value_j / vector_magnitude,
+          value_k / vector_magnitude
         ]
       )
     end
 
     def -(other)
-      Engineering::Vector.initialize_from_array(matrix: to_matrix - other.to_matrix)
+      self.class.from_matrix(matrix: to_matrix - other.to_matrix)
     end
 
     def to_matrix
