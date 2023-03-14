@@ -84,4 +84,11 @@ RSpec.describe Engineering::Analysis::Footing::CentricCombinedTwoColumns do
       ).to match_array(expected_centroid.to_matrix.to_a)
     end
   end
+
+  describe '#geometry' do
+    it 'returns an array of loads' do
+      byebug
+      centric_combined_footing.geometry
+    end
+  end
 end
