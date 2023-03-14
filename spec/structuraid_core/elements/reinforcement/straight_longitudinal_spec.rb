@@ -3,9 +3,13 @@ require 'spec_helper'
 RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinal do
   subject(:reinforcement) { described_class.new(distribution_direction: :length_1) }
 
-  let(:start_location) { StructuraidCore::Engineering::Locations::Relative.new(value_1: -950, value_2: -450, value_3: cover_bottom) }
+  let(:start_location) do
+    StructuraidCore::Engineering::Locations::Relative.new(value_1: -950, value_2: -450, value_3: cover_bottom)
+  end
   let(:cover_bottom) { 50 }
-  let(:end_location) { StructuraidCore::Engineering::Locations::Relative.new(value_1: 950, value_2: 450, value_3: cover_bottom) }
+  let(:end_location) do
+    StructuraidCore::Engineering::Locations::Relative.new(value_1: 950, value_2: 450, value_3: cover_bottom)
+  end
   let(:material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
   let(:first_rebar) do
     StructuraidCore::Elements::Reinforcement::Rebar.new(

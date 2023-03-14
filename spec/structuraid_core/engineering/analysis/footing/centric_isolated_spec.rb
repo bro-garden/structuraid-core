@@ -15,7 +15,11 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricIsolated 
       length_1:,
       length_2:,
       height:,
-      material: StructuraidCore::Materials::Concrete.new(elastic_module: 1800, design_compression_strength: 28, specific_weight: 2.4),
+      material: StructuraidCore::Materials::Concrete.new(
+        elastic_module: 1800,
+        design_compression_strength: 28,
+        specific_weight: 2.4
+      ),
       cover_lateral:,
       cover_top:,
       cover_bottom:,

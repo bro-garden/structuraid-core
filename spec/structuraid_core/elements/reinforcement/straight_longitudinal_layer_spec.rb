@@ -11,7 +11,9 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinalLay
     )
   end
 
-  let(:start_location) { StructuraidCore::Engineering::Locations::Relative.new(value_1: -1 * value_1, value_2: -450, value_3:) }
+  let(:start_location) do
+    StructuraidCore::Engineering::Locations::Relative.new(value_1: -1 * value_1, value_2: -450, value_3:)
+  end
   let(:end_location) { StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2: 450, value_3:) }
   let(:value_1) { 950 }
   let(:value_3) { 50 }
@@ -28,7 +30,9 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinalLay
     let(:distribution_direction) { :length_5 }
 
     it 'raises error' do
-      expect { straight_longitudinal_layer }.to raise_error(StructuraidCore::Elements::Reinforcement::InvalidDistributionDirection)
+      expect { straight_longitudinal_layer }.to raise_error(
+        StructuraidCore::Elements::Reinforcement::InvalidDistributionDirection
+      )
     end
   end
 
