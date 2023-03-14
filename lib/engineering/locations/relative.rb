@@ -1,5 +1,6 @@
 require 'engineering/locations/base'
 require 'engineering/locations/absolute'
+require 'engineering/vector'
 require 'matrix'
 
 module Engineering
@@ -31,8 +32,14 @@ module Engineering
         )
       end
 
+      def update_from_matrix(matrix:)
+        @value_1 = matrix[0, 0]
+        @value_2 = matrix[1, 0]
+        @value_3 = matrix[2, 0]
+      end
+
       def to_vector
-        Engineering::Vector.based_on_location(location: self)
+        Engineering::Vector.from_matrix(matrix: to_matrix)
       end
     end
   end
