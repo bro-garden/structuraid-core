@@ -42,9 +42,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-rspec', '~> 2.16.0'
   spec.add_development_dependency 'simplecov', '~> 0.22.0'
 
+  spec.add_dependency 'matrix'
   spec.add_dependency 'rake', '~> 13.0.6'
   spec.add_dependency 'require_all', '~> 3.0.0'
-  spec.add_dependency 'matrix'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

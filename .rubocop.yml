@@ -29,7 +29,7 @@ RSpec/ContainExactly:
   Enabled: false
 
 RSpec/MatchArray:
-  Enabled: true
+  Enabled: false
 
 Lint/MissingSuper:
   Enabled: false
