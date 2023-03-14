@@ -4,7 +4,7 @@ module StructuraidCore
       attr_accessor :value_i, :value_j, :value_k
 
       class << self
-        def from_location(location:)
+        def from_location(location)
           from_matrix(location.to_matrix)
         end
 
