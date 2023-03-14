@@ -1,8 +1,6 @@
 require 'spec_helper'
-require 'engineering/locations/absolute'
-require 'matrix'
 
-RSpec.describe Engineering::Locations::Absolute do
+RSpec.describe StructuraidCore::Engineering::Locations::Absolute do
   subject(:absolute) { described_class.new(value_x:, value_y:, value_z:) }
 
   let(:value_x) { 3.0 }

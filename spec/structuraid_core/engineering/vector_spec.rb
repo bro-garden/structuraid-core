@@ -3,12 +3,12 @@ require 'spec_helper'
 RSpec.describe StructuraidCore::Engineering::Vector do
   subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }
 
-  let(:value_x) { 3.0 }
-  let(:value_y) { 4.0 }
-  let(:value_z) { 0.0 }
+  let(:value_i) { 3.0 }
+  let(:value_j) { 4.0 }
+  let(:value_k) { 0.0 }
 
   describe '#magnitude' do
-    let(:expected_magnitude) { Math.sqrt(value_x**2 + value_y**2 + value_z**2) }
+    let(:expected_magnitude) { Math.sqrt(value_i**2 + value_j**2 + value_k**2) }
 
     it 'returns right magnitude' do
       expect(vector.magnitude).to be(expected_magnitude)

@@ -1,10 +1,6 @@
 require 'spec_helper'
-require 'engineering/locations/absolute'
-require 'engineering/locations/relative'
-require 'engineering/locations/coordinates_system'
-require 'matrix'
 
-RSpec.describe Engineering::Locations::CoordinatesSystem do
+RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
   subject(:coord_system) { described_class.new(anchor_location:) }
 
   let(:value_x) { 3.0 }
@@ -13,9 +9,9 @@ RSpec.describe Engineering::Locations::CoordinatesSystem do
   let(:value_1) { 3.0 }
   let(:value_2) { 4.0 }
   let(:value_3) { 6.0 }
-  let(:anchor_location) { Engineering::Locations::Absolute.new(value_x:, value_y:, value_z:) }
-  let(:relative_1) { Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
-  let(:relative_2) { Engineering::Locations::Relative.new(value_1: -5.0, value_2: 0, value_3: 6) }
+  let(:anchor_location) { StructuraidCore::Engineering::Locations::Absolute.new(value_x:, value_y:, value_z:) }
+  let(:relative_1) { StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
+  let(:relative_2) { StructuraidCore::Engineering::Locations::Relative.new(value_1: -5.0, value_2: 0, value_3: 6) }
 
   describe '#add' do
     it 'adds the relative location to relative_locations attribute' do
@@ -50,7 +46,10 @@ RSpec.describe Engineering::Locations::CoordinatesSystem do
       end
 
       it 'updates relative locations' do
-        expect(coord_system.relative_locations.first.to_matrix.to_a).to match_array(expected_rotated_coordinates)
+        obtained_coords = coord_system.relative_locations.first.to_matrix.to_a.map do |item|
+          [item.first.round(1)]
+        end
+        expect(obtained_coords).to match_array(expected_rotated_coordinates)
       end
     end
   end

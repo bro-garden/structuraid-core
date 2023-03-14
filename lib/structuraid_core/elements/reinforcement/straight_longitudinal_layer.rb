@@ -77,7 +77,7 @@ module StructuraidCore
         private
 
         def length_vector
-          Engineering::Vector.new(
+          StructuraidCore::Engineering::Vector.new(
             value_i: @end_location.value_1 - @start_location.value_1,
             value_j: @end_location.value_2 - @start_location.value_2,
             value_k: @end_location.value_3 - @start_location.value_3
