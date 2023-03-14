@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'matrix'
 
 RSpec.describe StructuraidCore::Engineering::Locations::Relative do
   subject(:relative) { described_class.new(value_1:, value_2:, value_3:) }
@@ -28,7 +29,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::Relative do
   end
 
   describe '.from_matrix' do
-    let(:from_matrix) { described_class.from_matrix(matrix:) }
+    let(:from_matrix) { described_class.from_matrix(matrix) }
 
     let(:matrix) { Matrix.column_vector([value_1, value_2, value_3]) }
 

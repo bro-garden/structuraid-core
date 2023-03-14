@@ -1,3 +1,5 @@
+require 'matrix'
+
 module StructuraidCore
   module Engineering
     class Vector < Base
@@ -50,7 +52,7 @@ module StructuraidCore
       end
 
       def -(other)
-        self.class.from_matrix(matrix: to_matrix - other.to_matrix)
+        self.class.from_matrix(to_matrix - other.to_matrix)
       end
 
       def to_matrix

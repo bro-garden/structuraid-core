@@ -1,3 +1,5 @@
+require 'matrix'
+
 module StructuraidCore
   module Engineering
     module Locations
@@ -35,7 +37,7 @@ module StructuraidCore
         def rotate_axes(relative_location:, to_global: false)
           transformer = to_global ? transformer_matrix_relative_to_global : transformer_matrix_global_to_relative
           transformed = transformer * relative_location.to_matrix
-          relative_location.update_from_matrix(matrix: transformed)
+          relative_location.update_from_matrix(transformed)
         end
 
         def transformer_matrix_global_to_relative

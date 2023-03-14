@@ -1,10 +1,12 @@
+require 'matrix'
+
 module StructuraidCore
   module Engineering
     module Locations
       class Relative < Base
-        attr_accessor :value_1, :value_2, :value_3
+        attr_reader :value_1, :value_2, :value_3
 
-        def self.from_matrix(matrix:)
+        def self.from_matrix(matrix)
           new(
             value_1: matrix[0, 0],
             value_2: matrix[1, 0],
@@ -28,14 +30,14 @@ module StructuraidCore
           )
         end
 
-        def update_from_matrix(matrix:)
+        def update_from_matrix(matrix)
           @value_1 = matrix[0, 0]
           @value_2 = matrix[1, 0]
           @value_3 = matrix[2, 0]
         end
 
         def to_vector
-         Engineering::Vector.from_matrix(matrix: to_matrix)
+          Engineering::Vector.from_matrix(to_matrix)
         end
       end
     end

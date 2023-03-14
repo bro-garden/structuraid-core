@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'matrix'
 
 RSpec.describe StructuraidCore::Engineering::Vector do
   subject(:vector) { described_class.new(value_i:, value_j:, value_k:) }

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'matrix'
 
 RSpec.describe StructuraidCore::Engineering::Locations::Absolute do
   subject(:absolute) { described_class.new(value_x:, value_y:, value_z:) }

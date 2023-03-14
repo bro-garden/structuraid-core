@@ -12,5 +12,3 @@ require_relative 'structuraid_core/loads/base'
 require_relative 'structuraid_core/materials/base'
 require_relative 'structuraid_core/engineering/base'
 require_relative 'structuraid_core/elements/base'
-
-require 'matrix'

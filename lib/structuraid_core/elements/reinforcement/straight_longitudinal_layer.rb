@@ -1,3 +1,5 @@
+require 'matrix'
+
 module StructuraidCore
   module Elements
     module Reinforcement
@@ -44,7 +46,15 @@ module StructuraidCore
           offset ||= 0.5 * diameter
 
           [@start_location, @end_location].each do |location|
-            location.value_3 = above_middle ? location.value_3 - offset : location.value_3 + offset
+            location.update_from_matrix(
+              Matrix.column_vector(
+                [
+                  location.value_1,
+                  location.value_2,
+                  above_middle ? location.value_3 - offset : location.value_3 + offset
+                ]
+              )
+            )
           end
         end
 
@@ -77,7 +87,7 @@ module StructuraidCore
         private
 
         def length_vector
-         Engineering::Vector.new(
+          Engineering::Vector.new(
             value_i: @end_location.value_1 - @start_location.value_1,
             value_j: @end_location.value_2 - @start_location.value_2,
             value_k: @end_location.value_3 - @start_location.value_3
