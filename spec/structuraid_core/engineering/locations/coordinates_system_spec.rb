@@ -13,6 +13,14 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
   let(:relative_1) { StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
   let(:relative_2) { StructuraidCore::Engineering::Locations::Relative.new(value_1: -5.0, value_2: 0, value_3: 6) }
 
+  describe '#axis_3' do
+    let(:expected_initial_axis_3) { Vector[0.0, 0.0, 1.0] }
+
+    it 'returns axis_3' do
+      expect(coord_system.axis_3.to_a).to eq(expected_initial_axis_3.to_a)
+    end
+  end
+
   describe '#add' do
     it 'adds the relative location to relative_locations attribute' do
       coord_system.add(relative_location: relative_1)

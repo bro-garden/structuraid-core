@@ -4,12 +4,13 @@ module StructuraidCore
   module Engineering
     module Locations
       class CoordinatesSystem < Base
-        attr_reader :relative_locations
+        attr_reader :relative_locations, :axis_1, :axis_2
 
         def initialize(anchor_location:)
           @anchor_location = anchor_location
-          @theta = 0.0
           @relative_locations = []
+          @axis_1 = ::Vector[1.0, 0.0, 0.0]
+          @axis_2 = ::Vector[0.0, 1.0, 0.0]
         end
 
         def align_axis_1_with(vector:)
@@ -28,6 +29,10 @@ module StructuraidCore
 
         def add(relative_location:)
           @relative_locations << relative_location
+        end
+
+        def axis_3
+          axis_1.cross_product axis_2
         end
 
         private
