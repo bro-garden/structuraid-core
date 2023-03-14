@@ -18,7 +18,7 @@ module StructuraidCore
           )
         end
 
-        def from_matrix(matrix:)
+        def from_matrix(matrix)
           new(
             value_i: matrix[0, 0],
             value_j: matrix[1, 0],
