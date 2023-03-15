@@ -30,10 +30,10 @@ module StructuraidCore
           )
         end
 
-        def update_from_matrix(matrix)
-          @value_1 = matrix[0, 0]
-          @value_2 = matrix[1, 0]
-          @value_3 = matrix[2, 0]
+        def update_from_vector(vector)
+          @value_1 = vector[0]
+          @value_2 = vector[1]
+          @value_3 = vector[2]
         end
 
         def to_vector

@@ -8,7 +8,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::Absolute do
   let(:value_y) { 4.0 }
   let(:value_z) { 6.0 }
 
-  describe '#to_a' do
+  describe '#to_matrix' do
     it 'returns a Matrix object' do
       expect(absolute.to_matrix).to be_an_instance_of(Matrix)
     end

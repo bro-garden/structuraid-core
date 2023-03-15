@@ -14,10 +14,8 @@ module StructuraidCore
         end
 
         def align_axis_1_with(vector:)
-          unitary_vector = vector.normalize
-
-          relative_locations.each { |relative_location| rotate_axes(relative_location, theta(unitary_vector)) }
-          @axis_1 = unitary_vector
+          relative_locations.each { |relative_location| rotate_axes(relative_location, theta(vector)) }
+          @axis_1 = vector.normalize
         end
 
         def add(relative_location:)
@@ -32,7 +30,8 @@ module StructuraidCore
 
         attr_reader :axis_3
 
-        def theta(unitary_vector)
+        def theta(vector)
+          unitary_vector = vector.normalize
           return Math.acos(axis_1.inner_product(unitary_vector)) if axis_1.cross_product(unitary_vector)[2].zero?
 
           Math.asin(axis_1.cross_product(unitary_vector)[2])
@@ -40,7 +39,12 @@ module StructuraidCore
 
         def rotate_axes(relative_location, theta)
           transformed = rotation_matrix(theta) * relative_location.to_matrix
-          relative_location.update_from_matrix(transformed)
+          transformed_vector = Vector[
+            transformed[0, 0],
+            transformed[1, 0],
+            transformed[2, 0]
+          ]
+          relative_location.update_from_vector(transformed_vector)
         end
 
         def rotation_matrix(theta)

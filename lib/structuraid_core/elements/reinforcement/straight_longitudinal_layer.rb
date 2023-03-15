@@ -46,14 +46,12 @@ module StructuraidCore
           offset ||= 0.5 * diameter
 
           [@start_location, @end_location].each do |location|
-            location.update_from_matrix(
-              Matrix.column_vector(
-                [
-                  location.value_1,
-                  location.value_2,
-                  above_middle ? location.value_3 - offset : location.value_3 + offset
-                ]
-              )
+            location.update_from_vector(
+              Vector[
+                location.value_1,
+                location.value_2,
+                above_middle ? location.value_3 - offset : location.value_3 + offset
+              ]
             )
           end
         end
