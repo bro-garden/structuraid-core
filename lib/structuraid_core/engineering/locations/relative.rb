@@ -37,7 +37,7 @@ module StructuraidCore
         end
 
         def to_vector
-          Vector[ value_1, value_2, value_3 ]
+          Vector[value_1, value_2, value_3]
         end
       end
     end

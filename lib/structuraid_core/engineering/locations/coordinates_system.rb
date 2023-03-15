@@ -35,7 +35,7 @@ module StructuraidCore
         def theta(unitary_vector)
           return Math.acos(axis_1.inner_product(unitary_vector)) if axis_1.cross_product(unitary_vector)[2].zero?
 
-          Math.asin(axis_1.cross_product(unitary_vector)[2]) 
+          Math.asin(axis_1.cross_product(unitary_vector)[2])
         end
 
         def rotate_axes(relative_location, theta)
