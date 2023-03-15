@@ -18,8 +18,8 @@ module StructuraidCore
           @axis_1 = vector.normalize
         end
 
-        def add(relative_location:)
-          @relative_locations << relative_location
+        def add_location(relative_location)
+          relative_locations << relative_location
         end
 
         def axis_2

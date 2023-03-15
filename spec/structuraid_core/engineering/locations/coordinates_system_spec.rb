@@ -86,7 +86,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
 
       before do
         coord_system.align_axis_1_with(vector: vector_first_alignment)
-        coord_system.add(relative_location: relative_2)
+        coord_system.add_location(relative_2)
       end
 
       describe 'and add a location' do
