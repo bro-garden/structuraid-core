@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'matrix'
 
 RSpec.describe StructuraidCore::Engineering::Locations::Relative do
   subject(:relative) { described_class.new(value_1:, value_2:, value_3:) }
@@ -18,8 +19,8 @@ RSpec.describe StructuraidCore::Engineering::Locations::Relative do
   end
 
   describe '#to_vector' do
-    it 'returns an StructuraidCore::Engineering::Vector' do
-      expect(relative.to_vector).to be_an_instance_of(StructuraidCore::Engineering::Vector)
+    it 'returns an Vector' do
+      expect(relative.to_vector).to be_an_instance_of(Vector)
     end
 
     it 'returns a vector with same components values as the relative location components' do
@@ -28,7 +29,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::Relative do
   end
 
   describe '.from_matrix' do
-    let(:from_matrix) { described_class.from_matrix(matrix:) }
+    let(:from_matrix) { described_class.from_matrix(matrix) }
 
     let(:matrix) { Matrix.column_vector([value_1, value_2, value_3]) }
 

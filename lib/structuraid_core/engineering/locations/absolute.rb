@@ -1,3 +1,5 @@
+require 'matrix'
+
 module StructuraidCore
   module Engineering
     module Locations
