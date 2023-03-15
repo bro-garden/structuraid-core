@@ -1,12 +1,23 @@
 require 'spec_helper'
+require 'byebug'
 
 RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedTwoColumns do
   subject(:centric_combined_footing) do
-    described_class.new(footing:, loads_from_columns:, section_direction:)
+    described_class.new(
+      footing:,
+      loads_from_columns:,
+      section_direction:
+    )
   end
 
-  let(:load_from_column) { StructuraidCore::Loads::PointLoad.new(value: 1500, location: nil) }
+  let(:length_1) { 10000 }
+  let(:length_2) { 3000 }
+  let(:height) { 250 }
+  let(:cover_lateral) { 50 }
+  let(:cover_top) { 50 }
+  let(:cover_bottom) { 75 }
   let(:section_direction) { :length_1 }
+
   let(:footing) do
     StructuraidCore::Elements::Footing.new(
       length_1:,
@@ -24,12 +35,6 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       longitudinal_bottom_reinforcement_length_2: nil
     )
   end
-  let(:length_1) { 8000 }
-  let(:length_2) { 3000 }
-  let(:height) { 250 }
-  let(:cover_lateral) { 50 }
-  let(:cover_top) { 50 }
-  let(:cover_bottom) { 75 }
   let(:loads_from_columns) do
     [
       StructuraidCore::Loads::PointLoad.new(
@@ -50,6 +55,8 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       )
     ]
   end
+  let(:lcs) { StructuraidCore::Engineering::Locations::CoordinatesSystem.new( anchor_location: centric_combined_footing.absolute_centroid) }
+
 
   describe '#solicitation_load' do
     let(:expected_solicitation) { loads_from_columns.sum(&:value) / length_1 }
@@ -81,9 +88,26 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     end
   end
 
-  # describe '#geometry' do
-  #   it 'returns an array of loads' do
-  #     centric_combined_footing.geometry
-  #   end
-  # end
+  describe '#build_geometry' do
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    it 'updates locations at coordinates system' do
+      expect(footing.coordinates_system.relative_locations.count).to eq(4)
+    end
+
+    # rubocop:disable RSpec/ExampleLength
+    it 'updates longitudes' do
+      expect(
+        [
+          centric_combined_footing.send(:long_1).round(1),
+          centric_combined_footing.send(:long_2).round(1),
+          centric_combined_footing.send(:long_3).round(1)
+        ]
+      ).to eq([4000.0, 5000.0, 1000.0])
+    end
+    # rubocop:enable RSpec/ExampleLength
+  end
 end

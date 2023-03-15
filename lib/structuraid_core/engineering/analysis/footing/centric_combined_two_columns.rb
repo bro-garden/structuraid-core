@@ -5,23 +5,13 @@ module StructuraidCore
         class CentricCombinedTwoColumns < Base
           ORTHOGONALITIES = %i[length_1 length_2].freeze
 
-          Column_load = Struct.new(:load_data, :relative_location) do
-            def value
-              load_data.value
-            end
-
-            def absolute_location
-              load_data.location
-            end
-          end
-
           def initialize(footing:, loads_from_columns:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
               raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
             end
 
             @footing = footing
-            @loads_from_columns = loads_from_columns.map { |load| Column_load.new(load, nil) }
+            @loads_from_columns = loads_from_columns
             @section_direction = section_direction
           end
 
@@ -39,52 +29,66 @@ module StructuraidCore
             Engineering::Locations::Absolute.new(
               value_x: moment_xx / total_load,
               value_y: moment_yy / total_load,
-              value_z: value_z_mean
+              value_z: loads_from_columns.first.location.value_z
             )
           end
 
-          def geometry
-            relativize_loads_from_columns
-            align_axis_1_whit_columns
+          def build_geometry(coordinates_system)
+            @coordinates_system = coordinates_system
+
+            coordinates_system.relative_locations.clear
+            relativize_loads
+
+            aligner_vector = coordinates_system.relative_locations.first.to_vector
+            coordinates_system.align_axis_1_with(vector: aligner_vector)
+            locations_with_edges = include_edges_location
+
+            coordinates_system.relative_locations.clear
+            locations_with_edges.each { |location| coordinates_system.add_location(location) }
+          end
+
+          def reaction_1
+            
           end
 
           private
 
-          attr_reader :footing, :section_direction, :loads_from_columns
+          attr_reader :footing, :section_direction, :loads_from_columns, :coordinates_system
 
-          def edge_relative_location(relative_location:)
-            vector_to_edge = Engineering::Vector.with_value(
-              value: section_length / 2,
-              direction: relative_location.to_vector.direction
-            )
+          def relativize_loads
+            centroid = absolute_centroid
 
-            Engineering::Locations::Relative.new(
-              value_1: vector_to_edge.value_i,
-              value_2: vector_to_edge.value_j,
-              value_3: vector_to_edge.value_k,
-              origin: relative_location.origin,
-              angle: relative_location.angle
-            )
-          end
-
-          def align_axis_1_whit_columns
-            relativize_loads_from_columns
-            aligner_vector = loads_from_columns.last.relative_location.to_vector
-
-            loads_from_columns.each do |load_from_column|
-              load_from_column.relative_location.align_axis_1_with(vector: aligner_vector)
-            end
-
-            loads_from_columns
-          end
-
-          def relativize_loads_from_columns
-            loads_from_columns.each do |load_from_column|
-              load_from_column.relative_location = Engineering::Locations::Relative.from_location_to_location(
-                from: absolute_centroid,
-                to: load_from_column.absolute_location
+            loads_from_columns.map do |load_from_column|
+              coordinates_system.add_location(
+                Engineering::Locations::Relative.from_matrix(
+                  load_from_column.location.to_matrix - centroid.to_matrix
+                )
               )
             end
+          end
+
+          def include_edges_location
+            [
+              Engineering::Locations::Relative.new(value_1: section_length / 2, value_2: 0, value_3: 0),
+              coordinates_system.relative_locations.first,
+              coordinates_system.relative_locations.last,
+              Engineering::Locations::Relative.new(value_1: -section_length / 2, value_2: 0, value_3: 0)
+            ]
+          end
+
+          def long_1
+            (coordinates_system.relative_locations[1].to_vector - coordinates_system.relative_locations[0].to_vector)
+              .magnitude
+          end
+
+          def long_2
+            (coordinates_system.relative_locations[2].to_vector - coordinates_system.relative_locations[1].to_vector)
+              .magnitude
+          end
+
+          def long_3
+            (coordinates_system.relative_locations[3].to_vector - coordinates_system.relative_locations[2].to_vector)
+              .magnitude
           end
 
           def section_length
@@ -101,18 +105,12 @@ module StructuraidCore
             total_load = 0
 
             loads_from_columns.each do |load_from_column|
-              moment_xx += load_from_column.value * load_from_column.absolute_location.value_x
-              moment_yy += load_from_column.value * load_from_column.absolute_location.value_y
+              moment_xx += load_from_column.value * load_from_column.location.value_x
+              moment_yy += load_from_column.value * load_from_column.location.value_y
               total_load += load_from_column.value
             end
 
             [moment_xx, moment_yy, total_load]
-          end
-
-          def value_z_mean
-            loads_from_columns.sum { |load_from_column|
-              load_from_column.absolute_location.value_z
-            } / loads_from_columns.size
           end
 
           def solicitation
