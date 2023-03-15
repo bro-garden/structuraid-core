@@ -19,8 +19,8 @@ RSpec.describe StructuraidCore::Engineering::Locations::Relative do
   end
 
   describe '#to_vector' do
-    it 'returns an StructuraidCore::Engineering::Vector' do
-      expect(relative.to_vector).to be_an_instance_of(StructuraidCore::Engineering::Vector)
+    it 'returns an Vector' do
+      expect(relative.to_vector).to be_an_instance_of(Vector)
     end
 
     it 'returns a vector with same components values as the relative location components' do

@@ -21,7 +21,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
       end
 
       describe 'when vector is parallel to axis 1 and same direction' do
-        let(:vector) { ::Vector[1.0, 0.0, 0.0] }
+        let(:vector) { Vector[1.0, 0.0, 0.0] }
 
         it 'updates axis 1' do
           expect(coord_system.axis_1.to_a).to eq([1.0, 0.0, 0.0])
@@ -36,7 +36,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
       end
 
       describe 'when vector is parallel to axis 2 and same direction' do
-        let(:vector) { ::Vector[0.0, 1.0, 0.0] }
+        let(:vector) { Vector[0.0, 1.0, 0.0] }
 
         it 'updates axis 1' do
           expect(coord_system.axis_1.to_a).to eq([0.0, 1.0, 0.0])
@@ -51,7 +51,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
       end
 
       describe 'when vector is parallel to axis 1 and oposite direction' do
-        let(:vector) { ::Vector[-1.0, 0.0, 0.0] }
+        let(:vector) { Vector[-1.0, 0.0, 0.0] }
 
         it 'updates axis 1' do
           expect(coord_system.axis_1.to_a).to eq([-1.0, 0.0, 0.0])
@@ -66,7 +66,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
       end
 
       describe 'when vector is parallel to axis 2 and oposite direction' do
-        let(:vector) { ::Vector[0.0, -1.0, 0.0] }
+        let(:vector) { Vector[0.0, -1.0, 0.0] }
 
         it 'updates axis 1' do
           expect(coord_system.axis_1.to_a).to eq([0.0, -1.0, 0.0])
@@ -82,7 +82,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
     end
 
     describe 'allign...' do
-      let(:vector_first_alignment) { ::Vector[value_1, value_2, 0.0] }
+      let(:vector_first_alignment) { Vector[value_1, value_2, 0.0] }
 
       before do
         coord_system.align_axis_1_with(vector: vector_first_alignment)
@@ -99,7 +99,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
       end
 
       describe 'add a location, and allign again' do
-        let(:vector_second_alignment) { ::Vector[1.0, 0.0, 0.0] }
+        let(:vector_second_alignment) { Vector[1.0, 0.0, 0.0] }
 
         before do
           coord_system.align_axis_1_with(vector: vector_second_alignment)

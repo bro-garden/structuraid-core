@@ -37,7 +37,7 @@ module StructuraidCore
         end
 
         def to_vector
-          Engineering::Vector.from_matrix(to_matrix)
+          Vector[ value_1, value_2, value_3 ]
         end
       end
     end

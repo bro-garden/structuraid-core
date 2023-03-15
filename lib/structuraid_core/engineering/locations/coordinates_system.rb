@@ -9,8 +9,8 @@ module StructuraidCore
         def initialize(anchor_location:, relative_locations: [])
           @anchor_location = anchor_location
           @relative_locations = relative_locations
-          @axis_1 = ::Vector[1.0, 0.0, 0.0]
-          @axis_3 = ::Vector[0.0, 0.0, 1.0]
+          @axis_1 = Vector[1.0, 0.0, 0.0]
+          @axis_3 = Vector[0.0, 0.0, 1.0]
         end
 
         def align_axis_1_with(vector:)
