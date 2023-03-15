@@ -4,59 +4,49 @@ module StructuraidCore
   module Engineering
     module Locations
       class CoordinatesSystem < Base
-        attr_reader :relative_locations, :axis_1, :axis_2
+        attr_reader :relative_locations, :axis_1
 
-        def initialize(anchor_location:)
+        def initialize(anchor_location:, relative_locations: [])
           @anchor_location = anchor_location
-          @relative_locations = []
+          @relative_locations = relative_locations
           @axis_1 = ::Vector[1.0, 0.0, 0.0]
-          @axis_2 = ::Vector[0.0, 1.0, 0.0]
+          @axis_3 = ::Vector[0.0, 0.0, 1.0]
         end
 
         def align_axis_1_with(vector:)
-          align_axis_1_with_global_x unless theta.zero?
+          unitary_vector = vector.normalize
 
-          @theta = Math.atan2(vector.value_j, vector.value_i)
-          relative_locations.each { |relative_location| rotate_axes(relative_location:) }
-        end
-
-        def align_axis_1_with_global_x
-          theta if theta.zero?
-
-          relative_locations.each { |relative_location| rotate_axes(relative_location:, to_global: true) }
-          @theta = 0.0
+          relative_locations.each { |relative_location| rotate_axes(relative_location, theta(unitary_vector)) }
+          @axis_1 = unitary_vector
         end
 
         def add(relative_location:)
           @relative_locations << relative_location
         end
 
-        def axis_3
-          axis_1.cross_product axis_2
+        def axis_2
+          axis_3.cross_product axis_1
         end
 
         private
 
-        attr_reader :theta
+        attr_reader :axis_3
 
-        def rotate_axes(relative_location:, to_global: false)
-          transformer = to_global ? transformer_matrix_relative_to_global : transformer_matrix_global_to_relative
-          transformed = transformer * relative_location.to_matrix
+        def theta(unitary_vector)
+          return Math.acos(axis_1.inner_product(unitary_vector)) if axis_1.cross_product(unitary_vector)[2].zero?
+
+          Math.asin(axis_1.cross_product(unitary_vector)[2]) 
+        end
+
+        def rotate_axes(relative_location, theta)
+          transformed = rotation_matrix(theta) * relative_location.to_matrix
           relative_location.update_from_matrix(transformed)
         end
 
-        def transformer_matrix_global_to_relative
+        def rotation_matrix(theta)
           Matrix[
             [Math.cos(theta), Math.sin(theta), 0.0],
             [-Math.sin(theta), Math.cos(theta), 0.0],
-            [0.0, 0.0, 1.0]
-          ]
-        end
-
-        def transformer_matrix_relative_to_global
-          Matrix[
-            [Math.cos(theta), -Math.sin(theta), 0.0],
-            [Math.sin(theta), Math.cos(theta), 0.0],
             [0.0, 0.0, 1.0]
           ]
         end
