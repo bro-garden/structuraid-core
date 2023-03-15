@@ -1,6 +1,8 @@
 name: Ruby Gem
 
-on: [pull_request]
+on:
+  release:
+    types: [created]
 
 jobs:
   build:
@@ -22,14 +24,15 @@ jobs:
         echo "# frozen_string_literal: true
 
         module StructuraidCore
-          VERSION = '0.1.2'
+          VERSION = '${{ github.event.release.name }}'
         end" > lib/structuraid_core/version.rb
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       id: auto-commit-action
       with:
         skip_fetch: false
-        commit_message: Update Version
+        branch: main
+        commit_message: Bump version to ${{ github.event.release.name }}
 
     - name: Publish to RubyGems
       run: |
