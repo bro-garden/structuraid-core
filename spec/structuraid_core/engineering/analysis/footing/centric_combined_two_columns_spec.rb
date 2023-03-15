@@ -60,10 +60,18 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   end
 
   describe '#absolute_centroid' do
-    let(:expected_centroid) { StructuraidCore::Engineering::Locations::Absolute.new(value_x: 0, value_y: 3000, value_z: 0) }
+    let(:expected_centroid) do
+      StructuraidCore::Engineering::Locations::Absolute.new(
+        value_x: 0,
+        value_y: 3000,
+        value_z: 0
+      )
+    end
 
     it 'returns an Engineering::Locations::Absolute object' do
-      expect(centric_combined_footing.absolute_centroid).to be_an_instance_of(StructuraidCore::Engineering::Locations::Absolute)
+      expect(
+        centric_combined_footing.absolute_centroid
+      ).to be_an_instance_of(StructuraidCore::Engineering::Locations::Absolute)
     end
 
     it 'returns right centroif' do

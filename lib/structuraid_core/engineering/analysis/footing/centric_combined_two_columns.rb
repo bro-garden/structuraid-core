@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 module StructuraidCore
   module Engineering
     module Analysis
@@ -129,4 +128,3 @@ module StructuraidCore
     end
   end
 end
-# rubocop:enable Metrics/ClassLength
