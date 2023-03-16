@@ -10,7 +10,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     )
   end
 
-  let(:length_1) { 10000 }
+  let(:length_1) { 10_000 }
   let(:length_2) { 3000 }
   let(:height) { 250 }
   let(:cover_lateral) { 50 }
@@ -55,8 +55,9 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       )
     ]
   end
-  let(:lcs) { StructuraidCore::Engineering::Locations::CoordinatesSystem.new( anchor_location: centric_combined_footing.absolute_centroid) }
-
+  let(:lcs) do
+    StructuraidCore::Engineering::Locations::CoordinatesSystem.new(anchor_location: centric_combined_footing.absolute_centroid)
+  end
 
   describe '#solicitation_load' do
     let(:expected_solicitation) { loads_from_columns.sum(&:value) / length_1 }
@@ -109,5 +110,35 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       ).to eq([4000.0, 5000.0, 1000.0])
     end
     # rubocop:enable RSpec/ExampleLength
+  end
+
+  describe '#reaction_1' do
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    it 'returns right reaction 1' do
+      reactions = [
+        -loads_from_columns.first.value,
+        -loads_from_columns.last.value
+      ]
+      expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
+    end
+  end
+
+  describe '#reaction_2' do
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    it 'returns right reaction 2' do
+      reactions = [
+        -loads_from_columns.first.value,
+        -loads_from_columns.last.value
+      ]
+      expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
+    end
   end
 end

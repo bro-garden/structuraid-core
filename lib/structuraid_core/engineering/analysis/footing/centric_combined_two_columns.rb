@@ -47,8 +47,12 @@ module StructuraidCore
             locations_with_edges.each { |location| coordinates_system.add_location(location) }
           end
 
+          def reaction_2
+            (solicitation_load / 2 / long_2) * (long_1**2 - (long_2 + long_3)**2)
+          end
+
           def reaction_1
-            
+            -(solicitation * @footing.horizontal_area + reaction_2)
           end
 
           private
