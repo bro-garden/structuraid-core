@@ -3,8 +3,8 @@ module StructuraidCore
     module Analysis
       module Footing
         class CentricCombinedTwoColumns < Base
-          ORTHOGONALITIES = %i[length_1 length_2].freeze
 
+          include Utils::Data
           include Utils::TwoColumnsShearMomentum
 
           def initialize(footing:, loads_from_columns:, section_direction:)
@@ -15,10 +15,6 @@ module StructuraidCore
             @footing = footing
             @loads_from_columns = loads_from_columns
             @section_direction = section_direction
-          end
-
-          def solicitation_load
-            solicitation * orthogonal_length
           end
 
           def absolute_centroid
@@ -46,7 +42,7 @@ module StructuraidCore
           end
 
           def reaction_2
-            (solicitation_load / 2 / long_2) * (long_1**2 - (long_2 + long_3)**2)
+            (solicitation_load / 2 / long_stretch_2) * (long_stretch_1**2 - (long_stretch_2 + long_stretch_3)**2)
           end
 
           def reaction_1
@@ -78,27 +74,19 @@ module StructuraidCore
             ]
           end
 
-          def long_1
+          def long_stretch_1
             (coordinates_system.relative_locations[1].to_vector - coordinates_system.relative_locations[0].to_vector)
               .magnitude
           end
 
-          def long_2
+          def long_stretch_2
             (coordinates_system.relative_locations[2].to_vector - coordinates_system.relative_locations[1].to_vector)
               .magnitude
           end
 
-          def long_3
+          def long_stretch_3
             (coordinates_system.relative_locations[3].to_vector - coordinates_system.relative_locations[2].to_vector)
               .magnitude
-          end
-
-          def section_length
-            footing.public_send(section_direction)
-          end
-
-          def orthogonal_length
-            footing.public_send(orthogonal_direction)
           end
 
           def moment_and_load_totals
@@ -113,15 +101,6 @@ module StructuraidCore
             end
 
             [moment_xx, moment_yy, total_load]
-          end
-
-          def solicitation
-            loads_from_columns.sum(&:value) / @footing.horizontal_area
-          end
-
-          def orthogonal_direction
-            orthogonal = ORTHOGONALITIES - [@cut_direction]
-            orthogonal.last
           end
         end
       end

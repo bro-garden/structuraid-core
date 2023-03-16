@@ -5,7 +5,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   subject(:centric_combined_footing) do
     described_class.new(
       footing:,
-      loads_from_columns:,
+      loads_from_columns:,  
       section_direction:
     )
   end
@@ -105,9 +105,9 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     it 'updates longitudes' do
       expect(
         [
-          centric_combined_footing.send(:long_1).round(1),
-          centric_combined_footing.send(:long_2).round(1),
-          centric_combined_footing.send(:long_3).round(1)
+          centric_combined_footing.send(:long_stretch_1).round(1),
+          centric_combined_footing.send(:long_stretch_2).round(1),
+          centric_combined_footing.send(:long_stretch_3).round(1)
         ]
       ).to eq([4000.0, 5000.0, 1000.0])
     end
@@ -156,23 +156,23 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       end
     end
 
-    describe 'at x = long_1' do
+    describe 'at x = long_stretch_1' do
       it 'returns reaction_1 with left+right' do
-        shear_at_long_1 = centric_combined_footing.shear_at(centric_combined_footing.send(:long_1))
+        shear_at_long_1 = centric_combined_footing.shear_at(centric_combined_footing.send(:long_stretch_1))
         expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_1.abs)
       end
     end
 
-    describe 'at x = long_1 + long_2' do
+    describe 'at x = long_stretch_1 + long_stretch_2' do
       it 'returns reaction_2 with left+right' do
         shear_at_long_1 = centric_combined_footing.shear_at(
-          centric_combined_footing.send(:long_1) + centric_combined_footing.send(:long_2)
+          centric_combined_footing.send(:long_stretch_1) + centric_combined_footing.send(:long_stretch_2)
         )
         expect((shear_at_long_1[1] - shear_at_long_1[2]).abs).to eq(centric_combined_footing.reaction_2.abs)
       end
     end
 
-    describe 'at x = long_1 + long_2 + long_3' do
+    describe 'at x = long_stretch_1 + long_stretch_2 + long_stretch_3' do
       it 'returns reaction_2 with left+right' do
         expect(
           centric_combined_footing.shear_at(centric_combined_footing.send(:section_length))
