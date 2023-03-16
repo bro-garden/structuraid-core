@@ -56,7 +56,9 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     ]
   end
   let(:lcs) do
-    StructuraidCore::Engineering::Locations::CoordinatesSystem.new(anchor_location: centric_combined_footing.absolute_centroid)
+    StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
+      anchor_location: centric_combined_footing.absolute_centroid
+    )
   end
 
   describe '#solicitation_load' do
@@ -139,6 +141,43 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
         -loads_from_columns.last.value
       ]
       expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
+    end
+  end
+
+  describe '#shear_at' do
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    describe 'at x = 0' do
+      it 'returns 0' do
+        expect(centric_combined_footing.shear_at(0)).to eq([0.0, 0.0, 0.0])
+      end
+    end
+
+    describe 'at x = long_1' do
+      it 'returns reaction_1 with left+right' do
+        shear_at_long_1 = centric_combined_footing.shear_at(centric_combined_footing.send(:long_1))
+        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_1.abs)
+      end
+    end
+
+    describe 'at x = long_1 + long_2' do
+      it 'returns reaction_2 with left+right' do
+        shear_at_long_1 = centric_combined_footing.shear_at(
+          centric_combined_footing.send(:long_1) + centric_combined_footing.send(:long_2)
+        )
+        expect((shear_at_long_1[1] - shear_at_long_1[2]).abs).to eq(centric_combined_footing.reaction_2.abs)
+      end
+    end
+
+    describe 'at x = long_1 + long_2 + long_3' do
+      it 'returns reaction_2 with left+right' do
+        expect(
+          centric_combined_footing.shear_at(centric_combined_footing.send(:section_length))
+        ).to eq([0.0, 0.0, 0.0])
+      end
     end
   end
 end

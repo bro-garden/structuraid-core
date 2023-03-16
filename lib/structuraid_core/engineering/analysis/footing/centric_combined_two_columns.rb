@@ -5,6 +5,8 @@ module StructuraidCore
         class CentricCombinedTwoColumns < Base
           ORTHOGONALITIES = %i[length_1 length_2].freeze
 
+          include Utils::TwoColumnsShearMomentum
+
           def initialize(footing:, loads_from_columns:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
               raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
@@ -17,10 +19,6 @@ module StructuraidCore
 
           def solicitation_load
             solicitation * orthogonal_length
-          end
-
-          def shear
-            geometry
           end
 
           def absolute_centroid

@@ -9,5 +9,6 @@ module StructuraidCore
   end
 end
 
+require_relative 'utils/two_columns_shear_momentum'
 require_relative 'centric_isolated'
 require_relative 'centric_combined_two_columns'
