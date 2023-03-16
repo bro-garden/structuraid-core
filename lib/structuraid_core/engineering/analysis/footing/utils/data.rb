@@ -26,7 +26,7 @@ module StructuraidCore
             end
 
             def solicitation
-              loads_from_columns.sum(&:value) / @footing.horizontal_area
+              -loads_from_columns.sum(&:value) / @footing.horizontal_area
             end
           end
         end

@@ -57,10 +57,10 @@ module StructuraidCore
 
           def include_edges_location
             [
-              Engineering::Locations::Relative.new(value_1: section_length / 2, value_2: 0, value_3: 0),
-              coordinates_system.relative_locations.first,
+              Engineering::Locations::Relative.new(value_1: -section_length / 2, value_2: 0, value_3: 0),
               coordinates_system.relative_locations.last,
-              Engineering::Locations::Relative.new(value_1: -section_length / 2, value_2: 0, value_3: 0)
+              coordinates_system.relative_locations.first,
+              Engineering::Locations::Relative.new(value_1: section_length / 2, value_2: 0, value_3: 0)
             ]
           end
 

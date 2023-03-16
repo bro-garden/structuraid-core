@@ -30,6 +30,14 @@ module StructuraidCore
               moment
             end
 
+            def maximum_moment
+              moment_at(moment_inflection_point)
+            end
+
+            def moment_inflection_point
+              -reaction_1 / solicitation_load
+            end
+
             private
 
             def shear_stretch_1(x_distance)
@@ -62,11 +70,15 @@ module StructuraidCore
               0.5 * solicitation_load * x_distance**2 + reaction_1 * (x_distance - long_stretch_1)
             end
 
+            # rubocop:disable Metrics/AbcSize
             def moment_stretch_3(x_distance)
               return 0.0 if x_distance < long_stretch_1 + long_stretch_2
 
-              0.5 * solicitation_load * x_distance**2 + reaction_2 * (x_distance - long_stretch_1 - long_stretch_2)
+              reaction_1_moment = reaction_1 * (x_distance - long_stretch_1)
+              reaction_2_moment = reaction_2 * (x_distance - long_stretch_1 - long_stretch_2)
+              0.5 * solicitation_load * x_distance**2 + reaction_1_moment + reaction_2_moment
             end
+            # rubocop:enable Metrics/AbcSize
           end
         end
       end

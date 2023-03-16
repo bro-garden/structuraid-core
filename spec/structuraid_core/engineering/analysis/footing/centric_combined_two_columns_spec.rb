@@ -38,17 +38,17 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   let(:loads_from_columns) do
     [
       StructuraidCore::Loads::PointLoad.new(
-        value: 40_000,
+        value: -40_000,
         location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: 0,
+          value_x: 1000,
           value_y: 4000,
           value_z: 0
         )
       ),
       StructuraidCore::Loads::PointLoad.new(
-        value: 10_000,
+        value: -10_000,
         location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: 0,
+          value_x: 1000,
           value_y: -1000,
           value_z: 0
         )
@@ -62,17 +62,17 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   end
 
   describe '#solicitation_load' do
-    let(:expected_solicitation) { loads_from_columns.sum(&:value) / length_1 }
+    let(:expected_solicitation) { 5.00 }
 
     it 'returns the right solicitation on the food' do
-      expect(centric_combined_footing.solicitation_load).to be(expected_solicitation)
+      expect(centric_combined_footing.solicitation_load.round(2)).to be(expected_solicitation)
     end
   end
 
   describe '#absolute_centroid' do
     let(:expected_centroid) do
       StructuraidCore::Engineering::Locations::Absolute.new(
-        value_x: 0,
+        value_x: 1000,
         value_y: 3000,
         value_z: 0
       )
@@ -109,7 +109,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
           centric_combined_footing.send(:long_stretch_2).round(1),
           centric_combined_footing.send(:long_stretch_3).round(1)
         ]
-      ).to eq([4000.0, 5000.0, 1000.0])
+      ).to eq([1000.0, 5000.0, 4000.0])
     end
     # rubocop:enable RSpec/ExampleLength
   end
@@ -122,8 +122,8 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
 
     it 'returns right reaction 1' do
       reactions = [
-        -loads_from_columns.first.value,
-        -loads_from_columns.last.value
+        loads_from_columns.first.value,
+        loads_from_columns.last.value
       ]
       expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
     end
@@ -137,8 +137,8 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
 
     it 'returns right reaction 2' do
       reactions = [
-        -loads_from_columns.first.value,
-        -loads_from_columns.last.value
+        loads_from_columns.first.value,
+        loads_from_columns.last.value
       ]
       expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
     end
@@ -178,6 +178,82 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
           centric_combined_footing.shear_at(centric_combined_footing.send(:section_length))
         ).to eq([0.0])
       end
+    end
+  end
+
+  describe '#moment_at' do
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    describe 'at x = 0' do
+      it 'returns 0' do
+        expect(centric_combined_footing.moment_at(0)).to eq([0.0])
+      end
+    end
+
+    describe 'at x = long_stretch_1' do
+      let(:expected_moment) { 2_500_000 }
+
+      it 'returns the same value left and right of x' do
+        resulting_moment = centric_combined_footing.moment_at(centric_combined_footing.send(:long_stretch_1))
+        expect(resulting_moment.all? { |moment| moment == expected_moment }).to eq(true)
+      end
+    end
+
+    describe 'at x = long_stretch_1 + long_stretch_2' do
+      let(:expected_moment) { 40_000_000 }
+
+      it 'returns the same value left and right of x' do
+        resulting_moment = centric_combined_footing.moment_at(
+          centric_combined_footing.send(:long_stretch_1) + centric_combined_footing.send(:long_stretch_2)
+        )
+        expect(resulting_moment.all? { |moment| moment == expected_moment }).to eq(true)
+      end
+    end
+
+    describe 'at x = long_stretch_1 + long_stretch_2 + long_stretch_3' do
+      it 'returns reaction_2 with left+right' do
+        expect(
+          centric_combined_footing.moment_at(centric_combined_footing.send(:section_length))
+        ).to eq([0.0])
+      end
+    end
+  end
+
+  describe '#moment_inflection_point' do
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    it 'returns rigth distance, from first border of the footing' do
+      expect(
+        centric_combined_footing.moment_inflection_point
+      ).to eq(-centric_combined_footing.reaction_1 / centric_combined_footing.solicitation_load)
+    end
+  end
+
+  describe '#maximum_moment' do
+    let(:point_of_maximum_moment) { centric_combined_footing.moment_inflection_point }
+    let(:expect_result) do
+      [
+        centric_combined_footing.moment_at(point_of_maximum_moment * 0.90)[0],
+        centric_combined_footing.maximum_moment[0],
+        centric_combined_footing.moment_at(point_of_maximum_moment * 1.10)[0]
+      ]
+    end
+
+    before do
+      footing.add_coordinates_system(lcs)
+      centric_combined_footing.build_geometry(footing.coordinates_system)
+    end
+
+    it 'returns rigth distance, from first border of the footing' do
+      expect(
+        expect_result[0] > expect_result[1] && expect_result[1] < expect_result[2]
+      ).to be(true)
     end
   end
 end
