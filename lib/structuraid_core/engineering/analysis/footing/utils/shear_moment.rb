@@ -3,25 +3,31 @@ module StructuraidCore
     module Analysis
       module Footing
         module Utils
-          module TwoColumnsShearMomentum
+          module ShearMoment
             def shear_at(x_distance)
               return [] if x_distance > section_length || x_distance.negative?
 
-              [
+              shear = [
                 shear_stretch_1(x_distance),
                 shear_stretch_2(x_distance),
                 shear_stretch_3(x_distance)
-              ]
+              ].select(&:nonzero?)
+              return [0] if shear.empty?
+
+              shear
             end
 
             def moment_at(x_distance)
               return [] if x_distance > section_length
 
-              [
+              moment = [
                 moment_stretch_1(x_distance),
                 moment_stretch_2(x_distance),
                 moment_stretch_3(x_distance)
-              ]
+              ].select(&:nonzero?)
+              return [0] if moment.empty?
+
+              moment
             end
 
             private

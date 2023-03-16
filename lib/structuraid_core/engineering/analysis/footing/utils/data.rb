@@ -15,7 +15,7 @@ module StructuraidCore
             def section_length
               footing.public_send(section_direction)
             end
-  
+
             def orthogonal_length
               footing.public_send(orthogonal_direction)
             end

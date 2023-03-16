@@ -3,9 +3,9 @@ module StructuraidCore
     module Analysis
       module Footing
         class CentricCombinedTwoColumns < Base
-
           include Utils::Data
-          include Utils::TwoColumnsShearMomentum
+          include Utils::Centroid
+          include Utils::ShearMoment
 
           def initialize(footing:, loads_from_columns:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
@@ -15,16 +15,6 @@ module StructuraidCore
             @footing = footing
             @loads_from_columns = loads_from_columns
             @section_direction = section_direction
-          end
-
-          def absolute_centroid
-            moment_xx, moment_yy, total_load = *moment_and_load_totals
-
-            Engineering::Locations::Absolute.new(
-              value_x: moment_xx / total_load,
-              value_y: moment_yy / total_load,
-              value_z: loads_from_columns.first.location.value_z
-            )
           end
 
           def build_geometry(coordinates_system)
@@ -41,12 +31,12 @@ module StructuraidCore
             locations_with_edges.each { |location| coordinates_system.add_location(location) }
           end
 
-          def reaction_2
-            (solicitation_load / 2 / long_stretch_2) * (long_stretch_1**2 - (long_stretch_2 + long_stretch_3)**2)
-          end
-
           def reaction_1
             -(solicitation * @footing.horizontal_area + reaction_2)
+          end
+
+          def reaction_2
+            (solicitation_load / 2 / long_stretch_2) * (long_stretch_1**2 - (long_stretch_2 + long_stretch_3)**2)
           end
 
           private
@@ -87,20 +77,6 @@ module StructuraidCore
           def long_stretch_3
             (coordinates_system.relative_locations[3].to_vector - coordinates_system.relative_locations[2].to_vector)
               .magnitude
-          end
-
-          def moment_and_load_totals
-            moment_xx = 0
-            moment_yy = 0
-            total_load = 0
-
-            loads_from_columns.each do |load_from_column|
-              moment_xx += load_from_column.value * load_from_column.location.value_x
-              moment_yy += load_from_column.value * load_from_column.location.value_y
-              total_load += load_from_column.value
-            end
-
-            [moment_xx, moment_yy, total_load]
           end
         end
       end

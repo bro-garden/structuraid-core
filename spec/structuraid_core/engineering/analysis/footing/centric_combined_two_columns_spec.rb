@@ -5,7 +5,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   subject(:centric_combined_footing) do
     described_class.new(
       footing:,
-      loads_from_columns:,  
+      loads_from_columns:,
       section_direction:
     )
   end
@@ -152,7 +152,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
 
     describe 'at x = 0' do
       it 'returns 0' do
-        expect(centric_combined_footing.shear_at(0)).to eq([0.0, 0.0, 0.0])
+        expect(centric_combined_footing.shear_at(0)).to eq([0.0])
       end
     end
 
@@ -168,7 +168,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
         shear_at_long_1 = centric_combined_footing.shear_at(
           centric_combined_footing.send(:long_stretch_1) + centric_combined_footing.send(:long_stretch_2)
         )
-        expect((shear_at_long_1[1] - shear_at_long_1[2]).abs).to eq(centric_combined_footing.reaction_2.abs)
+        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_2.abs)
       end
     end
 
@@ -176,7 +176,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       it 'returns reaction_2 with left+right' do
         expect(
           centric_combined_footing.shear_at(centric_combined_footing.send(:section_length))
-        ).to eq([0.0, 0.0, 0.0])
+        ).to eq([0.0])
       end
     end
   end
