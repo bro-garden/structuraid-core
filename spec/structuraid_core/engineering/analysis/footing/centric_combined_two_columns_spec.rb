@@ -92,6 +92,10 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   end
 
   describe '#build_geometry' do
+    let(:long_stretch_1) { centric_combined_footing.send(:long_stretch_1).round(1) }
+    let(:long_stretch_2) { centric_combined_footing.send(:long_stretch_2).round(1) }
+    let(:long_stretch_3) { centric_combined_footing.send(:long_stretch_3).round(1) }
+  
     before do
       footing.add_coordinates_system(lcs)
       centric_combined_footing.build_geometry(footing.coordinates_system)
@@ -101,17 +105,9 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       expect(footing.coordinates_system.relative_locations.count).to eq(4)
     end
 
-    # rubocop:disable RSpec/ExampleLength
     it 'updates longitudes' do
-      expect(
-        [
-          centric_combined_footing.send(:long_stretch_1).round(1),
-          centric_combined_footing.send(:long_stretch_2).round(1),
-          centric_combined_footing.send(:long_stretch_3).round(1)
-        ]
-      ).to eq([1000.0, 5000.0, 4000.0])
+      expect([long_stretch_1, long_stretch_2, long_stretch_3]).to eq([1000.0, 5000.0, 4000.0])
     end
-    # rubocop:enable RSpec/ExampleLength
   end
 
   describe '#reaction_1' do
