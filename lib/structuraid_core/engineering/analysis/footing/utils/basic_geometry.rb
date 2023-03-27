@@ -3,7 +3,7 @@ module StructuraidCore
     module Analysis
       module Footing
         module Utils
-          module Data
+          module BasicGeometry
             ORTHOGONALITIES = %i[length_1 length_2].freeze
 
             def solicitation_load

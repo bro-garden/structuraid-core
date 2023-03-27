@@ -9,8 +9,9 @@ module StructuraidCore
   end
 end
 
-require_relative 'utils/data'
+require_relative 'utils/basic_geometry'
 require_relative 'utils/centroid'
-require_relative 'utils/shear_moment'
+require_relative 'utils/one_way_shear'
+require_relative 'utils/one_way_moment'
 require_relative 'centric_isolated'
 require_relative 'centric_combined_two_columns'
