@@ -22,7 +22,7 @@ module StructuraidCore
             end
 
             def moment_inflection_point
-              -reaction_1 / solicitation_load
+              -reaction_at_first_column / solicitation_load
             end
 
             private
@@ -36,7 +36,7 @@ module StructuraidCore
             def moment_stretch_2(x_distance)
               return 0.0 if x_distance < long_border_to_first_column || x_distance > long_border_to_first_column + long_first_column_to_second_column
 
-              0.5 * solicitation_load * x_distance**2 + reaction_1 * (x_distance - long_border_to_first_column)
+              0.5 * solicitation_load * x_distance**2 + reaction_at_first_column * (x_distance - long_border_to_first_column)
             end
 
             def moment_stretch_3(x_distance)
@@ -46,11 +46,11 @@ module StructuraidCore
             end
 
             def reaction_1_moment(x_distance)
-              reaction_1 * (x_distance - long_border_to_first_column)
+              reaction_at_first_column * (x_distance - long_border_to_first_column)
             end
 
             def reaction_2_moment(x_distance)
-              reaction_2 * (x_distance - long_border_to_first_column - long_first_column_to_second_column)
+              reaction_at_second_column * (x_distance - long_border_to_first_column - long_first_column_to_second_column)
             end
           end
         end

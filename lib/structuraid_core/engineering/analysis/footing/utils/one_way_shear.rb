@@ -28,13 +28,13 @@ module StructuraidCore
             def shear_stretch_2(x_distance)
               return 0.0 if x_distance < long_border_to_first_column || x_distance > long_border_to_first_column + long_first_column_to_second_column
 
-              -reaction_1 - solicitation_load * x_distance
+              -reaction_at_first_column - solicitation_load * x_distance
             end
 
             def shear_stretch_3(x_distance)
               return 0.0 if x_distance < long_border_to_first_column + long_first_column_to_second_column
 
-              -reaction_2 - reaction_1 - solicitation_load * x_distance
+              -reaction_at_second_column - reaction_at_first_column - solicitation_load * x_distance
             end
           end
         end

@@ -32,11 +32,11 @@ module StructuraidCore
             include_edges_locations_to_coordinates_system
           end
 
-          def reaction_1
-            -(solicitation * @footing.horizontal_area + reaction_2)
+          def reaction_at_first_column
+            -(solicitation * @footing.horizontal_area + reaction_at_second_column)
           end
 
-          def reaction_2
+          def reaction_at_second_column
             (solicitation_load / 2 / long_first_column_to_second_column) * (long_border_to_first_column**2 - (long_first_column_to_second_column + long_second_column_to_border)**2)
           end
 

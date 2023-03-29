@@ -114,7 +114,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     end
   end
 
-  describe '#reaction_1' do
+  describe '#reaction_at_first_column' do
     before do
       footing.add_coordinates_system(lcs)
       centric_combined_footing.build_geometry
@@ -125,11 +125,11 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
         loads_from_columns.first.value,
         loads_from_columns.last.value
       ]
-      expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
+      expect(reactions.include?(centric_combined_footing.reaction_at_first_column.round(1))).to be(true)
     end
   end
 
-  describe '#reaction_2' do
+  describe '#reaction_at_second_column' do
     before do
       footing.add_coordinates_system(lcs)
       centric_combined_footing.build_geometry
@@ -140,7 +140,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
         loads_from_columns.first.value,
         loads_from_columns.last.value
       ]
-      expect(reactions.include?(centric_combined_footing.reaction_1.round(1))).to be(true)
+      expect(reactions.include?(centric_combined_footing.reaction_at_first_column.round(1))).to be(true)
     end
   end
 
@@ -157,23 +157,23 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     end
 
     describe 'at x = long_border_to_first_column' do
-      it 'returns reaction_1 with left+right' do
+      it 'returns reaction_at_first_column with left+right' do
         shear_at_long_1 = centric_combined_footing.shear_at(centric_combined_footing.send(:long_border_to_first_column))
-        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_1.abs)
+        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_at_first_column.abs)
       end
     end
 
     describe 'at x = long_border_to_first_column + long_first_column_to_second_column' do
-      it 'returns reaction_2 with left+right' do
+      it 'returns reaction_at_second_column with left+right' do
         shear_at_long_1 = centric_combined_footing.shear_at(
           centric_combined_footing.send(:long_border_to_first_column) + centric_combined_footing.send(:long_first_column_to_second_column)
         )
-        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_2.abs)
+        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_at_second_column.abs)
       end
     end
 
     describe 'at x = long_border_to_first_column + long_first_column_to_second_column + long_second_column_to_border' do
-      it 'returns reaction_2 with left+right' do
+      it 'returns reaction_at_second_column with left+right' do
         expect(
           centric_combined_footing.shear_at(centric_combined_footing.send(:section_length))
         ).to eq([0.0])
@@ -223,7 +223,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     end
 
     describe 'at x = long_border_to_first_column + long_first_column_to_second_column + long_second_column_to_border' do
-      it 'returns reaction_2 with left+right' do
+      it 'returns reaction_at_second_column with left+right' do
         expect(
           centric_combined_footing.moment_at(centric_combined_footing.send(:section_length))
         ).to eq([0.0])
@@ -240,7 +240,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     it 'returns rigth distance, from first border of the footing' do
       expect(
         centric_combined_footing.moment_inflection_point
-      ).to eq(-centric_combined_footing.reaction_1 / centric_combined_footing.solicitation_load)
+      ).to eq(-centric_combined_footing.reaction_at_first_column / centric_combined_footing.solicitation_load)
     end
   end
 
