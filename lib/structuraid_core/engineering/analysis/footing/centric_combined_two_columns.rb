@@ -37,7 +37,11 @@ module StructuraidCore
           end
 
           def reaction_at_second_column
-            (solicitation_load / 2 / long_first_column_to_second_column) * (long_border_to_first_column**2 - (long_first_column_to_second_column + long_second_column_to_border)**2)
+            long_1 = long_border_to_first_column
+            long_2 = long_first_column_to_second_column
+            long_3 = long_second_column_to_border
+
+            (solicitation_load / 2 / long_2) * (long_1**2 - (long_2 + long_3)**2)
           end
 
           private
