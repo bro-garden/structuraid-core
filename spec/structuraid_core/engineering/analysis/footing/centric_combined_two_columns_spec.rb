@@ -93,7 +93,9 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
 
   describe '#build_geometry' do
     let(:long_border_to_first_column) { centric_combined_footing.send(:long_border_to_first_column).round(1) }
-    let(:long_first_column_to_second_column) { centric_combined_footing.send(:long_first_column_to_second_column).round(1) }
+    let(:long_first_column_to_second_column) do
+      centric_combined_footing.send(:long_first_column_to_second_column).round(1)
+    end
     let(:long_second_column_to_border) { centric_combined_footing.send(:long_second_column_to_border).round(1) }
 
     before do
@@ -157,18 +159,23 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     end
 
     describe 'at x = long_border_to_first_column' do
+      let(:long_1) { centric_combined_footing.send(:long_border_to_first_column) }
+      let(:first_column_reaction) { centric_combined_footing.reaction_at_first_column.abs }
+
       it 'returns reaction_at_first_column with left+right' do
-        shear_at_long_1 = centric_combined_footing.shear_at(centric_combined_footing.send(:long_border_to_first_column))
-        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_at_first_column.abs)
+        shear_at_long_1 = centric_combined_footing.shear_at(long_1)
+        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(first_column_reaction)
       end
     end
 
     describe 'at x = long_border_to_first_column + long_first_column_to_second_column' do
+      let(:long_1) { centric_combined_footing.send(:long_border_to_first_column) }
+      let(:long_2) { centric_combined_footing.send(:long_first_column_to_second_column) }
+      let(:second_column_reaction) { centric_combined_footing.reaction_at_second_column.abs }
+
       it 'returns reaction_at_second_column with left+right' do
-        shear_at_long_1 = centric_combined_footing.shear_at(
-          centric_combined_footing.send(:long_border_to_first_column) + centric_combined_footing.send(:long_first_column_to_second_column)
-        )
-        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(centric_combined_footing.reaction_at_second_column.abs)
+        shear_at_long_1 = centric_combined_footing.shear_at(long_1 + long_2)
+        expect((shear_at_long_1[0] - shear_at_long_1[1]).abs).to eq(second_column_reaction)
       end
     end
 
