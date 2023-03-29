@@ -34,9 +34,11 @@ module StructuraidCore
             end
 
             def moment_stretch_2(x_distance)
-              return 0.0 if x_distance < long_border_to_first_column || x_distance > long_border_to_first_column + long_first_column_to_second_column
+              long_1 = long_border_to_first_column
+              long_2 = long_first_column_to_second_column
+              return 0.0 if x_distance < long_1 || x_distance > long_1 + long_2
 
-              0.5 * solicitation_load * x_distance**2 + reaction_at_first_column * (x_distance - long_border_to_first_column)
+              0.5 * solicitation_load * x_distance**2 + reaction_at_first_column * (x_distance - long_1)
             end
 
             def moment_stretch_3(x_distance)
@@ -50,7 +52,8 @@ module StructuraidCore
             end
 
             def reaction_2_moment(x_distance)
-              reaction_at_second_column * (x_distance - long_border_to_first_column - long_first_column_to_second_column)
+              long_2 = long_first_column_to_second_column
+              reaction_at_second_column * (x_distance - long_border_to_first_column - long_2)
             end
           end
         end
