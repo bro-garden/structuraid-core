@@ -38,6 +38,15 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinfor
           expect(result.round(4)).to eq(expected_ratio)
         end
       end
+
+      describe 'when flexural moment is 713306.25 N*m' do
+        let(:flexural_moment) { 713306.25 }
+        let(:expected_ratio) { 0.0039 }
+
+        it 'returns right ratio' do
+          expect(result.round(4)).to eq(expected_ratio)
+        end
+      end
     end
   end
 end
