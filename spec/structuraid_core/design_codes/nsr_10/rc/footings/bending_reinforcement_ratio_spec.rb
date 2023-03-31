@@ -48,6 +48,36 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinfor
         end
       end
     end
+
+    describe 'when concrete is 42MPa' do
+      let(:design_compression_strength) { 42_000_000 } # N/(m**2)
+
+      describe 'when flexural moment is small' do
+        let(:flexural_moment) { 50 } # N*m
+        
+        it 'returns minimal ratio' do
+          expect(result).to eq(StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinforcementRatio::MINIMUM_RATIO)
+        end
+      end
+      
+      describe 'when flexural moment is 3558431.25 N*m' do
+        let(:flexural_moment) { 3558431.25 }
+        let(:expected_ratio) { 0.0213 }
+
+        it 'returns right ratio' do
+          expect(result.round(4)).to eq(expected_ratio)
+        end
+      end
+
+      describe 'when flexural moment is 1107675.0 N*m' do
+        let(:flexural_moment) { 1107675.0 }
+        let(:expected_ratio) { 0.0060 }
+
+        it 'returns right ratio' do
+          expect(result.round(4)).to eq(expected_ratio)
+        end
+      end
+    end
   end
 end
 # rubocop:enable RSpec/FilePath
