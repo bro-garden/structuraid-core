@@ -21,8 +21,6 @@ module StructuraidCore
           end
 
           def build_geometry
-            coordinates_system = footing.coordinates_system
-
             coordinates_system.clear_locations
             relativize_loads
 
@@ -48,11 +46,15 @@ module StructuraidCore
 
           attr_reader :footing, :section_direction, :loads_from_columns
 
+          def coordinates_system
+            footing.coordinates_system
+          end
+
           def relativize_loads
             centroid = absolute_centroid
 
             loads_from_columns.map do |load_from_column|
-              footing.coordinates_system.add_location(
+              coordinates_system.add_location(
                 Engineering::Locations::Relative.from_matrix(
                   load_from_column.location.to_matrix - centroid.to_matrix
                 )
@@ -61,30 +63,27 @@ module StructuraidCore
           end
 
           def include_edges_locations_to_coordinates_system
-            footing.coordinates_system.prepend_location(
+            coordinates_system.prepend_location(
               Engineering::Locations::Relative.new(value_1: -section_length / 2, value_2: 0, value_3: 0)
             )
-            footing.coordinates_system.append_location(
+            coordinates_system.append_location(
               Engineering::Locations::Relative.new(value_1: section_length / 2, value_2: 0, value_3: 0)
             )
 
-            footing.coordinates_system
+            coordinates_system
           end
 
           def long_border_to_first_column
-            coordinates_system = footing.coordinates_system
             (coordinates_system.relative_locations[1].to_vector - coordinates_system.relative_locations[0].to_vector)
               .magnitude
           end
 
           def long_first_column_to_second_column
-            coordinates_system = footing.coordinates_system
             (coordinates_system.relative_locations[2].to_vector - coordinates_system.relative_locations[1].to_vector)
               .magnitude
           end
 
           def long_second_column_to_border
-            coordinates_system = footing.coordinates_system
             (coordinates_system.relative_locations[3].to_vector - coordinates_system.relative_locations[2].to_vector)
               .magnitude
           end
