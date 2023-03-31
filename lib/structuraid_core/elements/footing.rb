@@ -5,7 +5,8 @@ module StructuraidCore
       attr_reader :longitudinal_top_reinforcement_length_1,
                   :longitudinal_bottom_reinforcement_length_1,
                   :longitudinal_top_reinforcement_length_2,
-                  :longitudinal_bottom_reinforcement_length_2
+                  :longitudinal_bottom_reinforcement_length_2,
+                  :coordinates_system
 
       VALID_SECTIONS = %i[length_1 length_2].freeze
 
@@ -47,6 +48,10 @@ module StructuraidCore
         when :length_2
           length_2_section_effective_area(above_middle:)
         end
+      end
+
+      def add_coordinates_system(coordinates_system)
+        @coordinates_system = coordinates_system
       end
 
       private
