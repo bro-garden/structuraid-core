@@ -19,7 +19,7 @@ module StructuraidCore
 
             private
 
-            ## the target is to solve [(-1 - sqrt(1 - 4ac))/2a, (-1 + sqrt(1 - 4ac))/2a]
+            ## the target is to solve [(1 - sqrt(1 - 4ac))/2a, (1 + sqrt(1 - 4ac))/2a]
 
             def solve_cuadratic_equation_for_steel_reinforcement_ratio
               [
@@ -29,11 +29,11 @@ module StructuraidCore
             end
 
             def equation_solver_option_1
-              (-1 - equation_component_root) / (2 * equation_component_a)
+              (1 - equation_component_root) / (2 * equation_component_a)
             end
 
             def equation_solver_option_2
-              (-1 + equation_component_root) / (2 * equation_component_a)
+              (1 + equation_component_root) / (2 * equation_component_a)
             end
 
             def equation_component_a
@@ -41,9 +41,9 @@ module StructuraidCore
             end
 
             def equation_component_c
-              flexural_moment / (
-                capacity_reduction_factor * design_steel_yield_strength * width * (effective_height**2)
-              )
+              section_area = width * effective_height # m**2
+              reduced_steel_strength = capacity_reduction_factor * design_steel_yield_strength # N/(m**2)
+              flexural_moment / (reduced_steel_strength * section_area * effective_height) # N/(m**2)
             end
 
             def equation_component_root
