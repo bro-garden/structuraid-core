@@ -5,6 +5,7 @@ module StructuraidCore
         module Footings
           class BendingReinforcementRatio
             MINIMUM_RATIO = 0.0025
+            CODE_REFERENCE = 'NSR-10 C.10'.freeze
 
             include DesignCodes::Utils::CodeRequirement
             use_schema DesignCodes::Schemas::RC::Footings::BendingReinforcementRatioSchema
@@ -47,6 +48,14 @@ module StructuraidCore
             end
 
             def equation_component_root
+              unless 4 * equation_component_a * equation_component_c < 1
+                raise RequirementNotFulfilledError.new(
+                  :flexural_moment,
+                  "Moment #{flexural_moment} is to hight for this element",
+                  CODE_REFERENCE
+                )
+              end
+
               Math.sqrt(1 - 4 * equation_component_a * equation_component_c)
             end
           end
