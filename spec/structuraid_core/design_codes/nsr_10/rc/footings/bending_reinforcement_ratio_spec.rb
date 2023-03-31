@@ -24,9 +24,18 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinfor
 
       describe 'when flexural moment is small' do
         let(:flexural_moment) { 50 } # N*m
-  
+        
         it 'returns minimal ratio' do
           expect(result).to eq(StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinforcementRatio::MINIMUM_RATIO)
+        end
+      end
+      
+      describe 'when flexural moment is 2348493.75 N*m' do
+        let(:flexural_moment) { 2348493.75 }
+        let(:expected_ratio) { 0.0140 }
+
+        it 'returns right ratio' do
+          expect(result.round(4)).to eq(expected_ratio)
         end
       end
     end
