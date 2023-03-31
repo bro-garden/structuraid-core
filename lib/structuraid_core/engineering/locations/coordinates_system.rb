@@ -26,6 +26,26 @@ module StructuraidCore
           axis_3.cross_product axis_1
         end
 
+        def clear_locations
+          @relative_locations = []
+        end
+
+        def first_location_vector
+          relative_locations.first.to_vector
+        end
+
+        def last_location_vector
+          relative_locations.last.to_vector
+        end
+
+        def append_location(location)
+          relative_locations.append(location)
+        end
+
+        def prepend_location(location)
+          relative_locations.prepend(location)
+        end
+
         private
 
         attr_reader :axis_3

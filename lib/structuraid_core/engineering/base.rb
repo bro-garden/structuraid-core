@@ -5,5 +5,5 @@ module StructuraidCore
   end
 end
 
-require_relative 'analysis/footing/centric_isolated'
+require_relative 'analysis/footing/base'
 require_relative 'locations/base'
