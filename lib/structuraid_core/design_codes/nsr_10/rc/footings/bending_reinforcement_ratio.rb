@@ -23,7 +23,7 @@ module StructuraidCore
 
             def solve_cuadratic_equation_for_steel_reinforcement_ratio
               [
-                equation_solver_option_1.negative? ? 1.0 / 0.0 : equation_solver_option_1,
+                equation_solver_option_1.negative? ? Float::INFINITY : equation_solver_option_1,
                 equation_solver_option_2
               ].min
             end
