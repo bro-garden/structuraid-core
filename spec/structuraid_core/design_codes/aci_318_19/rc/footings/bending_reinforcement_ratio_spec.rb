@@ -52,7 +52,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
       end
 
       describe 'when flexural moment is too hight' do
-        let(:flexural_moment) { 999_999_999_999_9999 }
+        let(:flexural_moment) { 999_999_999_999_999 }
 
         it 'raises an error' do
           expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
@@ -90,7 +90,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
       end
 
       describe 'when flexural moment is too hight' do
-        let(:flexural_moment) { 999_999_999_999_9999 }
+        let(:flexural_moment) { 999_999_999_999_999 }
 
         it 'raises an error' do
           expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
