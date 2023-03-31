@@ -50,6 +50,14 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinfor
           expect(result.round(4)).to eq(expected_ratio)
         end
       end
+
+      describe 'when flexural moment is too hight' do
+        let(:flexural_moment) { 999_999_999 }
+
+        it 'raises an error' do
+          expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
+        end
+      end
     end
 
     describe 'when concrete is 42MPa' do
@@ -78,6 +86,14 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinfor
 
         it 'returns right ratio' do
           expect(result.round(4)).to eq(expected_ratio)
+        end
+      end
+
+      describe 'when flexural moment is too hight' do
+        let(:flexural_moment) { 999_999_999 }
+
+        it 'raises an error' do
+          expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
         end
       end
     end
