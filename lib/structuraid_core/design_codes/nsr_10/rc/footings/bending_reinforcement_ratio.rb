@@ -51,7 +51,7 @@ module StructuraidCore
               unless 4 * equation_component_a * equation_component_c < 1
                 raise RequirementNotFulfilledError.new(
                   :flexural_moment,
-                  "Moment #{flexural_moment} is to hight for this element",
+                  "Moment #{flexural_moment} is too hight for this element",
                   CODE_REFERENCE
                 )
               end
