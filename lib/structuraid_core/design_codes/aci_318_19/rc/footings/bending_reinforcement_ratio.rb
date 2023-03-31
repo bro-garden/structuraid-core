@@ -41,9 +41,9 @@ module StructuraidCore
             end
 
             def equation_component_c
-              section_area = width * effective_height # m**2
-              reduced_steel_strength = capacity_reduction_factor * design_steel_yield_strength # N/(m**2)
-              flexural_moment / (reduced_steel_strength * section_area * effective_height) # N/(m**2)
+              section_area = width * effective_height # mm**2
+              reduced_steel_strength = capacity_reduction_factor * design_steel_yield_strength # N/(mm**2)
+              flexural_moment / (reduced_steel_strength * section_area * effective_height) # N/(mm**2)
             end
 
             def equation_component_root

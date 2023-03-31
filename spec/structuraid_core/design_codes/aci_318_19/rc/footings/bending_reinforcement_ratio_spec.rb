@@ -14,27 +14,27 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
       )
     end
 
-    let(:design_steel_yield_strength) { 420_000_000 } # N/(m**2)
-    let(:width) { 2.5 } # m
-    let(:effective_height) { 0.45 } # m
+    let(:design_steel_yield_strength) { 420 } # N/(mm**2)
+    let(:width) { 2_500 } # mm
+    let(:effective_height) { 450 } # mm
     let(:capacity_reduction_factor) { 0.90 }
     let(:min_ratio) do
-      StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingReinforcementRatio::MINIMUM_RATIO
+      StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinforcementRatio::MINIMUM_RATIO
     end
 
     describe 'when concrete is 28MPa' do
-      let(:design_compression_strength) { 28_000_000 } # N/(m**2)
+      let(:design_compression_strength) { 28 } # N/(mm**2)
 
       describe 'when flexural moment is small' do
-        let(:flexural_moment) { 50 } # N*m
+        let(:flexural_moment) { 50 } # N*mm
 
         it 'returns minimal ratio' do
           expect(result).to eq(min_ratio)
         end
       end
 
-      describe 'when flexural moment is 2348493.75 N*m' do
-        let(:flexural_moment) { 2_348_493.75 }
+      describe 'when flexural moment is 2348493750 N*mm' do
+        let(:flexural_moment) { 2_348_493_750 }
         let(:expected_ratio) { 0.0140 }
 
         it 'returns right ratio' do
@@ -42,8 +42,8 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
         end
       end
 
-      describe 'when flexural moment is 713306.25 N*m' do
-        let(:flexural_moment) { 713_306.25 }
+      describe 'when flexural moment is 713306250 N*mm' do
+        let(:flexural_moment) { 713_306_250 }
         let(:expected_ratio) { 0.0039 }
 
         it 'returns right ratio' do
@@ -52,7 +52,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
       end
 
       describe 'when flexural moment is too hight' do
-        let(:flexural_moment) { 999_999_999 }
+        let(:flexural_moment) { 999_999_999_999_9999 }
 
         it 'raises an error' do
           expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
@@ -61,7 +61,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
     end
 
     describe 'when concrete is 42MPa' do
-      let(:design_compression_strength) { 42_000_000 } # N/(m**2)
+      let(:design_compression_strength) { 42 } # N/(mm**2)
 
       describe 'when flexural moment is small' do
         let(:flexural_moment) { 50 } # N*m
@@ -71,8 +71,8 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
         end
       end
 
-      describe 'when flexural moment is 3558431.25 N*m' do
-        let(:flexural_moment) { 3_558_431.25 }
+      describe 'when flexural moment is 3558431250 N*mm' do
+        let(:flexural_moment) { 3_558_431_250 }
         let(:expected_ratio) { 0.0213 }
 
         it 'returns right ratio' do
@@ -80,8 +80,8 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
         end
       end
 
-      describe 'when flexural moment is 1107675.0 N*m' do
-        let(:flexural_moment) { 1_107_675.0 }
+      describe 'when flexural moment is 1107675000 N*mm' do
+        let(:flexural_moment) { 1_107_675_000 }
         let(:expected_ratio) { 0.0060 }
 
         it 'returns right ratio' do
@@ -90,7 +90,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
       end
 
       describe 'when flexural moment is too hight' do
-        let(:flexural_moment) { 999_999_999 }
+        let(:flexural_moment) { 999_999_999_999_9999 }
 
         it 'raises an error' do
           expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
