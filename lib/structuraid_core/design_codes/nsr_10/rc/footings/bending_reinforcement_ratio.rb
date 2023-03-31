@@ -5,12 +5,12 @@ module StructuraidCore
         module Footings
           class BendingReinforcementRatio
             MINIMUM_RATIO = 0.0025
-            CODE_REFERENCE = 'NSR-10 C.10'.freeze
+            CODE_REFERENCE = 'NSR-10 C.15'.freeze
 
             include DesignCodes::Utils::CodeRequirement
             use_schema DesignCodes::Schemas::RC::Footings::BendingReinforcementRatioSchema
 
-            # NSR-10 C.10
+            # NSR-10 C.15
             def call
               [
                 solve_cuadratic_equation_for_steel_reinforcement_ratio,
