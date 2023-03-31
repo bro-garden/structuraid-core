@@ -20,21 +20,21 @@ module StructuraidCore
             private
 
             def shear_stretch_1(x_distance)
-              return 0.0 if x_distance > long_border_to_first_column || x_distance.zero?
+              return 0.0 if x_distance > length_border_to_first_column || x_distance.zero?
 
               -solicitation_load * x_distance
             end
 
             def shear_stretch_2(x_distance)
-              long_1 = long_border_to_first_column
-              long_2 = long_first_column_to_second_column
-              return 0.0 if x_distance < long_1 || x_distance > long_1 + long_2
+              local_length_1 = length_border_to_first_column
+              local_length_2 = length_first_column_to_second_column
+              return 0.0 if x_distance < local_length_1 || x_distance > local_length_1 + local_length_2
 
               -reaction_at_first_column - solicitation_load * x_distance
             end
 
             def shear_stretch_3(x_distance)
-              return 0.0 if x_distance < long_border_to_first_column + long_first_column_to_second_column
+              return 0.0 if x_distance < length_border_to_first_column + length_first_column_to_second_column
 
               -reaction_at_second_column - reaction_at_first_column - solicitation_load * x_distance
             end

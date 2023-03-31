@@ -35,11 +35,11 @@ module StructuraidCore
           end
 
           def reaction_at_second_column
-            long_1 = long_border_to_first_column
-            long_2 = long_first_column_to_second_column
-            long_3 = long_second_column_to_border
+            local_length_1 = length_border_to_first_column
+            local_length_2 = length_first_column_to_second_column
+            local_length_3 = length_second_column_to_border
 
-            (solicitation_load / 2 / long_2) * (long_1**2 - (long_2 + long_3)**2)
+            (solicitation_load / 2 / local_length_2) * (local_length_1**2 - (local_length_2 + local_length_3)**2)
           end
 
           private
@@ -73,17 +73,17 @@ module StructuraidCore
             coordinates_system
           end
 
-          def long_border_to_first_column
+          def length_border_to_first_column
             (coordinates_system.relative_locations[1].to_vector - coordinates_system.relative_locations[0].to_vector)
               .magnitude
           end
 
-          def long_first_column_to_second_column
+          def length_first_column_to_second_column
             (coordinates_system.relative_locations[2].to_vector - coordinates_system.relative_locations[1].to_vector)
               .magnitude
           end
 
-          def long_second_column_to_border
+          def length_second_column_to_border
             (coordinates_system.relative_locations[3].to_vector - coordinates_system.relative_locations[2].to_vector)
               .magnitude
           end
