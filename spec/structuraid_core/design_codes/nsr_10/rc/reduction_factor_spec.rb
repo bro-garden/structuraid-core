@@ -2,8 +2,12 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/FilePath
 RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
-  let(:max_strain_before_transition) { StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MAX_STRAIN_BEFORE_TRANSITION }
-  let(:min_strain_after_transition) { StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MIN_STRAIN_AFTER_TRANSITION }
+  let(:max_strain_before_transition) do
+    StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MAX_STRAIN_BEFORE_TRANSITION
+  end
+  let(:min_strain_after_transition) do
+    StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MIN_STRAIN_AFTER_TRANSITION
+  end
 
   describe '.call' do
     describe 'when strength controlling behaviour has a wrong value' do
