@@ -71,7 +71,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
       end
     end
 
-    describe 'when strength controlling is shear_nonseismic_controller || strud_and_tie_controlled' do
+    describe 'when strength controlling is shear_nonseismic_controlled || strud_and_tie_controlled' do
       subject(:result) do
         described_class.call(
           params
@@ -81,7 +81,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
       let(:params) do
         {
           strength_controlling_behaviour: %i[
-            shear_nonseismic_controller
+            shear_nonseismic_controlled
             torsion_controlled
             corbel_bracket_controlled
             strud_and_tie_controlled

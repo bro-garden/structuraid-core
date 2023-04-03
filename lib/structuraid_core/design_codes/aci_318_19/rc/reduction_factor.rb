@@ -11,7 +11,7 @@ module StructuraidCore
             tension_controlled
             transition_controlled
             crushing_controlled
-            shear_nonseismic_controller
+            shear_nonseismic_controlled
             torsion_controlled
             corbel_bracket_controlled
             strud_and_tie_controlled
@@ -36,12 +36,12 @@ module StructuraidCore
             return crushing_controlled_factor if strength_controlling_behaviour == :crushing_controlled
             # Table 21.2.1 (b) (c) (f) (g)
             if %i[
-              shear_nonseismic_controller
+              shear_nonseismic_controlled
               torsion_controlled
               corbel_bracket_controlled
               strud_and_tie_controlled
             ].include?(strength_controlling_behaviour)
-              return shear_nonseismic_controller_factor
+              return shear_nonseismic_controlled_factor
             end
 
             # Table 21.2.1 (a)
@@ -50,7 +50,7 @@ module StructuraidCore
 
           private
 
-          def shear_nonseismic_controller_factor
+          def shear_nonseismic_controlled_factor
             0.75
           end
 
