@@ -10,6 +10,9 @@ module StructuraidCore
             compression_controlled
             tension_controlled
             transition_controlled
+            crushing_controlled
+            shear_nonseismic_controller
+            strud_and_tie_controlled
           ].freeze
 
           MAX_STRAIN_BEFORE_TRANSITION = 0.002
@@ -24,11 +27,23 @@ module StructuraidCore
 
             return tension_controlled_factor if strength_controlling_behaviour == :tension_controlled
             return compression_controlled_factor if strength_controlling_behaviour == :compression_controlled
+            return crushing_controlled_factor if strength_controlling_behaviour == :crushing_controlled
+            if %i[shear_nonseismic_controller strud_and_tie_controlled].include?(strength_controlling_behaviour)
+              return shear_nonseismic_controller_factor
+            end
 
             transition_controlled_factor
           end
 
           private
+
+          def shear_nonseismic_controller_factor
+            0.75
+          end
+
+          def crushing_controlled_factor
+            0.65
+          end
 
           def tension_controlled_factor
             0.90
