@@ -80,7 +80,12 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
 
       let(:params) do
         {
-          strength_controlling_behaviour: %i[shear_nonseismic_controller strud_and_tie_controlled].sample
+          strength_controlling_behaviour: %i[
+            shear_nonseismic_controller
+            torsion_controlled
+            corbel_bracket_controlled
+            strud_and_tie_controlled
+          ].sample
         }
       end
 
