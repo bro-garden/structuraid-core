@@ -63,6 +63,43 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
         end
       end
     end
+
+    describe 'when strength controlling is transition_controlled' do
+      subject(:result) do
+        described_class.call(
+          params
+        )
+      end
+
+      describe 'when reinforcement is provided by steel coils' do
+        describe 'when no strain is provided' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              is_coil_rebar: true
+            }
+          end
+
+          it 'raises an error' do
+            expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+          end
+        end
+      end
+
+      describe 'when reinforcement is provided by other steel rebar' do
+        describe 'when no strain is provided' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled
+            }
+          end
+
+          it 'raises an error' do
+            expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+          end
+        end
+      end
+    end
   end
 end
 # rubocop:enable RSpec/FilePath
