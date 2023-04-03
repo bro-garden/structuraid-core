@@ -2,6 +2,7 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/FilePath
 RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
+  let(:max_strain_before_transition) { StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MAX_STRAIN_BEFORE_TRANSITION }
   describe '.call' do
     describe 'when strength controlling behaviour has a wrong value' do
       subject(:result) do
@@ -84,6 +85,20 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
             expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
           end
         end
+
+        describe 'when strain is a value in (0.001...max_strain_before_transition)' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              is_coil_rebar: true,
+              strain: (0.001...max_strain_before_transition).step(0.0001).to_a.sample
+            }
+          end
+
+          it 'raises an error' do
+            expect(result).to eq(0.75)
+          end
+        end
       end
 
       describe 'when reinforcement is provided by other steel rebar' do
@@ -96,6 +111,19 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
 
           it 'raises an error' do
             expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+          end
+        end
+
+        describe 'when strain is a value in (0.001...max_strain_before_transition)' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              strain: (0.001...max_strain_before_transition).step(0.0001).to_a.sample
+            }
+          end
+
+          it 'raises an error' do
+            expect(result).to eq(0.65)
           end
         end
       end
