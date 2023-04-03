@@ -2,12 +2,15 @@ module StructuraidCore
   module Engineering
     module Analysis
       module Footing
-        class CentricIsolated
+        class CentricIsolated < Base
           ORTHOGONALITIES = %i[length_1 length_2].freeze
 
           def initialize(footing:, load_from_column:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
-              raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
+              raise Engineering::Analysis::SectionDirectionError.new(
+                section_direction,
+                ORTHOGONALITIES
+              )
             end
 
             @footing = footing
