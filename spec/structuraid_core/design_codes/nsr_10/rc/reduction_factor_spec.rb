@@ -115,6 +115,20 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
             expect(result).to eq(0.90)
           end
         end
+
+        describe 'when strain is in the middle of the transition' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              is_coil_rebar: true,
+              strain: (min_strain_after_transition + max_strain_before_transition) / 2
+            }
+          end
+
+          it 'returns the right reduction factor' do
+            expect(result.round(3)).to eq(((0.75 + 0.90) / 2).round(3))
+          end
+        end
       end
 
       describe 'when reinforcement is provided by other steel rebar' do
@@ -153,6 +167,19 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
 
           it 'returns the right reduction factor' do
             expect(result).to eq(0.90)
+          end
+        end
+
+        describe 'when strain is in the middle of the transition' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              strain: (min_strain_after_transition + max_strain_before_transition) / 2
+            }
+          end
+
+          it 'returns the right reduction factor' do
+            expect(result.round(3)).to eq(((0.65 + 0.90) / 2).round(3))
           end
         end
       end
