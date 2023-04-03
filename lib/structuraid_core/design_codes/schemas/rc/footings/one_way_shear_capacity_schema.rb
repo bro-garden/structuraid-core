@@ -10,7 +10,6 @@ module StructuraidCore
               design_compression_strength
               width
               effective_height
-              capacity_reduction_factor
               light_concrete_modification_factor
             ]
 

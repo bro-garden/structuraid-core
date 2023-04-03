@@ -9,7 +9,6 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::OneWayShearC
         design_compression_strength: 28,
         width: 2500,
         effective_height: 450,
-        capacity_reduction_factor: 0.75,
         light_concrete_modification_factor: 1
       }
     end
@@ -35,7 +34,6 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::OneWayShearC
         design_compression_strength: 28,
         width: 2500,
         effective_height: 450,
-        capacity_reduction_factor: 0.75,
         light_concrete_modification_factor: 1
       }
     end
@@ -47,7 +45,6 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::OneWayShearC
           design_compression_strength
           width
           effective_height
-          capacity_reduction_factor
           light_concrete_modification_factor
           schema
         ]

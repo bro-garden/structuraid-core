@@ -8,14 +8,12 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::OneWayShearCap
         design_compression_strength:,
         width:,
         effective_height:,
-        capacity_reduction_factor:,
         light_concrete_modification_factor:
       )
     end
 
     let(:width) { 2_500 } # mm
     let(:effective_height) { 450 } # mm
-    let(:capacity_reduction_factor) { 0.75 }
     let(:light_concrete_modification_factor) { 1.0 }
 
     describe 'when concrete is 28MPa' do
