@@ -3,6 +3,8 @@ require 'spec_helper'
 # rubocop:disable RSpec/FilePath
 RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
   let(:max_strain_before_transition) { StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MAX_STRAIN_BEFORE_TRANSITION }
+  let(:min_strain_after_transition) { StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MIN_STRAIN_AFTER_TRANSITION }
+
   describe '.call' do
     describe 'when strength controlling behaviour has a wrong value' do
       subject(:result) do
@@ -95,8 +97,22 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
             }
           end
 
-          it 'raises an error' do
+          it 'returns the right reduction factor' do
             expect(result).to eq(0.75)
+          end
+        end
+
+        describe 'when strain is a value prominent than min_strain_after_transition' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              is_coil_rebar: true,
+              strain: min_strain_after_transition + 0.001
+            }
+          end
+
+          it 'returns the right reduction factor' do
+            expect(result).to eq(0.90)
           end
         end
       end
@@ -122,8 +138,21 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
             }
           end
 
-          it 'raises an error' do
+          it 'returns the right reduction factor' do
             expect(result).to eq(0.65)
+          end
+        end
+
+        describe 'when strain is a value prominent than min_strain_after_transition' do
+          let(:params) do
+            {
+              strength_controlling_behaviour: :transition_controlled,
+              strain: min_strain_after_transition + 0.001
+            }
+          end
+
+          it 'returns the right reduction factor' do
+            expect(result).to eq(0.90)
           end
         end
       end
