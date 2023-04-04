@@ -30,6 +30,47 @@ module StructuraidCore
               local_coordinates_system.add_location(column_relative_location)
             end
 
+            def perimeter_vertices_relative_to_column_location
+              [
+                perimeter_vertices_relative_to_column_location_1,
+                perimeter_vertices_relative_to_column_location_2,
+                perimeter_vertices_relative_to_column_location_3,
+                perimeter_vertices_relative_to_column_location_4
+              ]
+            end
+
+            def perimeter_vertices_relative_to_column_location_1
+              Vector[
+                0.5 * (column_section_length_1 + footing.effective_height),
+                0.5 * (column_section_length_2 + footing.effective_height),
+                0.0
+              ]
+            end
+
+            def perimeter_vertices_relative_to_column_location_2
+              Vector[
+                0.5 * (column_section_length_1 - footing.effective_height),
+                0.5 * (column_section_length_2 + footing.effective_height),
+                0.0
+              ]
+            end
+
+            def perimeter_vertices_relative_to_column_location_3
+              Vector[
+                0.5 * (column_section_length_1 - footing.effective_height),
+                0.5 * (column_section_length_2 - footing.effective_height),
+                0.0
+              ]
+            end
+
+            def perimeter_vertices_relative_to_column_location_4
+              Vector[
+                0.5 * (column_section_length_1 + footing.effective_height),
+                0.5 * (column_section_length_2 - footing.effective_height),
+                0.0
+              ]
+            end
+
             def local_coordinates_system
               footing.local_coordinates_system
             end
