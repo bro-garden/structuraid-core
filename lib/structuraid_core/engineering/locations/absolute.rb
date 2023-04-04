@@ -21,6 +21,10 @@ module StructuraidCore
             ]
           )
         end
+
+        def to_vector
+          Vector[value_x, value_y, value_z]
+        end
       end
     end
   end
