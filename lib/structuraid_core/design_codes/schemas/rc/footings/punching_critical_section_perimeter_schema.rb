@@ -7,9 +7,9 @@ module StructuraidCore
             include DesignCodes::Utils::SchemaDefinition
 
             required_params %i[
-              column_section_width
-              column_section_height
-              column_relative_location
+              column_section_length_1
+              column_section_length_2
+              column_absolute_location
               footing
             ]
 
