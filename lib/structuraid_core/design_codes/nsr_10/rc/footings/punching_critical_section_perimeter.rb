@@ -14,9 +14,18 @@ module StructuraidCore
             def call
               add_column_to_local_coordinates_system
               add_perimeter_vertices_to_local_coordinates_system
+              edges = []
+              build_edges(edges)
             end
 
             private
+
+            def build_edges(edges)
+              edges << { from: 1, to: 2 }
+              edges << { from: 2, to: 3 }
+              edges << { from: 3, to: 4 }
+              edges << { from: 4, to: 1 }
+            end
 
             def add_perimeter_vertices_to_local_coordinates_system
               perimeter_vertices_relative_to_column_location.each do |perimeter_vertex_relative_to_column_location|
