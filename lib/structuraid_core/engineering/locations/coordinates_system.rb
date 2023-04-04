@@ -4,7 +4,7 @@ module StructuraidCore
   module Engineering
     module Locations
       class CoordinatesSystem < Base
-        attr_reader :relative_locations, :axis_1
+        attr_reader :relative_locations, :axis_1, :anchor_location
 
         def initialize(anchor_location:, relative_locations: [])
           @anchor_location = anchor_location
