@@ -18,6 +18,7 @@ module StructuraidCore
               build_edges(edges)
               select_edges_into_the_footing(edges)
               update_edges_vertices(edges)
+              compute_perimeter(edges)
             end
 
             private
@@ -151,6 +152,14 @@ module StructuraidCore
 
             def local_coordinates_system
               footing.coordinates_system
+            end
+
+            def compute_perimeter(edges)
+              edges.inject(0.0) do |perimeter, edge|
+                vector_from = relative_location_at_index(edge[:from]).to_vector
+                vector_to = relative_location_at_index(edge[:to]).to_vector
+                perimeter + (vector_to - vector_from).magnitude
+              end
             end
           end
         end
