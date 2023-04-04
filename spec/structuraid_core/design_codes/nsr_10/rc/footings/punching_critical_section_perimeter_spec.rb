@@ -74,6 +74,20 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
         result
       end
     end
+
+    describe 'column case: B' do
+      let(:column_absolute_location) do
+        StructuraidCore::Engineering::Locations::Absolute.new(
+          value_x: 0,
+          value_y: 375,
+          value_z: 0
+        )
+      end
+
+      it "updates local system's relative_locations" do
+        result
+      end
+    end
   end
 end
 # rubocop:enable RSpec/FilePath
