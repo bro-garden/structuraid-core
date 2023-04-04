@@ -23,7 +23,14 @@ module StructuraidCore
             private
 
             def update_edges_vertices(edges)
-
+              edges.each do |edge|
+                update_location_to_limit(
+                  relative_location_at_index(edge[:from])
+                )
+                update_location_to_limit(
+                  relative_location_at_index(edge[:to])
+                )
+              end
             end
 
             def select_edges_into_the_footing(edges)
@@ -57,6 +64,18 @@ module StructuraidCore
               add_relative_location_from_a_vector(
                 column_absolute_location.to_vector - local_coordinates_system.anchor_location.to_vector
               )
+            end
+
+            def update_location_to_limit(location)
+              location.value_1 = udate_to_constrain(location.value_1, 0.5 * footing.length_1)
+              location.value_2 = udate_to_constrain(location.value_2, 0.5 * footing.length_2)
+            end
+
+            def udate_to_constrain(initial_value, constrain_value)
+              return constrain_value if initial_value > constrain_value
+              return -constrain_value if initial_value < -constrain_value
+
+              initial_value
             end
 
             def into_footing?(location)
