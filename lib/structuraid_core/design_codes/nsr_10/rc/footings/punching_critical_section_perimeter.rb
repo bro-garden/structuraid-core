@@ -20,29 +20,16 @@ module StructuraidCore
 
             def add_perimeter_vertices_to_local_coordinates_system
               perimeter_vertices_relative_to_column_location.each do |perimeter_vertex_relative_to_column_location|
-                perimeter_vertex_relative_location = Engineeringg::Locations::Relative.new(
-                  value_1: 0,
-                  value_2: 0,
-                  value_3: 0
-                )
-                perimeter_vertex_relative_location.update_from_vector(
+                add_relative_location_from_a_vector(
                   perimeter_vertex_relative_to_column_location + column_relative_location_vector
                 )
-                local_coordinates_system.add_location(perimeter_vertex_relative_location)
               end
             end
 
             def add_column_to_local_coordinates_system
-              column_relative_location = Engineeringg::Locations::Relative.new(
-                value_1: 0,
-                value_2: 0,
-                value_3: 0
-              )
-              column_relative_location.update_from_vector(
+              add_relative_location_from_a_vector(
                 column_absolute_location.to_vector - local_coordinates_system.anchor_location.to_vector
               )
-              local_coordinates_system.clear_locations
-              local_coordinates_system.add_location(column_relative_location)
             end
 
             def perimeter_vertices_relative_to_column_location
@@ -84,6 +71,16 @@ module StructuraidCore
                 0.5 * (column_section_length_2 - footing.effective_height),
                 0.0
               ]
+            end
+
+            def add_relative_location_from_a_vector(vector)
+              relative_location = Engineeringg::Locations::Relative.new(
+                value_1: 0,
+                value_2: 0,
+                value_3: 0
+              )
+              relative_location.update_from_vector(vector)
+              local_coordinates_system.add_location(relative_location)
             end
 
             def column_relative_location_vector
