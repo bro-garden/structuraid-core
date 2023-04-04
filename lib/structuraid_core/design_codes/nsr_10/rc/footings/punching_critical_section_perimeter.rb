@@ -1,6 +1,6 @@
 module StructuraidCore
   module DesignCodes
-    module Schemas
+    module NSR10
       module RC
         module Footings
           class PunchingCriticalSectionPerimeter
@@ -51,7 +51,7 @@ module StructuraidCore
 
             def perimeter_vertices_relative_to_column_location_2
               Vector[
-                0.5 * (column_section_length_1 - footing.effective_height),
+                - 0.5 * (column_section_length_1 + footing.effective_height),
                 0.5 * (column_section_length_2 + footing.effective_height),
                 0.0
               ]
@@ -59,8 +59,8 @@ module StructuraidCore
 
             def perimeter_vertices_relative_to_column_location_3
               Vector[
-                0.5 * (column_section_length_1 - footing.effective_height),
-                0.5 * (column_section_length_2 - footing.effective_height),
+                - 0.5 * (column_section_length_1 + footing.effective_height),
+                - 0.5 * (column_section_length_2 + footing.effective_height),
                 0.0
               ]
             end
@@ -68,13 +68,13 @@ module StructuraidCore
             def perimeter_vertices_relative_to_column_location_4
               Vector[
                 0.5 * (column_section_length_1 + footing.effective_height),
-                0.5 * (column_section_length_2 - footing.effective_height),
+                - 0.5 * (column_section_length_2 + footing.effective_height),
                 0.0
               ]
             end
 
             def add_relative_location_from_a_vector(vector)
-              relative_location = Engineeringg::Locations::Relative.new(
+              relative_location = Engineering::Locations::Relative.new(
                 value_1: 0,
                 value_2: 0,
                 value_3: 0
@@ -88,7 +88,7 @@ module StructuraidCore
             end
 
             def local_coordinates_system
-              footing.local_coordinates_system
+              footing.coordinates_system
             end
           end
         end
