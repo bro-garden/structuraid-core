@@ -17,17 +17,22 @@ module StructuraidCore
               edges = []
               build_edges(edges)
               select_edges_into_the_footing(edges)
+              update_edges_vertices(edges)
             end
 
             private
 
+            def update_edges_vertices(edges)
+
+            end
+
             def select_edges_into_the_footing(edges)
               edges.select! do |edge|
                 from_location_into_footing = into_footing?(
-                  local_coordinates_system.relative_locations[edge[:from]]
+                  relative_location_at_index(edge[:from])
                 )
                 to_location_into_footing = into_footing?(
-                  local_coordinates_system.relative_locations[edge[:to]]
+                  relative_location_at_index(edge[:to])
                 )
                 from_location_into_footing || to_location_into_footing
               end
@@ -115,6 +120,10 @@ module StructuraidCore
               )
               relative_location.update_from_vector(vector)
               local_coordinates_system.add_location(relative_location)
+            end
+
+            def relative_location_at_index(index)
+              local_coordinates_system.relative_locations[index]
             end
 
             def column_relative_location_vector
