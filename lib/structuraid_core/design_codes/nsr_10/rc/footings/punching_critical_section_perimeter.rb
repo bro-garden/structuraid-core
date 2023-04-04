@@ -13,9 +13,24 @@ module StructuraidCore
 
             def call
               add_column_to_local_coordinates_system
+              add_perimeter_vertices_to_local_coordinates_system
             end
 
             private
+
+            def add_perimeter_vertices_to_local_coordinates_system
+              perimeter_vertices_relative_to_column_location.each do |perimeter_vertex_relative_to_column_location|
+                perimeter_vertex_relative_location = Engineeringg::Locations::Relative.new(
+                  value_1: 0,
+                  value_2: 0,
+                  value_3: 0
+                )
+                perimeter_vertex_relative_location.update_from_vector(
+                  perimeter_vertex_relative_to_column_location + column_relative_location_vector
+                )
+                local_coordinates_system.add_location(perimeter_vertex_relative_location)
+              end
+            end
 
             def add_column_to_local_coordinates_system
               column_relative_location = Engineeringg::Locations::Relative.new(
@@ -69,6 +84,10 @@ module StructuraidCore
                 0.5 * (column_section_length_2 - footing.effective_height),
                 0.0
               ]
+            end
+
+            def column_relative_location_vector
+              local_coordinates_system.first_location_vector
             end
 
             def local_coordinates_system
