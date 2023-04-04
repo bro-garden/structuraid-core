@@ -61,7 +61,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
     let(:column_section_length_1) { 450 }
     let(:column_section_length_2) { 250 }
 
-    describe 'column case: A' do
+    describe 'column at: (-1025, 375, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: -1025,
@@ -80,7 +80,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: B' do
+    describe 'column at: (0, 375, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: 0,
@@ -99,7 +99,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: C' do
+    describe 'column at: (1025, 375, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: 1025,
@@ -118,7 +118,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: D' do
+    describe 'column at: (-1025, 0, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: -1025,
@@ -137,7 +137,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: E' do
+    describe 'column at: (0, 0, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: 0,
@@ -156,7 +156,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: F' do
+    describe 'column at: (1025, 0, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: 1025,
@@ -175,7 +175,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: G' do
+    describe 'column at: (-1025, -375, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: -1025,
@@ -194,7 +194,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: H' do
+    describe 'column at: (0, -375, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: 0,
@@ -213,7 +213,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
     end
 
-    describe 'column case: I' do
+    describe 'column at: (1025, -375, 0)' do
       let(:column_absolute_location) do
         StructuraidCore::Engineering::Locations::Absolute.new(
           value_x: 1025,
