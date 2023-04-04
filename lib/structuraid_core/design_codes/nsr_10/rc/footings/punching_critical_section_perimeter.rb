@@ -16,9 +16,22 @@ module StructuraidCore
               add_perimeter_vertices_to_local_coordinates_system
               edges = []
               build_edges(edges)
+              select_edges_into_the_footing(edges)
             end
 
             private
+
+            def select_edges_into_the_footing(edges)
+              edges.select! do |edge|
+                from_location_into_footing = into_footing?(
+                  local_coordinates_system.relative_locations[edge[:from]]
+                )
+                to_location_into_footing = into_footing?(
+                  local_coordinates_system.relative_locations[edge[:to]]
+                )
+                from_location_into_footing || to_location_into_footing
+              end
+            end
 
             def build_edges(edges)
               edges << { from: 1, to: 2 }
@@ -39,6 +52,18 @@ module StructuraidCore
               add_relative_location_from_a_vector(
                 column_absolute_location.to_vector - local_coordinates_system.anchor_location.to_vector
               )
+            end
+
+            def into_footing?(location)
+              vertical_check(location) && horizontal_check(location)
+            end
+
+            def vertical_check(location)
+              location.value_2 >= -0.5 * footing.length_2 && location.value_2 <= 0.5 * footing.length_2
+            end
+
+            def horizontal_check(location)
+              location.value_1 >= -0.5 * footing.length_1 && location.value_1 <= 0.5 * footing.length_1
             end
 
             def perimeter_vertices_relative_to_column_location
