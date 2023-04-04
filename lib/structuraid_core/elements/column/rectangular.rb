@@ -2,11 +2,11 @@ module StructuraidCore
   module Elements
     module Column
       class Rectangular < Base
-        attr_reader :length_x, :length_y, :height, :material
+        attr_reader :length_1, :length_2, :height, :material
 
-        def initialize(length_x:, length_y:, height:, material:)
-          @length_x = length_x.to_f
-          @length_y = length_y.to_f
+        def initialize(length_1:, length_2:, height:, material:)
+          @length_1 = length_1.to_f
+          @length_2 = length_2.to_f
           @height = height.to_f
           @material = material
         end
