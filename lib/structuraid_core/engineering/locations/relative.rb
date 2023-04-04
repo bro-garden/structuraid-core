@@ -4,7 +4,7 @@ module StructuraidCore
   module Engineering
     module Locations
       class Relative < Base
-        attr_reader :value_1, :value_2, :value_3
+        attr_accessor :value_1, :value_2, :value_3
 
         def self.from_matrix(matrix)
           new(
