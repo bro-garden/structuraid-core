@@ -4,38 +4,29 @@ module StructuraidCore
       module RC
         module Footings
           class PunchingCriticalSectionPerimeter
-            CODE_REFERENCE = 'NSR-10 C.11.11'.freeze
-
             include DesignCodes::Utils::CodeRequirement
             use_schema DesignCodes::Schemas::RC::Footings::PunchingCriticalSectionPerimeterSchema
-
-            # NSR-10 C.11.11
 
             def call
               add_column_to_local_coordinates_system
               add_perimeter_vertices_to_local_coordinates_system
-              edges = []
-              build_edges(edges)
-              select_edges_into_the_footing(edges)
-              update_edges_vertices(edges)
-              compute_perimeter(edges)
+              edges_indexes = build_edges_indexes
+              select_edges_indexes_into_the_footing(edges_indexes)
+              update_edges_indexes_vertices(edges_indexes)
+              compute_perimeter(edges_indexes)
             end
 
             private
 
-            def update_edges_vertices(edges)
-              edges.each do |edge|
-                update_location_to_limit(
-                  relative_location_at_index(edge[:from])
-                )
-                update_location_to_limit(
-                  relative_location_at_index(edge[:to])
-                )
+            def update_edges_indexes_vertices(edges_indexes)
+              edges_indexes.each do |edge|
+                update_location_to_limit(relative_location_at_index(edge[:from]))
+                update_location_to_limit(relative_location_at_index(edge[:to]))
               end
             end
 
-            def select_edges_into_the_footing(edges)
-              edges.select! do |edge|
+            def select_edges_indexes_into_the_footing(edges_indexes)
+              edges_indexes.select! do |edge|
                 from_location_into_footing = into_footing?(
                   relative_location_at_index(edge[:from])
                 )
@@ -46,17 +37,15 @@ module StructuraidCore
               end
             end
 
-            def build_edges(edges)
-              edges << { from: 1, to: 2 }
-              edges << { from: 2, to: 3 }
-              edges << { from: 3, to: 4 }
-              edges << { from: 4, to: 1 }
+            def build_edges_indexes
+              [{ from: 1, to: 2 }, { from: 2, to: 3 },
+               { from: 3, to: 4 }, { from: 4, to: 1 }]
             end
 
             def add_perimeter_vertices_to_local_coordinates_system
-              perimeter_vertices_relative_to_column_location.each do |perimeter_vertex_relative_to_column_location|
+              perimeter_vertices_relative_to_column_location.each do |perimeter_vertex|
                 add_relative_location_from_a_vector(
-                  perimeter_vertex_relative_to_column_location + column_relative_location_vector
+                  perimeter_vertex + column_relative_location_vector
                 )
               end
             end
@@ -93,50 +82,24 @@ module StructuraidCore
 
             def perimeter_vertices_relative_to_column_location
               [
-                perimeter_vertices_relative_to_column_location_1,
-                perimeter_vertices_relative_to_column_location_2,
-                perimeter_vertices_relative_to_column_location_3,
-                perimeter_vertices_relative_to_column_location_4
+                perimeter_vertices_relative_to_column_location_with(way_1: 1, way_2: 1),
+                perimeter_vertices_relative_to_column_location_with(way_1: -1, way_2: 1),
+                perimeter_vertices_relative_to_column_location_with(way_1: -1, way_2: -1),
+                perimeter_vertices_relative_to_column_location_with(way_1: 1, way_2: -1)
               ]
             end
 
-            def perimeter_vertices_relative_to_column_location_1
+            def perimeter_vertices_relative_to_column_location_with(way_1:, way_2:)
               Vector[
-                0.5 * (column_section_length_1 + footing.effective_height),
-                0.5 * (column_section_length_2 + footing.effective_height),
-                0.0
-              ]
-            end
-
-            def perimeter_vertices_relative_to_column_location_2
-              Vector[
-                - 0.5 * (column_section_length_1 + footing.effective_height),
-                0.5 * (column_section_length_2 + footing.effective_height),
-                0.0
-              ]
-            end
-
-            def perimeter_vertices_relative_to_column_location_3
-              Vector[
-                - 0.5 * (column_section_length_1 + footing.effective_height),
-                - 0.5 * (column_section_length_2 + footing.effective_height),
-                0.0
-              ]
-            end
-
-            def perimeter_vertices_relative_to_column_location_4
-              Vector[
-                0.5 * (column_section_length_1 + footing.effective_height),
-                - 0.5 * (column_section_length_2 + footing.effective_height),
+                way_1 * 0.5 * (column_section_length_1 + footing.effective_height),
+                way_2 * 0.5 * (column_section_length_2 + footing.effective_height),
                 0.0
               ]
             end
 
             def add_relative_location_from_a_vector(vector)
               relative_location = Engineering::Locations::Relative.new(
-                value_1: 0,
-                value_2: 0,
-                value_3: 0
+                value_1: 0, value_2: 0, value_3: 0
               )
               relative_location.update_from_vector(vector)
               local_coordinates_system.add_location(relative_location)
@@ -154,8 +117,8 @@ module StructuraidCore
               footing.coordinates_system
             end
 
-            def compute_perimeter(edges)
-              edges.inject(0.0) do |perimeter, edge|
+            def compute_perimeter(edges_indexes)
+              edges_indexes.inject(0.0) do |perimeter, edge|
                 vector_from = relative_location_at_index(edge[:from]).to_vector
                 vector_to = relative_location_at_index(edge[:to]).to_vector
                 perimeter + (vector_to - vector_from).magnitude
