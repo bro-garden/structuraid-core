@@ -71,10 +71,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
       let(:expected_perimeter) { 1150 }
 
-      it "updates local system's relative_locations" do
-        result
-      end
-
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
       end
@@ -89,10 +85,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
         )
       end
       let(:expected_perimeter) { 1850 }
-
-      it "updates local system's relative_locations" do
-        result
-      end
 
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
@@ -109,10 +101,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
       let(:expected_perimeter) { 1150 }
 
-      it "updates local system's relative_locations" do
-        result
-      end
-
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
       end
@@ -127,10 +115,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
         )
       end
       let(:expected_perimeter) { 2050 }
-
-      it "updates local system's relative_locations" do
-        result
-      end
 
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
@@ -147,10 +131,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
       let(:expected_perimeter) { 3200 }
 
-      it "updates local system's relative_locations" do
-        result
-      end
-
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
       end
@@ -165,10 +145,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
         )
       end
       let(:expected_perimeter) { 2050 }
-
-      it "updates local system's relative_locations" do
-        result
-      end
 
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
@@ -185,10 +161,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
       let(:expected_perimeter) { 1150 }
 
-      it "updates local system's relative_locations" do
-        result
-      end
-
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
       end
@@ -204,10 +176,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
       end
       let(:expected_perimeter) { 1850 }
 
-      it "updates local system's relative_locations" do
-        result
-      end
-
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
       end
@@ -222,10 +190,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
         )
       end
       let(:expected_perimeter) { 1150 }
-
-      it "updates local system's relative_locations" do
-        result
-      end
 
       it 'returns the right perimeter' do
         expect(result).to eq(expected_perimeter)
