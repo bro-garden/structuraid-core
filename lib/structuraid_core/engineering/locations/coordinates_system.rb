@@ -30,10 +30,6 @@ module StructuraidCore
           @relative_locations = []
         end
 
-        def first_location_vector
-          relative_locations.first.to_vector
-        end
-
         def last_location_vector
           relative_locations.last.to_vector
         end
@@ -45,6 +41,8 @@ module StructuraidCore
         def prepend_location(location)
           relative_locations.prepend(location)
         end
+
+        def find_location; end
 
         private
 
