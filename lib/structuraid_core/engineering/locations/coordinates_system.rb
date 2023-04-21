@@ -6,9 +6,9 @@ module StructuraidCore
       class CoordinatesSystem < Base
         attr_reader :relative_locations, :axis_1, :anchor_location
 
-        def initialize(anchor_location:, relative_locations: [])
+        def initialize(anchor_location:)
           @anchor_location = anchor_location
-          @relative_locations = relative_locations
+          @relative_locations = Collection.new
           @axis_1 = Vector[1.0, 0.0, 0.0]
           @axis_3 = Vector[0.0, 0.0, 1.0]
         end
@@ -19,30 +19,31 @@ module StructuraidCore
         end
 
         def add_location(relative_location)
-          relative_locations << relative_location
+          relative_locations.add(relative_location)
         end
 
         def axis_2
           axis_3.cross_product axis_1
         end
 
-        def clear_locations
-          @relative_locations = []
+        def find_location(label)
+          relative_locations.find_by_label(label)
         end
 
+        # TODO: Deprecate this. We should not allow locationss removal by design
+        def clear_locations
+          @relative_locations = Collection.new
+        end
+
+        # TODO: Deprecate this. We should not depend on locations order
         def last_location_vector
           relative_locations.last.to_vector
         end
 
-        def append_location(location)
-          relative_locations.append(location)
-        end
-
+        # TODO: Deprecate this. We should not depend on locations order
         def prepend_location(location)
           relative_locations.prepend(location)
         end
-
-        def find_location; end
 
         private
 

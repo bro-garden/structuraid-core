@@ -66,7 +66,7 @@ module StructuraidCore
             coordinates_system.prepend_location(
               Engineering::Locations::Relative.new(value_1: -section_length / 2, value_2: 0, value_3: 0)
             )
-            coordinates_system.append_location(
+            coordinates_system.add_location(
               Engineering::Locations::Relative.new(value_1: section_length / 2, value_2: 0, value_3: 0)
             )
 
