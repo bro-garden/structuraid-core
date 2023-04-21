@@ -6,6 +6,14 @@ module StructuraidCore
       class Relative < Base
         attr_accessor :value_1, :value_2, :value_3
 
+        def self.from_vector(vector)
+          new(
+            value_1: vector[0],
+            value_2: vector[1],
+            value_3: vector[2]
+          )
+        end
+
         def self.from_matrix(matrix)
           new(
             value_1: matrix[0, 0],

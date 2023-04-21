@@ -98,10 +98,7 @@ module StructuraidCore
             end
 
             def add_relative_location_from_a_vector(vector)
-              relative_location = Engineering::Locations::Relative.new(
-                value_1: 0, value_2: 0, value_3: 0
-              )
-              relative_location.update_from_vector(vector)
+              relative_location = Engineering::Locations::Relative.from_vector(vector)
               local_coordinates_system.add_location(relative_location)
             end
 
