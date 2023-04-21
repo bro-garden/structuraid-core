@@ -1,12 +1,5 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-class FakeFooting < StructuraidCore::Elements::Footing
-  def effective_height
-    450
-  end
-end
-
 RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::PunchingCriticalSectionPerimeter do
   let(:length_1) { 2500 }
   let(:length_2) { 1000 }
@@ -14,10 +7,9 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::PunchingCri
   let(:cover_lateral) { 50 }
   let(:cover_top) { 50 }
   let(:cover_bottom) { 75 }
-  let(:section_direction) { :length_1 }
 
   let(:footing) do
-    FakeFooting.new(
+    StructuraidCore::Elements::Footing.new(
       length_1:,
       length_2:,
       height:,
@@ -46,6 +38,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::PunchingCri
 
   before do
     footing.add_coordinates_system(lcs)
+    allow(footing).to receive(:effective_height).and_return(450)
   end
 
   describe '.call' do

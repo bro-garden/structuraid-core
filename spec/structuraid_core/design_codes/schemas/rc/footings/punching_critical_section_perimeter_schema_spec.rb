@@ -82,18 +82,18 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
       }
     end
 
-    # rubocop:disable RSpec/ExampleLength
-    it 'returns a struct with the required param' do
-      expect(result.members).to match_array(
-        %i[
-          column_section_length_1
-          column_section_length_2
-          column_absolute_location
-          footing
-          schema
-        ]
-      )
+    let(:expected_params) do
+      %i[
+        column_section_length_1
+        column_section_length_2
+        column_absolute_location
+        footing
+        schema
+      ]
     end
-    # rubocop:enable RSpec/ExampleLength
+
+    it 'returns a struct with the required param' do
+      expect(result.members).to match_array(expected_params)
+    end
   end
 end
