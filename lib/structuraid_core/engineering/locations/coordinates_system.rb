@@ -22,6 +22,17 @@ module StructuraidCore
           relative_locations.add(relative_location)
         end
 
+        def add_location_from_vector(vector, label:)
+          relative_location = Relative.from_vector(vector, label:)
+          add_location(relative_location)
+        end
+
+        def find_or_add_location_from_vector(vector, label:)
+          relative_location = Relative.from_vector(vector, label:)
+
+          relative_locations.find_or_add_by_label(relative_location)
+        end
+
         def axis_2
           axis_3.cross_product axis_1
         end

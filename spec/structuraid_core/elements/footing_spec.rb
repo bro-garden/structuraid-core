@@ -167,4 +167,22 @@ RSpec.describe StructuraidCore::Elements::Footing do
       end
     end
   end
+
+  describe '#inside_me?' do
+    subject { footing.inside_me?(location) }
+
+    let(:location) do
+      StructuraidCore::Engineering::Locations::Relative.new(value_1: 10, value_2: 20, value_3: 0, label: :label)
+    end
+
+    it { is_expected.to be_truthy }
+
+    context 'when location is outside the footing' do
+      let(:location) do
+        StructuraidCore::Engineering::Locations::Relative.new(value_1: 10_000, value_2: -20_000, value_3: 0, label: :label)
+      end
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end

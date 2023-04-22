@@ -69,4 +69,32 @@ RSpec.describe StructuraidCore::Engineering::Locations::Collection do
       end
     end
   end
+
+  describe '#find_or_add_by_label' do
+    subject(:result) { collection.find_or_add_by_label(location) }
+
+    let(:location) do
+      StructuraidCore::Engineering::Locations::Relative.new(value_1: 10, value_2: 20, value_3: 10, label: :label)
+    end
+
+    it 'adds the location to the collection' do
+      expect { result }.to change { collection.find_by_label(:label) }.from(nil).to(anything)
+    end
+
+    it 'returns the added location' do
+      expect(result.to_vector).to eq(Vector[10, 20, 10])
+    end
+
+    describe 'when location is already present' do
+      let(:existing_location) { location.dup }
+
+      before do
+        collection.add(location)
+      end
+
+      it 'returns the existing location' do
+        expect(collection.find_or_add_by_label(existing_location)).to eq(location)
+      end
+    end
+  end
 end

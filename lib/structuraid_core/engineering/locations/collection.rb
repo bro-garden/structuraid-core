@@ -40,6 +40,14 @@ module StructuraidCore
           locations[index]
         end
 
+        def find_or_add_by_label(location)
+          add(location)
+          find_by_label(location.label)
+        rescue DuplicateLabelError => e
+          Warning.warn(e.message)
+          find_by_label(location.label)
+        end
+
         private
 
         attr_reader :locations
