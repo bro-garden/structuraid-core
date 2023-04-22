@@ -179,7 +179,7 @@ RSpec.describe StructuraidCore::Elements::Footing do
 
     context 'when location is outside the footing' do
       let(:location) do
-        StructuraidCore::Engineering::Locations::Relative.new(value_1: 10_000, value_2: -20_000, value_3: 0, label: :label)
+        StructuraidCore::Engineering::Locations::Relative.new(value_1: 10_000, value_2: -20, value_3: 0, label: :label)
       end
 
       it { is_expected.to be_falsey }

@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable RSpec/FilePath
 RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::PunchingCriticalSectionPerimeter do
   let(:length_1) { 2500 }
   let(:length_2) { 1000 }
