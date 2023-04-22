@@ -49,6 +49,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
           value_y: 375,
           value_z: 0
         ),
+        column_label: :column,
         footing:
       }
     end
@@ -78,6 +79,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
           value_y: 375,
           value_z: 0
         ),
+        column_label: :column,
         footing:
       }
     end
@@ -87,6 +89,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
         column_section_length_1
         column_section_length_2
         column_absolute_location
+        column_label
         footing
         schema
       ]

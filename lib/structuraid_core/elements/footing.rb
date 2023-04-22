@@ -54,6 +54,21 @@ module StructuraidCore
         @coordinates_system = coordinates_system
       end
 
+      def find_or_add_column_location(column_location, column_label)
+        label = "column_#{column_label}"
+
+        relative_location_vector = column_location.to_vector - coordinates_system.anchor_location.to_vector
+        relative_location = Engineering::Locations::Relative.from_vector(
+          relative_location_vector, label:
+        )
+
+        coordinates_system.add_location(relative_location)
+        coordinates_system.find_location(label)
+      rescue Engineering::Locations::DuplicateLabelError => e
+        Warning.warn(e.message)
+        coordinates_system.find_location(label)
+      end
+
       private
 
       def aspect_ratio

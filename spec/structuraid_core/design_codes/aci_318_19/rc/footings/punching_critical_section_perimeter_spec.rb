@@ -36,6 +36,8 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::PunchingCri
     )
   end
 
+  let(:column_label) { :column }
+
   before do
     footing.add_coordinates_system(lcs)
     allow(footing).to receive(:effective_height).and_return(450)
@@ -47,6 +49,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::PunchingCri
         column_section_length_1:,
         column_section_length_2:,
         column_absolute_location:,
+        column_label:,
         footing:
       )
     end

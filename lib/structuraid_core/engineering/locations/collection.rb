@@ -24,7 +24,7 @@ module StructuraidCore
         end
 
         def find_by_label(label)
-          locations.find { |location| location.label == label }
+          locations.find { |location| location.label == label.to_sym }
         end
 
         def last

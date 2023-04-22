@@ -30,7 +30,7 @@ module StructuraidCore
           @value_2 = value_2.to_f
           @value_3 = value_3.to_f
 
-          @label = label
+          @label = label&.to_sym
         end
 
         def to_matrix

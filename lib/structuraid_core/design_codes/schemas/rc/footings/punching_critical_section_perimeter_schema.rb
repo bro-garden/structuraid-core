@@ -10,6 +10,7 @@ module StructuraidCore
               column_section_length_1
               column_section_length_2
               column_absolute_location
+              column_label
               footing
             ]
 

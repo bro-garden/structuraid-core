@@ -1,3 +1,5 @@
+require 'byebug'
+
 module StructuraidCore
   module DesignCodes
     module ACI31819
@@ -8,8 +10,8 @@ module StructuraidCore
             use_schema DesignCodes::Schemas::RC::Footings::PunchingCriticalSectionPerimeterSchema
 
             def call
-              add_column_to_local_coordinates_system
-              add_perimeter_vertices_to_local_coordinates_system
+              column_location = footing.find_or_add_column_location(column_absolute_location, column_label)
+              add_perimeter_vertices_to_local_coordinates_system(column_location)
               edges_indexes = build_edges_indexes
               select_edges_indexes_into_the_footing(edges_indexes)
               update_edges_indexes_vertices(edges_indexes)
@@ -42,18 +44,12 @@ module StructuraidCore
                { from: 3, to: 4 }, { from: 4, to: 1 }]
             end
 
-            def add_perimeter_vertices_to_local_coordinates_system
+            def add_perimeter_vertices_to_local_coordinates_system(column_location)
               perimeter_vertices_relative_to_column_location.each do |perimeter_vertex|
                 add_relative_location_from_a_vector(
-                  perimeter_vertex + column_relative_location_vector
+                  perimeter_vertex + column_location.to_vector
                 )
               end
-            end
-
-            def add_column_to_local_coordinates_system
-              add_relative_location_from_a_vector(
-                column_absolute_location.to_vector - local_coordinates_system.anchor_location.to_vector
-              )
             end
 
             def update_location_to_limit(location)
@@ -104,10 +100,6 @@ module StructuraidCore
 
             def relative_location_at_index(index)
               local_coordinates_system.relative_locations[index]
-            end
-
-            def column_relative_location_vector
-              local_coordinates_system.first_location_vector
             end
 
             def local_coordinates_system
