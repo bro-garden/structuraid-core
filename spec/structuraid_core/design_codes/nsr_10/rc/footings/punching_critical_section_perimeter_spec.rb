@@ -7,7 +7,6 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
   let(:cover_lateral) { 50 }
   let(:cover_top) { 50 }
   let(:cover_bottom) { 75 }
-  let(:section_direction) { :length_1 }
 
   let(:footing) do
     StructuraidCore::Elements::Footing.new(
@@ -37,6 +36,8 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
     )
   end
 
+  let(:column_label) { :column }
+
   before do
     footing.add_coordinates_system(lcs)
     allow(footing).to receive(:effective_height).and_return(450)
@@ -48,6 +49,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
         column_section_length_1:,
         column_section_length_2:,
         column_absolute_location:,
+        column_label:,
         footing:
       )
     end

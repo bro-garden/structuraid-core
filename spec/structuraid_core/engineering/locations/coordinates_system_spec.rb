@@ -119,5 +119,9 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
     end
   end
 
+  describe '#find_or_add_location_from_vector' do
+    xit 'finds or adds a location to collection'
+  end
+
   # TODO: Add specs for other methods
 end
