@@ -25,12 +25,6 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/NestedGroups:
   Enabled: false
 
-RSpec/ContainExactly:
-  Enabled: false
-
-RSpec/MatchArray:
-  Enabled: false
-
 Lint/MissingSuper:
   Enabled: false
 
