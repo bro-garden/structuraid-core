@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'byebug'
 
 RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
-  subject(:coord_system) { described_class.new(anchor_location:, relative_locations: [relative_1]) }
+  subject(:coord_system) { described_class.new(anchor_location:) }
 
   let(:value_x) { 0.0 }
   let(:value_y) { 0.0 }
@@ -13,6 +13,10 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
   let(:anchor_location) { StructuraidCore::Engineering::Locations::Absolute.new(value_x:, value_y:, value_z:) }
   let(:relative_1) { StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
   let(:relative_2) { StructuraidCore::Engineering::Locations::Relative.new(value_1: -5, value_2: 0.0, value_3:) }
+
+  before do
+    coord_system.add_location(relative_1)
+  end
 
   describe '#align_axis_1_with' do
     describe 'border cases' do
@@ -114,4 +118,10 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
       end
     end
   end
+
+  describe '#find_or_add_location_from_vector' do
+    xit 'finds or adds a location to collection'
+  end
+
+  # TODO: Add specs for other methods
 end

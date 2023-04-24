@@ -54,6 +54,19 @@ module StructuraidCore
         @coordinates_system = coordinates_system
       end
 
+      def find_or_add_column_location(column_location, column_label)
+        label = "column_#{column_label}"
+        relative_location_vector = column_location.to_vector - coordinates_system.anchor_location.to_vector
+        coordinates_system.find_or_add_location_from_vector(relative_location_vector, label:)
+      end
+
+      def inside_me?(location)
+        inside_axis_2 = location.value_2 >= -0.5 * length_2 && location.value_2 <= 0.5 * length_2
+        inside_axis_1 = location.value_1 >= -0.5 * length_1 && location.value_1 <= 0.5 * length_1
+
+        inside_axis_1 && inside_axis_2
+      end
+
       private
 
       def aspect_ratio

@@ -120,4 +120,69 @@ RSpec.describe StructuraidCore::Elements::Footing do
       end
     end
   end
+
+  describe '#find_or_add_column_location' do
+    subject(:result) { footing.find_or_add_column_location(column_location, column_label) }
+
+    let(:column_location) do
+      StructuraidCore::Engineering::Locations::Absolute.new(value_x: 10, value_y: 20, value_z: 10)
+    end
+    let(:column_label) { :column }
+    let(:coordinates_system) do
+      StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
+        anchor_location: StructuraidCore::Engineering::Locations::Absolute.new(
+          value_x: 5,
+          value_y: 10,
+          value_z: 20
+        )
+      )
+    end
+
+    before do
+      footing.add_coordinates_system(coordinates_system)
+    end
+
+    it 'adds the column location to the coordinates system' do
+      expect { result }.to change { coordinates_system.find_location('column_column') }.from(nil).to(anything)
+    end
+
+    it 'returns the column location relative to the footing system' do
+      expect(result.to_vector).to eq(Vector[5, 10, -10])
+    end
+
+    describe 'when relative location is already present' do
+      let(:existing_location) do
+        StructuraidCore::Engineering::Locations::Relative.from_vector(
+          Vector[5, 10, -10],
+          label: :column_column
+        )
+      end
+
+      before do
+        coordinates_system.add_location(existing_location)
+      end
+
+      it 'returns the existing location' do
+        expect(result).to eq(existing_location)
+      end
+    end
+  end
+
+  describe '#inside_me?' do
+    subject { footing.inside_me?(location) }
+
+    let(:location) do
+      StructuraidCore::Engineering::Locations::Relative.new(value_1: 10, value_2: 20, value_3: 0, label: :label)
+    end
+
+    it { is_expected.to be_truthy }
+
+    context 'when location is outside the footing' do
+      let(:location) do
+        StructuraidCore::Engineering::Locations::Relative.new(value_1: 10_000, value_2: -20, value_3: 0, label: :label)
+      end
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end
