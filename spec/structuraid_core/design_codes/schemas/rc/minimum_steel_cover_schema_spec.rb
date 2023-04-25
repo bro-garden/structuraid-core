@@ -4,7 +4,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::MinimumSteelCoverSchem
   describe '.validate!' do
     subject(:result) { described_class.validate!(params) }
 
-    let(:params) { { concrete_casting_or_exposision_case: 'c.7.7.1.a' } }
+    let(:params) { { concrete_casting_against_soil: true, environment_exposure: false } }
 
     it 'returns true' do
       expect(result).to eq(true)
@@ -22,10 +22,10 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::MinimumSteelCoverSchem
   describe '.structurize' do
     subject(:result) { described_class.structurize(params) }
 
-    let(:params) { { concrete_casting_or_exposision_case: 'c.7.7.1.b' } }
+    let(:params) { { concrete_casting_against_soil: true, environment_exposure: false } }
 
     it 'returns a struct with the required param' do
-      expect(result.concrete_casting_or_exposision_case).to eq('c.7.7.1.b')
+      expect(result.concrete_casting_against_soil).to eq(true)
     end
   end
 end

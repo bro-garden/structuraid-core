@@ -5,7 +5,10 @@ module StructuraidCore
         class MinimumSteelCoverSchema
           include DesignCodes::Utils::SchemaDefinition
 
-          required_params %i[concrete_casting_or_exposision_case]
+          required_params %i[
+            concrete_casting_against_soil
+            environment_exposure
+          ]
           optional_params %i[
             maximum_rebar_diameter
             structural_element
