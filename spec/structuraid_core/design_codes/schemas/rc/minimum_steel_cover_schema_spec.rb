@@ -17,6 +17,20 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::MinimumSteelCoverSchem
         expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
       end
     end
+
+    describe 'when enum param has invalid value' do
+      let(:params) do
+        {
+          concrete_casting_against_soil: true,
+          environment_exposure: false,
+          structural_element: :something_crazy
+        }
+      end
+
+      it 'raises an error' do
+        expect { result }.to raise_error(StructuraidCore::DesignCodes::UnrecognizedValueError)
+      end
+    end
   end
 
   describe '.structurize' do

@@ -54,7 +54,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::MinimumSteelCover do
           {
             concrete_casting_against_soil: false,
             environment_exposure: true,
-            structural_element: described_class::STRUCTURAL_ELEMENTS.sample,
+            structural_element: :beam,
             maximum_rebar_diameter: 17
           }
         end
@@ -69,7 +69,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::MinimumSteelCover do
           {
             concrete_casting_against_soil: false,
             environment_exposure: true,
-            structural_element: described_class::STRUCTURAL_ELEMENTS.sample,
+            structural_element: :beam,
             maximum_rebar_diameter: (1..16).to_a.sample
           }
         end
