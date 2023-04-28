@@ -6,16 +6,6 @@ module StructuraidCore
           include DesignCodes::Utils::CodeRequirement
           use_schema DesignCodes::Schemas::RC::MinimumSteelCoverSchema
 
-          STRUCTURAL_ELEMENTS = %i[
-            slab
-            wall
-            joist
-            beam
-            column
-            tensor_joint
-            pedestal
-          ].freeze
-
           CODE_REFERENCE = 'ACI 318-19 21.5.1.3.1'.freeze
 
           def call
@@ -40,10 +30,6 @@ module StructuraidCore
           end
 
           def non_expossed_to_environment_or_soil
-            unless STRUCTURAL_ELEMENTS.include?(structural_element)
-              raise UnrecognizedValueError.new(structural_element, :structural_element)
-            end
-
             if %i[slab wall joist].include?(structural_element)
               slab_wall_joist_minimum_cover
             elsif %i[beam column tensor_joint pedestal].include?(structural_element)

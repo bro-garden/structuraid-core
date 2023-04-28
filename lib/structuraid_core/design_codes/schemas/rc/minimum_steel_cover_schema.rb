@@ -9,9 +9,21 @@ module StructuraidCore
             concrete_casting_against_soil
             environment_exposure
           ]
+
           optional_params %i[
             maximum_rebar_diameter
             structural_element
+          ]
+
+          enum :structural_element, %i[
+            slab
+            wall
+            joist
+            beam
+            column
+            shell thin_shell
+            tensor_joint
+            pedestal
           ]
         end
       end
