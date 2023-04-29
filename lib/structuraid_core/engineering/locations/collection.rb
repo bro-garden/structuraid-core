@@ -12,9 +12,8 @@ module StructuraidCore
           locations.each(&block)
         end
 
-        # TODO: forbid locations without label
         def add(location)
-          raise DuplicateLabelError, location.label if location.label && find_by_label(location.label)
+          raise DuplicateLabelError, location.label if find_by_label(location.label)
 
           locations.push(location)
         end
@@ -33,11 +32,6 @@ module StructuraidCore
 
         def prepend(location)
           locations.prepend(location)
-        end
-
-        # TODO: 😢
-        def [](index)
-          locations[index]
         end
 
         def find_or_add_by_label(location)

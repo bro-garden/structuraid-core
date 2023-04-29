@@ -21,13 +21,9 @@ module StructuraidCore
           end
 
           def build_geometry
-            coordinates_system.clear_locations
-            relativize_loads
-
-            aligner_vector = coordinates_system.last_location_vector
-            coordinates_system.align_axis_1_with(vector: aligner_vector)
-
-            include_edges_locations_to_coordinates_system
+            add_loads_to_coordinates_system
+            align_coordinates_system_with_loads
+            add_vertices_location_to_coordinates_system
           end
 
           def reaction_at_first_column
@@ -50,42 +46,51 @@ module StructuraidCore
             footing.coordinates_system
           end
 
-          def relativize_loads
+          def align_coordinates_system_with_loads
+            last_load_location_label = "load_#{loads_from_columns.last.label}"
+            aligner_vector = coordinates_system.find_location(last_load_location_label).to_vector
+            coordinates_system.align_axis_1_with(vector: aligner_vector)
+          end
+
+          def add_loads_to_coordinates_system
             centroid = absolute_centroid
 
-            loads_from_columns.map do |load_from_column|
-              coordinates_system.add_location(
-                Engineering::Locations::Relative.from_matrix(
-                  load_from_column.location.to_matrix - centroid.to_matrix
-                )
+            loads_from_columns.each do |load_from_column|
+              coordinates_system.find_or_add_location_from_vector(
+                load_from_column.location.to_vector - centroid.to_vector,
+                label: "load_#{load_from_column.label}"
               )
             end
           end
 
-          def include_edges_locations_to_coordinates_system
-            coordinates_system.prepend_location(
-              Engineering::Locations::Relative.new(value_1: -section_length / 2, value_2: 0, value_3: 0)
-            )
-            coordinates_system.add_location(
-              Engineering::Locations::Relative.new(value_1: section_length / 2, value_2: 0, value_3: 0)
-            )
-
-            coordinates_system
+          def add_vertices_location_to_coordinates_system
+            footing.add_vertices_location
           end
 
           def length_border_to_first_column
-            (coordinates_system.relative_locations[1].to_vector - coordinates_system.relative_locations[0].to_vector)
-              .magnitude
+            load_location_label = "load_#{loads_from_columns.first.label}"
+            load_location_vector = coordinates_system.find_location(load_location_label).to_vector
+            vertex_location_vector = coordinates_system.find_location('vertex_top_left').to_vector
+
+            (load_location_vector - vertex_location_vector)[0].abs
           end
 
           def length_first_column_to_second_column
-            (coordinates_system.relative_locations[2].to_vector - coordinates_system.relative_locations[1].to_vector)
-              .magnitude
+            first_load_location_label = "load_#{loads_from_columns.first.label}"
+            first_load_location_vector = coordinates_system.find_location(first_load_location_label).to_vector
+
+            last_load_location_label = "load_#{loads_from_columns.last.label}"
+            last_load_location_vector = coordinates_system.find_location(last_load_location_label).to_vector
+
+            (last_load_location_vector - first_load_location_vector)[0].abs
           end
 
           def length_second_column_to_border
-            (coordinates_system.relative_locations[3].to_vector - coordinates_system.relative_locations[2].to_vector)
-              .magnitude
+            load_location_label = "load_#{loads_from_columns.last.label}"
+            load_location_vector = coordinates_system.find_location(load_location_label).to_vector
+            vertex_location_vector = coordinates_system.find_location('vertex_top_right').to_vector
+
+            (vertex_location_vector - load_location_vector)[0].abs
           end
         end
       end

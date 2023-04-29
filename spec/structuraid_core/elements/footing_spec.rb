@@ -185,4 +185,37 @@ RSpec.describe StructuraidCore::Elements::Footing do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '#add_vertices_location' do
+    let(:coordinates_system) do
+      StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
+        anchor_location: StructuraidCore::Engineering::Locations::Absolute.new(
+          value_x: 5,
+          value_y: 10,
+          value_z: 20
+        )
+      )
+    end
+
+    before do
+      footing.add_coordinates_system(coordinates_system)
+      footing.add_vertices_location
+    end
+
+    it 'adds the top left vertex' do
+      expect(coordinates_system.find_location('vertex_top_left')).not_to be_nil
+    end
+
+    it 'adds the top right vertex' do
+      expect(coordinates_system.find_location('vertex_top_right')).not_to be_nil
+    end
+
+    it 'adds the bottom right vertex' do
+      expect(coordinates_system.find_location('vertex_bottom_right')).not_to be_nil
+    end
+
+    it 'adds the bottom left vertex' do
+      expect(coordinates_system.find_location('vertex_bottom_left')).not_to be_nil
+    end
+  end
 end

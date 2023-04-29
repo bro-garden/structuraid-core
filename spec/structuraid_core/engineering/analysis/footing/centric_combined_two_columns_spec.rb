@@ -43,7 +43,8 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
           value_x: 1000,
           value_y: 4000,
           value_z: 0
-        )
+        ),
+        label: 'column_1'
       ),
       StructuraidCore::Loads::PointLoad.new(
         value: -10_000,
@@ -51,7 +52,8 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
           value_x: 1000,
           value_y: -1000,
           value_z: 0
-        )
+        ),
+        label: 'column_2'
       )
     ]
   end
@@ -103,16 +105,40 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
       centric_combined_footing.build_geometry
     end
 
-    it 'updates locations at coordinates system' do
-      expect(footing.coordinates_system.relative_locations.count).to eq(4)
-    end
-
     it 'updates longitudes' do
       expect(
         [
           length_border_to_first_column, length_first_column_to_second_column, length_second_column_to_border
         ]
       ).to eq([4000.0, 5000.0, 1000.0])
+    end
+
+    describe 'footing coordinates system' do
+      subject(:coordinates_system) { footing.coordinates_system }
+
+      it 'has load 1 location' do
+        expect(coordinates_system.find_location('load_column_1')).not_to be_nil
+      end
+
+      it 'has load 2 location' do
+        expect(coordinates_system.find_location('load_column_2')).not_to be_nil
+      end
+
+      it 'has top left vertex location' do
+        expect(coordinates_system.find_location('vertex_top_left')).not_to be_nil
+      end
+
+      it 'has top right vertex location' do
+        expect(coordinates_system.find_location('vertex_top_right')).not_to be_nil
+      end
+
+      it 'has bottom left vertex location' do
+        expect(coordinates_system.find_location('vertex_bottom_left')).not_to be_nil
+      end
+
+      it 'has bottom right vertex location' do
+        expect(coordinates_system.find_location('vertex_bottom_right')).not_to be_nil
+      end
     end
   end
 

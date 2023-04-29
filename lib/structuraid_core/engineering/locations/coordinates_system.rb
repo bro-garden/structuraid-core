@@ -41,21 +41,6 @@ module StructuraidCore
           relative_locations.find_by_label(label)
         end
 
-        # TODO: Deprecate this. We should not allow locationss removal by design
-        def clear_locations
-          @relative_locations = Collection.new
-        end
-
-        # TODO: Deprecate this. We should not depend on locations order
-        def last_location_vector
-          relative_locations.last.to_vector
-        end
-
-        # TODO: Deprecate this. We should not depend on locations order
-        def prepend_location(location)
-          relative_locations.prepend(location)
-        end
-
         private
 
         attr_reader :axis_3
