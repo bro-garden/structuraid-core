@@ -11,8 +11,12 @@ RSpec.describe StructuraidCore::Engineering::Locations::CoordinatesSystem do
   let(:value_2) { 3.0 }
   let(:value_3) { 0.0 }
   let(:anchor_location) { StructuraidCore::Engineering::Locations::Absolute.new(value_x:, value_y:, value_z:) }
-  let(:relative_1) { StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2:, value_3:) }
-  let(:relative_2) { StructuraidCore::Engineering::Locations::Relative.new(value_1: -5, value_2: 0.0, value_3:) }
+  let(:relative_1) do
+    StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2:, value_3:, label: :label_1)
+  end
+  let(:relative_2) do
+    StructuraidCore::Engineering::Locations::Relative.new(value_1: -5, value_2: 0.0, value_3:, label: :label_2)
+  end
 
   before do
     coord_system.add_location(relative_1)

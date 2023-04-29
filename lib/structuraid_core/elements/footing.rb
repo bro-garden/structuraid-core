@@ -60,6 +60,12 @@ module StructuraidCore
         coordinates_system.find_or_add_location_from_vector(relative_location_vector, label:)
       end
 
+      def add_vertices_location
+        vertices_locations_vectors.each do |label, vector|
+          coordinates_system.find_or_add_location_from_vector(vector, label:)
+        end
+      end
+
       def inside_me?(location)
         inside_axis_2 = location.value_2 >= -0.5 * length_2 && location.value_2 <= 0.5 * length_2
         inside_axis_1 = location.value_1 >= -0.5 * length_1 && location.value_1 <= 0.5 * length_1
@@ -68,6 +74,18 @@ module StructuraidCore
       end
 
       private
+
+      def vertices_locations_vectors
+        half_length_1 = 0.5 * length_1
+        half_length_2 = 0.5 * length_2
+
+        {
+          'vertex_top_right' => Vector[half_length_1, half_length_2, 0],
+          'vertex_top_left' => Vector[-half_length_1, half_length_2, 0],
+          'vertex_bottom_left' => Vector[-half_length_1, -half_length_2, 0],
+          'vertex_bottom_right' => Vector[half_length_1, -half_length_2, 0]
+        }
+      end
 
       def aspect_ratio
         @length_1 / @length_2
