@@ -7,9 +7,6 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-convention:Style/Documentation:
-  Enabled: false
-
 Style/OptionalBooleanParameter:
   Enabled: false
 
@@ -36,3 +33,6 @@ Metrics/ParameterLists:
 
 Style/IfUnlessModifier:
   Enabled: false
+
+Layout/LineLength:
+  AllowedPatterns: ['\A\s*#'] # Ignore rule for comments
