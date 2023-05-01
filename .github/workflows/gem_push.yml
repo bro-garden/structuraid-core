@@ -46,7 +46,7 @@ jobs:
         GEM_HOST_API_KEY: "${{secrets.RUBYGEMS_AUTH_TOKEN}}"
 
     - name: Update CHANGELOG
-      uses: BobAnkh/auto-generate-changelog@v1
+      uses: BobAnkh/auto-generate-changelog@v1.2.4
       with:
         REPO_NAME: 'PradaIng/structuraid-core'
         ACCESS_TOKEN: ${{secrets.GITHUB_TOKEN}}
