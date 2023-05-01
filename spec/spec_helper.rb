@@ -1,11 +1,24 @@
 # frozen_string_literal: true
 
 require 'simplecov'
-require 'structuraid_core'
 
 SimpleCov.formatter SimpleCov::Formatter::HTMLFormatter
 SimpleCov.minimum_coverage 90
-SimpleCov.start
+SimpleCov.start do
+  enable_coverage :branch
+
+  add_group 'DB', 'lib/structuraid_core/db'
+  add_group 'DesignCodes', 'lib/structuraid_core/design_codes'
+  add_group 'Elements', 'lib/structuraid_core/elements'
+  add_group 'Engineering', 'lib/structuraid_core/engineering'
+  add_group 'Loads', 'lib/structuraid_core/loads'
+  add_group 'Materials', 'lib/structuraid_core/materials'
+  add_group 'Errors', 'lib/structuraid_core/errors'
+
+  add_filter 'spec/'
+end
+
+require 'structuraid_core'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
