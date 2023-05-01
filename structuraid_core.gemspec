@@ -37,10 +37,13 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'byebug', '~> 11.1.3'
   spec.add_development_dependency 'guard-rspec', '~> 4.7.3'
+  spec.add_development_dependency 'puma'
+  spec.add_development_dependency 'rack'
   spec.add_development_dependency 'rspec', '~> 3.11.0'
   spec.add_development_dependency 'rubocop', '~> 1.41.1'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.16.0'
   spec.add_development_dependency 'simplecov', '~> 0.22.0'
+  spec.add_development_dependency 'yard'
 
   spec.add_dependency 'matrix', '~> 0.4.2'
   spec.add_dependency 'rake', '~> 13.0.6'
