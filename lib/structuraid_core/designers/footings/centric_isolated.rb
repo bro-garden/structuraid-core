@@ -1,6 +1,7 @@
 require 'interactor'
 require_relative './steps/check_bearing_capacity'
 require_relative './steps/resolve_design_code'
+require_relative './steps/assign_analysis_direction'
 
 module StructuraidCore
   module Designers
