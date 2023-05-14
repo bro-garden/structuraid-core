@@ -12,6 +12,14 @@ module StructuraidCore
             @ultimate_loads = ultimate_loads
             @service_loads = service_loads
           end
+
+          def total_service_load
+            service_loads.map(&:value).sum
+          end
+
+          def total_ultimate_load
+            ultimate_loads.map(&:value).sum
+          end
         end
       end
     end
