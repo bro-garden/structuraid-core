@@ -15,16 +15,20 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricIsolated 
       length_1:,
       length_2:,
       height:,
-      material: StructuraidCore::Materials::Concrete.new(
-        elastic_module: 1800,
-        design_compression_strength: 28,
-        specific_weight: 2.4
-      ),
+      material: build(:concrete),
       cover_lateral:,
       cover_top:,
       cover_bottom:,
-      longitudinal_bottom_reinforcement_length_1:,
-      longitudinal_bottom_reinforcement_length_2:
+      longitudinal_bottom_reinforcement_length_1: build(
+        :straight_longitudinal_reinforcement,
+        distribution_direction: :length_1,
+        above_middle: false
+      ),
+      longitudinal_bottom_reinforcement_length_2: build(
+        :straight_longitudinal_reinforcement,
+        distribution_direction: :length_2,
+        above_middle: false
+      )
     )
   end
   let(:length_1) { 1500 }
@@ -33,23 +37,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricIsolated 
   let(:cover_lateral) { 50 }
   let(:cover_top) { 50 }
   let(:cover_bottom) { 75 }
-  let(:longitudinal_bottom_reinforcement_length_1) do
-    StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-      distribution_direction: :length_1
-    )
-  end
-  let(:longitudinal_bottom_reinforcement_length_2) do
-    StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-      distribution_direction: :length_2
-    )
-  end
-  let(:rebar_material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
-  let(:rebar_n3) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 3,
-      material: rebar_material
-    )
-  end
+  let(:rebar_n3) { build(:rebar, number: 3) }
   let(:start_location_1) do
     StructuraidCore::Engineering::Locations::Relative.new(
       value_1: -0.5 * length_1 + cover_lateral,

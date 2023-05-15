@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe StructuraidCore::Elements::Reinforcement::Rebar do
-  let(:elastic_module) { 200_000 }
-  let(:yield_stress) { 420 }
-  let(:steel) { StructuraidCore::Materials::Steel.new(yield_stress:, elastic_module:) }
+  let(:steel) { build(:steel) }
   let(:diameter) { 6.4 }
   let(:number) { 18 }
 
@@ -25,7 +23,7 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::Rebar do
 
   describe '#add_start_hook' do
     let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { StructuraidCore::Elements::Reinforcement::RebarHook.new(number:, material: steel) }
+    let(:hook) { build(:rebar_hook, number:) }
 
     it 'returns a RebarHook instance' do
       expect(rebar.add_start_hook(hook)).to be_a(StructuraidCore::Elements::Reinforcement::RebarHook)
@@ -46,7 +44,7 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::Rebar do
 
   describe '#add_end_hook' do
     let(:rebar) { described_class.new(number:, material: steel) }
-    let(:hook) { StructuraidCore::Elements::Reinforcement::RebarHook.new(number:, material: steel) }
+    let(:hook) { build(:rebar_hook, number:) }
 
     it 'returns a RebarHook instance' do
       expect(rebar.add_end_hook(hook)).to be_a(StructuraidCore::Elements::Reinforcement::RebarHook)

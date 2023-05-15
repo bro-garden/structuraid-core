@@ -18,13 +18,7 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinalLay
   let(:value_1) { 950 }
   let(:value_3) { 50 }
   let(:amount_of_rebars) { 3 }
-  let(:material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
-  let(:first_rebar) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 3,
-      material:
-    )
-  end
+  let(:first_rebar) { build(:rebar, number: 3) }
 
   describe '.new with invalid distribution_direction' do
     let(:distribution_direction) { :length_5 }

@@ -14,11 +14,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
       length_1:,
       length_2:,
       height:,
-      material: StructuraidCore::Materials::Concrete.new(
-        elastic_module: 1800,
-        design_compression_strength: 28,
-        specific_weight: 2.4
-      ),
+      material: build(:concrete),
       cover_lateral:,
       cover_top:,
       cover_bottom:,
