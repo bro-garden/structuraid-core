@@ -1,7 +1,5 @@
 require 'interactor'
-require_relative './steps/check_bearing_capacity'
-require_relative './steps/resolve_design_code'
-require_relative './steps/assign_analysis_direction'
+require_all 'lib/structuraid_core/designers/footings/steps'
 
 module StructuraidCore
   module Designers
@@ -15,7 +13,8 @@ module StructuraidCore
         # @param soil [StructuraidCore::Materials::Soil] The soil layer on which the footer is supported
         # @param design_code [Symbol or String] The design code to be used
         organize Steps::ResolveDesignCode,
-                 Steps::CheckBearingCapacity
+                 Steps::CheckBearingCapacity,
+                 Steps::AssignAnalysisDirection
       end
     end
   end
