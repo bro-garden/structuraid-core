@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'simplecov'
+require 'support/factory_bot'
 
 SimpleCov.formatter SimpleCov::Formatter::HTMLFormatter
 SimpleCov.minimum_coverage 90

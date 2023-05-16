@@ -10,55 +10,27 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
     )
   end
 
-  let(:length_1) { 10_000 }
-  let(:length_2) { 3000 }
-  let(:height) { 250 }
-  let(:cover_lateral) { 50 }
-  let(:cover_top) { 50 }
-  let(:cover_bottom) { 75 }
   let(:section_direction) { :length_1 }
-
-  let(:footing) do
-    StructuraidCore::Elements::Footing.new(
-      length_1:,
-      length_2:,
-      height:,
-      material: StructuraidCore::Materials::Concrete.new(
-        elastic_module: 1800,
-        design_compression_strength: 28,
-        specific_weight: 2.4
-      ),
-      cover_lateral:,
-      cover_top:,
-      cover_bottom:,
-      longitudinal_bottom_reinforcement_length_1: nil,
-      longitudinal_bottom_reinforcement_length_2: nil
-    )
-  end
+  let(:footing) { build(:footing, length_1: 10_000, length_2: 3000, height: 250) }
   let(:loads_from_columns) do
     [
-      StructuraidCore::Loads::PointLoad.new(
+      build(
+        :point_load,
         value: -40_000,
-        location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: 1000,
-          value_y: 4000,
-          value_z: 0
-        ),
+        location: build(:absolute_location, value_x: 1000, value_y: 4000, value_z: 0),
         label: 'column_1'
       ),
-      StructuraidCore::Loads::PointLoad.new(
+      build(
+        :point_load,
         value: -10_000,
-        location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: 1000,
-          value_y: -1000,
-          value_z: 0
-        ),
+        location: build(:absolute_location, value_x: 1000, value_y: -1000, value_z: 0),
         label: 'column_2'
       )
     ]
   end
   let(:lcs) do
-    StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
+    build(
+      :coordinates_system,
       anchor_location: centric_combined_footing.absolute_centroid
     )
   end
@@ -72,13 +44,7 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricCombinedT
   end
 
   describe '#absolute_centroid' do
-    let(:expected_centroid) do
-      StructuraidCore::Engineering::Locations::Absolute.new(
-        value_x: 1000,
-        value_y: 3000,
-        value_z: 0
-      )
-    end
+    let(:expected_centroid) { build(:absolute_location, value_x: 1000, value_y: 3000, value_z: 0) }
 
     it 'returns an Engineering::Locations::Absolute object' do
       expect(

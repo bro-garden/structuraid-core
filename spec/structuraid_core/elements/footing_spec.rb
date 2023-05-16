@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'structuraid_core/errors/engineering/locations/duplicate_label_error'
 
 RSpec.describe StructuraidCore::Elements::Footing do
   subject(:footing) do
@@ -6,16 +7,20 @@ RSpec.describe StructuraidCore::Elements::Footing do
       length_1:,
       length_2:,
       height:,
-      material: StructuraidCore::Materials::Concrete.new(
-        elastic_module: 1800,
-        design_compression_strength: 28,
-        specific_weight: 2.4
-      ),
+      material: build(:concrete),
       cover_lateral:,
       cover_top:,
       cover_bottom:,
-      longitudinal_bottom_reinforcement_length_1:,
-      longitudinal_bottom_reinforcement_length_2:
+      longitudinal_bottom_reinforcement_length_1: build(
+        :straight_longitudinal_reinforcement,
+        distribution_direction: :length_1,
+        above_middle: false
+      ),
+      longitudinal_bottom_reinforcement_length_2: build(
+        :straight_longitudinal_reinforcement,
+        distribution_direction: :length_2,
+        above_middle: false
+      )
     )
   end
 
@@ -25,48 +30,36 @@ RSpec.describe StructuraidCore::Elements::Footing do
   let(:cover_lateral) { 50 }
   let(:cover_top) { 50 }
   let(:cover_bottom) { 75 }
-  let(:longitudinal_bottom_reinforcement_length_1) do
-    StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-      distribution_direction: :length_1
-    )
-  end
-  let(:longitudinal_bottom_reinforcement_length_2) do
-    StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-      distribution_direction: :length_2
-    )
-  end
-  let(:rebar_material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
-  let(:rebar_n3) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 3,
-      material: rebar_material
-    )
-  end
+  let(:rebar_n3) { build(:rebar, number: 3) }
   let(:start_location_1) do
-    StructuraidCore::Engineering::Locations::Relative.new(
+    build(
+      :relative_location,
       value_1: -0.5 * length_1 + cover_lateral,
       value_2: -0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
   let(:end_location_1) do
-    StructuraidCore::Engineering::Locations::Relative.new(
-      value_1: 0.5 * length_1 - cover_lateral,
-      value_2: 0.5 * length_2 - cover_lateral,
+    build(
+      :relative_location,
+      value_1: 0.5 * length_1 + cover_lateral,
+      value_2: 0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
   let(:start_location_2) do
-    StructuraidCore::Engineering::Locations::Relative.new(
+    build(
+      :relative_location,
       value_1: -0.5 * length_1 + cover_lateral,
       value_2: -0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
   let(:end_location_2) do
-    StructuraidCore::Engineering::Locations::Relative.new(
-      value_1: 0.5 * length_1 - cover_lateral,
-      value_2: 0.5 * length_2 - cover_lateral,
+    build(
+      :relative_location,
+      value_1: 0.5 * length_1 + cover_lateral,
+      value_2: 0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
@@ -124,17 +117,12 @@ RSpec.describe StructuraidCore::Elements::Footing do
   describe '#find_or_add_column_location' do
     subject(:result) { footing.find_or_add_column_location(column_location, column_label) }
 
-    let(:column_location) do
-      StructuraidCore::Engineering::Locations::Absolute.new(value_x: 10, value_y: 20, value_z: 10)
-    end
+    let(:column_location) { build(:absolute_location, value_x: 10, value_y: 20, value_z: 10) }
     let(:column_label) { :column }
     let(:coordinates_system) do
-      StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
-        anchor_location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: 5,
-          value_y: 10,
-          value_z: 20
-        )
+      build(
+        :coordinates_system,
+        anchor_location: build(:absolute_location, value_x: 5, value_y: 10, value_z: 20)
       )
     end
 
@@ -171,16 +159,12 @@ RSpec.describe StructuraidCore::Elements::Footing do
   describe '#inside_me?' do
     subject { footing.inside_me?(location) }
 
-    let(:location) do
-      StructuraidCore::Engineering::Locations::Relative.new(value_1: 10, value_2: 20, value_3: 0, label: :label)
-    end
+    let(:location) { build(:relative_location, value_1: 10, value_2: 20, value_3: 0) }
 
     it { is_expected.to be_truthy }
 
     context 'when location is outside the footing' do
-      let(:location) do
-        StructuraidCore::Engineering::Locations::Relative.new(value_1: 10_000, value_2: -20, value_3: 0, label: :label)
-      end
+      let(:location) { build(:relative_location, value_1: 10_000, value_2: -20, value_3: 0) }
 
       it { is_expected.to be_falsey }
     end
@@ -188,12 +172,9 @@ RSpec.describe StructuraidCore::Elements::Footing do
 
   describe '#add_vertices_location' do
     let(:coordinates_system) do
-      StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
-        anchor_location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: 5,
-          value_y: 10,
-          value_z: 20
-        )
+      build(
+        :coordinates_system,
+        anchor_location: build(:absolute_location, value_x: 5, value_y: 10, value_z: 20)
       )
     end
 
