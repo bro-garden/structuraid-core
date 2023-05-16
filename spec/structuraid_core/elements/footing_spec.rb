@@ -90,10 +90,10 @@ RSpec.describe StructuraidCore::Elements::Footing do
 
   describe '#effective_height' do
     describe 'when the footing has no longitudinal reinforcement' do
-      it 'returns nil' do
+      it 'uses cover to compute the effective height' do
         expect(
           footing.effective_height(section_direction: %i[length_1 length_2].sample, above_middle: true)
-        ).to be_nil
+        ).to eq(height - cover_bottom)
       end
     end
 

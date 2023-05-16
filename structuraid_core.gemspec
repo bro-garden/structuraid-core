@@ -46,6 +46,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.22.0'
   spec.add_development_dependency 'yard'
 
+  spec.add_dependency 'interactor', '~> 3.0'
   spec.add_dependency 'matrix', '~> 0.4.2'
   spec.add_dependency 'rake', '~> 13.0.6'
   spec.add_dependency 'require_all', '~> 3.0.0'

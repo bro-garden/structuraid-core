@@ -2,8 +2,8 @@ module StructuraidCore
   module Elements
     # A footing is a structural element that transfers load from a column to the soil.
     class Footing < Base
-      attr_accessor :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom
-      attr_reader :longitudinal_top_reinforcement_length_1,
+      attr_reader :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom,
+                  :longitudinal_top_reinforcement_length_1,
                   :longitudinal_bottom_reinforcement_length_1,
                   :longitudinal_top_reinforcement_length_2,
                   :longitudinal_bottom_reinforcement_length_2,
@@ -18,10 +18,10 @@ module StructuraidCore
       # @param cover_lateral [Float] The lateral cover of the footing
       # @param cover_top [Float] The top cover of the footing
       # @param cover_bottom [Float] The bottom cover of the footing
-      # @param longitudinal_top_reinforcement_length_1 [Reinforcement::StraightLongitudinal] The longitudinal reinforcement in the direction of the main section
-      # @param longitudinal_bottom_reinforcement_length_1 [Reinforcement::StraightLongitudinal] The longitudinal reinforcement in the direction of the main section
-      # @param longitudinal_top_reinforcement_length_2 [Reinforcement::StraightLongitudinal] The longitudinal reinforcement in the direction perpendicular to the main section
-      # @param longitudinal_bottom_reinforcement_length_2 [Reinforcement::StraightLongitudinal] The longitudinal reinforcement in the direction perpendicular to the main section
+      # @param longitudinal_top_reinforcement_length_1 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction of the main section
+      # @param longitudinal_bottom_reinforcement_length_1 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction of the main section
+      # @param longitudinal_top_reinforcement_length_2 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction perpendicular to the main section
+      # @param longitudinal_bottom_reinforcement_length_2 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction perpendicular to the main section
       #
       # @return [Footing] the footing
       def initialize(
@@ -104,6 +104,12 @@ module StructuraidCore
         inside_axis_1 && inside_axis_2
       end
 
+      def width(section_direction:)
+        return @length_1 if section_direction == :length_2
+
+        @length_2
+      end
+
       private
 
       def vertices_locations_vectors
@@ -124,11 +130,11 @@ module StructuraidCore
 
       def length_1_section_effective_area(above_middle:)
         if above_middle
-          return nil unless @longitudinal_top_reinforcement_length_1
+          return @height - cover_bottom unless @longitudinal_top_reinforcement_length_1
 
           @longitudinal_top_reinforcement_length_1.centroid_height
         else
-          return nil unless @longitudinal_bottom_reinforcement_length_1
+          return @height - cover_top unless @longitudinal_bottom_reinforcement_length_1
 
           @height - @longitudinal_bottom_reinforcement_length_1.centroid_height
         end
@@ -136,11 +142,11 @@ module StructuraidCore
 
       def length_2_section_effective_area(above_middle:)
         if above_middle
-          return nil unless @longitudinal_top_reinforcement_length_2
+          return @height - cover_bottom unless @longitudinal_top_reinforcement_length_2
 
           @longitudinal_top_reinforcement_length_2.centroid_height
         else
-          return nil unless @longitudinal_bottom_reinforcement_length_2
+          return @height - cover_top unless @longitudinal_bottom_reinforcement_length_2
 
           @height - @longitudinal_bottom_reinforcement_length_2.centroid_height
         end
