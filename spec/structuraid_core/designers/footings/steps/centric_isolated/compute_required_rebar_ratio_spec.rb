@@ -3,53 +3,36 @@ require 'spec_helper'
 RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::ComputeRequiredRebarRatio do
   describe '.call' do
     subject(:result) do
-      described_class.call(footing:, load_scenario:, analysis_direction:, design_code:, steel: build(:steel))
+      described_class.call(
+        footing:,
+        load_scenario:,
+        analysis_direction: :length_1,
+        design_code: StructuraidCore::DesignCodes::NSR10,
+        steel: build(:steel)
+      )
     end
 
     let(:footing) do
-      StructuraidCore::Elements::Footing.new(
+      build(
+        :footing,
         length_1: 1500,
         length_2: 1500,
         height:,
-        material: StructuraidCore::Materials::Concrete.new(
-          elastic_module: 1800,
-          design_compression_strength: 21,
-          specific_weight: 0.00002352
-        ),
-        cover_lateral: 50,
-        cover_top: 50,
-        cover_bottom: 75
+        material: build(:concrete, design_compression_strength: 21)
       )
     end
 
-    let(:load_scenario) do
-      StructuraidCore::Loads::Scenarios::Footings::CentricIsolated.new(
-        service_load: StructuraidCore::Loads::PointLoad.new(
-          value: -112_500,
-          location: StructuraidCore::Engineering::Locations::Absolute.new(
-            value_x: 0,
-            value_y: 0,
-            value_z: 0
-          ),
-          label: 'Service Load'
-        ),
-        ultimate_load: StructuraidCore::Loads::PointLoad.new(
-          value: -152_500,
-          location: StructuraidCore::Engineering::Locations::Absolute.new(
-            value_x: 0,
-            value_y: 0,
-            value_z: 0
-          ),
-          label: 'Service Load'
-        )
-      )
-    end
+    let(:load_location) { build(:absolute_location) }
 
     let(:height) { 500 }
 
-    let(:analysis_direction) { :length_1 }
-
-    let(:design_code) { StructuraidCore::DesignCodes::NSR10 }
+    let(:load_scenario) do
+      build(
+        :loads_scenarios_centric_isolated,
+        service_load: build(:point_load, value: -112_500, location: load_location),
+        ultimate_load: build(:point_load, value: -152_500, location: load_location)
+      )
+    end
 
     it 'is a success' do
       expect(result).to be_a_success
