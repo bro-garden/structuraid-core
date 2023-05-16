@@ -5,74 +5,46 @@ RSpec.describe StructuraidCore::Engineering::Analysis::Footing::CentricIsolated 
     described_class.new(footing:, load_from_column:, section_direction:)
   end
 
-  let(:load_from_column) { StructuraidCore::Loads::PointLoad.new(value: 1500, location: nil) }
+  let(:load_from_column) { build(:point_load, value: 1500) }
   let(:effective_height) { 250 }
   let(:section_direction) { :length_1 }
   let(:orthogonal_direction) { :length_2 }
 
-  let(:footing) do
-    StructuraidCore::Elements::Footing.new(
-      length_1:,
-      length_2:,
-      height:,
-      material: StructuraidCore::Materials::Concrete.new(
-        elastic_module: 1800,
-        design_compression_strength: 28,
-        specific_weight: 2.4
-      ),
-      cover_lateral:,
-      cover_top:,
-      cover_bottom:,
-      longitudinal_bottom_reinforcement_length_1:,
-      longitudinal_bottom_reinforcement_length_2:
-    )
-  end
+  let(:footing) { build(:footing, :with_reinforcement, length_1:, length_2:, height:) }
   let(:length_1) { 1500 }
   let(:length_2) { 1500 }
   let(:height) { 500 }
   let(:cover_lateral) { 50 }
   let(:cover_top) { 50 }
   let(:cover_bottom) { 75 }
-  let(:longitudinal_bottom_reinforcement_length_1) do
-    StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-      distribution_direction: :length_1
-    )
-  end
-  let(:longitudinal_bottom_reinforcement_length_2) do
-    StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-      distribution_direction: :length_2
-    )
-  end
-  let(:rebar_material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
-  let(:rebar_n3) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 3,
-      material: rebar_material
-    )
-  end
+  let(:rebar_n3) { build(:rebar, number: 3) }
   let(:start_location_1) do
-    StructuraidCore::Engineering::Locations::Relative.new(
+    build(
+      :relative_location,
       value_1: -0.5 * length_1 + cover_lateral,
       value_2: -0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
   let(:end_location_1) do
-    StructuraidCore::Engineering::Locations::Relative.new(
+    build(
+      :relative_location,
       value_1: 0.5 * length_1 - cover_lateral,
       value_2: 0.5 * length_2 - cover_lateral,
       value_3: cover_bottom
     )
   end
   let(:start_location_2) do
-    StructuraidCore::Engineering::Locations::Relative.new(
+    build(
+      :relative_location,
       value_1: -0.5 * length_1 + cover_lateral,
       value_2: -0.5 * length_2 + cover_lateral,
       value_3: cover_bottom
     )
   end
   let(:end_location_2) do
-    StructuraidCore::Engineering::Locations::Relative.new(
+    build(
+      :relative_location,
       value_1: 0.5 * length_1 - cover_lateral,
       value_2: 0.5 * length_2 - cover_lateral,
       value_3: cover_bottom

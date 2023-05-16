@@ -4,10 +4,7 @@ require 'structuraid_core/errors/engineering/locations/duplicate_label_error'
 RSpec.describe StructuraidCore::Engineering::Locations::Collection do
   subject(:collection) { described_class.new }
 
-  let(:location) do
-    StructuraidCore::Engineering::Locations::Relative.new(value_1: 1, value_2: 2, value_3: 3, label:)
-  end
-
+  let(:location) { build(:relative_location, label:) }
   let(:label) { :label }
 
   describe '#each' do
@@ -58,9 +55,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::Collection do
     end
 
     describe 'when the location has a label that already exists' do
-      let(:new_location) do
-        StructuraidCore::Engineering::Locations::Relative.new(value_1: 5, value_2: 7, value_3: 8, label:)
-      end
+      let(:new_location) { build(:relative_location, label:) }
 
       it 'adds a location to the collection' do
         expect { collection.add(new_location) }.to raise_error(
@@ -73,9 +68,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::Collection do
   describe '#find_or_add_by_label' do
     subject(:result) { collection.find_or_add_by_label(location) }
 
-    let(:location) do
-      StructuraidCore::Engineering::Locations::Relative.new(value_1: 10, value_2: 20, value_3: 10, label: :label)
-    end
+    let(:location) { build(:relative_location, value_1: 10, value_2: 20, value_3: 10, label:) }
 
     it 'adds the location to the collection' do
       expect { result }.to change { collection.find_by_label(:label) }.from(nil).to(anything)

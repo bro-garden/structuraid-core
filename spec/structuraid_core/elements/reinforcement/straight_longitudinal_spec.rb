@@ -3,26 +3,11 @@ require 'spec_helper'
 RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinal do
   subject(:reinforcement) { described_class.new(distribution_direction: :length_1) }
 
-  let(:start_location) do
-    StructuraidCore::Engineering::Locations::Relative.new(value_1: -950, value_2: -450, value_3: cover_bottom)
-  end
+  let(:start_location) { build(:relative_location, value_1: -950, value_2: -450, value_3: cover_bottom) }
   let(:cover_bottom) { 50 }
-  let(:end_location) do
-    StructuraidCore::Engineering::Locations::Relative.new(value_1: 950, value_2: 450, value_3: cover_bottom)
-  end
-  let(:material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
-  let(:first_rebar) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 3,
-      material:
-    )
-  end
-  let(:rebar_changed) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 8,
-      material:
-    )
-  end
+  let(:end_location) { build(:relative_location, value_1: 950, value_2: 450, value_3: cover_bottom) }
+  let(:first_rebar) { build(:rebar, number: 3) }
+  let(:rebar_changed) { build(:rebar, number: 8) }
 
   describe '#add_layer' do
     before do

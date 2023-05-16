@@ -11,20 +11,12 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinalLay
     )
   end
 
-  let(:start_location) do
-    StructuraidCore::Engineering::Locations::Relative.new(value_1: -1 * value_1, value_2: -450, value_3:)
-  end
-  let(:end_location) { StructuraidCore::Engineering::Locations::Relative.new(value_1:, value_2: 450, value_3:) }
+  let(:start_location) { build(:relative_location, value_1: -1 * value_1, value_2: -450, value_3:) }
+  let(:end_location) { build(:relative_location, value_1:, value_2: 450, value_3:) }
   let(:value_1) { 950 }
   let(:value_3) { 50 }
   let(:amount_of_rebars) { 3 }
-  let(:material) { StructuraidCore::Materials::Steel.new(yield_stress: 4200) }
-  let(:first_rebar) do
-    StructuraidCore::Elements::Reinforcement::Rebar.new(
-      number: 3,
-      material:
-    )
-  end
+  let(:first_rebar) { build(:rebar, number: 3) }
 
   describe '.new with invalid distribution_direction' do
     let(:distribution_direction) { :length_5 }
