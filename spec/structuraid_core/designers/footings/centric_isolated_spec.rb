@@ -4,26 +4,11 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
   describe '.call' do
     subject(:context) do
       described_class.call(
-        footing:,
+        footing: build(:footing),
         load_scenario:,
-        soil:,
-        design_code:
-      )
-    end
-
-    let(:footing) do
-      StructuraidCore::Elements::Footing.new(
-        length_1: 1500,
-        length_2: 1500,
-        height: 500,
-        material: StructuraidCore::Materials::Concrete.new(
-          elastic_module: 1800,
-          design_compression_strength: 28,
-          specific_weight: 0.00002352
-        ),
-        cover_lateral: 50,
-        cover_top: 50,
-        cover_bottom: 75
+        soil: build(:soil),
+        design_code: StructuraidCore::DesignCodes::NSR10,
+        steel: build(:steel)
       )
     end
 
@@ -50,13 +35,11 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
       )
     end
 
-    let(:soil) { StructuraidCore::Materials::Soil.new(bearing_capacity: 0.065) }
-
-    let(:design_code) { 'nsr_10' }
-
     before do
-      allow(StructuraidCore::Designers::Footings::Steps::ResolveDesignCode).to receive(:call)
-      allow(StructuraidCore::Designers::Footings::Steps::CheckBearingCapacity).to receive(:call)
+      allow(StructuraidCore::Designers::Footings::Steps::ResolveDesignCode).to receive(:call!)
+      allow(StructuraidCore::Designers::Footings::Steps::CheckBearingCapacity).to receive(:call!)
+      allow(StructuraidCore::Designers::Footings::Steps::AssignAnalysisDirection).to receive(:call!)
+      allow(StructuraidCore::Designers::Footings::Steps::CentricIsolated::ComputeRequiredRebarRatio).to receive(:call!)
 
       context
     end
@@ -65,9 +48,14 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
       expect(context).to be_a_success
     end
 
-    it 'calls the interactors' do
-      expect(StructuraidCore::Designers::Footings::Steps::ResolveDesignCode).to have_received(:call)
-      expect(StructuraidCore::Designers::Footings::Steps::CheckBearingCapacity).to have_received(:call)
+    it { expect(StructuraidCore::Designers::Footings::Steps::ResolveDesignCode).to have_received(:call!) }
+    it { expect(StructuraidCore::Designers::Footings::Steps::CheckBearingCapacity).to have_received(:call!) }
+    it { expect(StructuraidCore::Designers::Footings::Steps::AssignAnalysisDirection).to have_received(:call!) }
+
+    it do
+      expect(
+        StructuraidCore::Designers::Footings::Steps::CentricIsolated::ComputeRequiredRebarRatio
+      ).to have_received(:call!)
     end
   end
 end

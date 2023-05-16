@@ -31,7 +31,7 @@ RSpec.describe StructuraidCore::Loads::Scenarios::Footings::CentricIsolated do
     subject(:total_service_load) { scenario.total_service_load }
 
     it 'returns the service load' do
-      expect(total_service_load).to eq(-30_000)
+      expect(total_service_load.value).to eq(-30_000)
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe StructuraidCore::Loads::Scenarios::Footings::CentricIsolated do
     subject(:total_ultimate_load) { scenario.total_ultimate_load }
 
     it 'returns the ultimate load' do
-      expect(total_ultimate_load).to eq(-40_000)
+      expect(total_ultimate_load.value).to eq(-40_000)
     end
   end
 end

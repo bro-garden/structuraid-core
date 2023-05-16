@@ -21,7 +21,7 @@ module StructuraidCore
           private
 
           def area_service_load
-            load_scenario.total_service_load.abs / footing.horizontal_area
+            load_scenario.total_service_load.value.abs / footing.horizontal_area
           end
 
           def footing_self_weigth

@@ -12,9 +12,11 @@ module StructuraidCore
         # @param load_scenario [StructuraidCore::Loads::Scenarios::Footings::CentricIsolated] The load scenario to be considered
         # @param soil [StructuraidCore::Materials::Soil] The soil layer on which the footer is supported
         # @param design_code [Symbol or String] The design code to be used
+        # @param steel [StructuraidCore::Materials::Steel] The rebar's material
         organize Steps::ResolveDesignCode,
                  Steps::CheckBearingCapacity,
-                 Steps::AssignAnalysisDirection
+                 Steps::AssignAnalysisDirection,
+                 Steps::CentricIsolated::ComputeRequiredRebarRatio
       end
     end
   end

@@ -104,6 +104,12 @@ module StructuraidCore
         inside_axis_1 && inside_axis_2
       end
 
+      def width(section_direction:)
+        return @length_1 if section_direction == :length_2
+
+        @length_2
+      end
+
       private
 
       def vertices_locations_vectors
@@ -124,11 +130,11 @@ module StructuraidCore
 
       def length_1_section_effective_area(above_middle:)
         if above_middle
-          return nil unless @longitudinal_top_reinforcement_length_1
+          return @height - cover_bottom unless @longitudinal_top_reinforcement_length_1
 
           @longitudinal_top_reinforcement_length_1.centroid_height
         else
-          return nil unless @longitudinal_bottom_reinforcement_length_1
+          return @height - cover_top unless @longitudinal_bottom_reinforcement_length_1
 
           @height - @longitudinal_bottom_reinforcement_length_1.centroid_height
         end
@@ -136,11 +142,11 @@ module StructuraidCore
 
       def length_2_section_effective_area(above_middle:)
         if above_middle
-          return nil unless @longitudinal_top_reinforcement_length_2
+          return @height - cover_bottom unless @longitudinal_top_reinforcement_length_2
 
           @longitudinal_top_reinforcement_length_2.centroid_height
         else
-          return nil unless @longitudinal_bottom_reinforcement_length_2
+          return @height - cover_top unless @longitudinal_bottom_reinforcement_length_2
 
           @height - @longitudinal_bottom_reinforcement_length_2.centroid_height
         end

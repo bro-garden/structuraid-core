@@ -14,11 +14,11 @@ module StructuraidCore
           end
 
           def total_service_load
-            service_load.value
+            service_load
           end
 
           def total_ultimate_load
-            ultimate_load.value
+            ultimate_load
           end
         end
       end
