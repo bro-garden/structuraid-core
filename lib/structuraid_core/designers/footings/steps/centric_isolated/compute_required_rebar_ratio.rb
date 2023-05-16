@@ -38,7 +38,7 @@ module StructuraidCore
                 section_direction: analysis_direction
               )
 
-              - analysis.bending_solicitation
+              analysis.bending_solicitation
             end
 
             def compute_required_flexural_reinforcement_ratio
@@ -47,7 +47,7 @@ module StructuraidCore
                 design_steel_yield_strength: steel.yield_stress,
                 width: footing.width(section_direction: analysis_direction),
                 effective_height: footing.effective_height(section_direction: analysis_direction, above_middle: false),
-                flexural_moment:,
+                flexural_moment: flexural_moment.abs,
                 capacity_reduction_factor: design_code::RC::ReductionFactor.call(
                   strength_controlling_behaviour: :tension_controlled
                 )

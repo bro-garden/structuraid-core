@@ -39,7 +39,7 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Com
     end
 
     it 'returns the design bending momentum' do
-      expect(result.analysis_results[:bending_momentum]).to eq(57_187_500.0)
+      expect(result.analysis_results[:bending_momentum]).to eq(-57_187_500.0)
     end
 
     it 'returns the design required reinforcement ratio' do
