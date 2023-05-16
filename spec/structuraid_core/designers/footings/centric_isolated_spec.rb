@@ -5,33 +5,10 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
     subject(:context) do
       described_class.call(
         footing: build(:footing),
-        load_scenario:,
+        load_scenario: build(:loads_scenarios_centric_isolated),
         soil: build(:soil),
         design_code: StructuraidCore::DesignCodes::NSR10,
         steel: build(:steel)
-      )
-    end
-
-    let(:load_scenario) do
-      StructuraidCore::Loads::Scenarios::Footings::CentricIsolated.new(
-        service_load: StructuraidCore::Loads::PointLoad.new(
-          value: -112_500,
-          location: StructuraidCore::Engineering::Locations::Absolute.new(
-            value_x: 0,
-            value_y: 0,
-            value_z: 0
-          ),
-          label: 'Service Load'
-        ),
-        ultimate_load: StructuraidCore::Loads::PointLoad.new(
-          value: -152_500,
-          location: StructuraidCore::Engineering::Locations::Absolute.new(
-            value_x: 0,
-            value_y: 0,
-            value_z: 0
-          ),
-          label: 'Service Load'
-        )
       )
     end
 
