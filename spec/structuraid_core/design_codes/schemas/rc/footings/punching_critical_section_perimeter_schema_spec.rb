@@ -1,37 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCriticalSectionPerimeterSchema do
-  let(:length_1) { 2500 }
-  let(:length_2) { 1000 }
-  let(:height) { 300 }
-  let(:cover_lateral) { 50 }
-  let(:cover_top) { 50 }
-  let(:cover_bottom) { 75 }
-  let(:section_direction) { :length_1 }
-
-  let(:footing) do
-    StructuraidCore::Elements::Footing.new(
-      length_1:,
-      length_2:,
-      height:,
-      material: build(:concrete),
-      cover_lateral:,
-      cover_top:,
-      cover_bottom:,
-      longitudinal_bottom_reinforcement_length_1: nil,
-      longitudinal_bottom_reinforcement_length_2: nil
-    )
-  end
-
-  let(:lcs) do
-    StructuraidCore::Engineering::Locations::CoordinatesSystem.new(
-      anchor_location: StructuraidCore::Engineering::Locations::Absolute.new(
-        value_x: 0,
-        value_y: 0,
-        value_z: 0
-      )
-    )
-  end
+  let(:footing) { build(:footing) }
 
   describe '.validate!' do
     subject(:result) { described_class.validate!(params) }
@@ -40,11 +10,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
       {
         column_section_length_1: 450,
         column_section_length_2: 250,
-        column_absolute_location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: -1025,
-          value_y: 375,
-          value_z: 0
-        ),
+        column_absolute_location: build(:absolute_location, value_x: -1025, value_y: 375, value_z: 0),
         column_label: :column,
         footing:
       }
@@ -70,11 +36,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
       {
         column_section_length_1: 450,
         column_section_length_2: 250,
-        column_absolute_location: StructuraidCore::Engineering::Locations::Absolute.new(
-          value_x: -1025,
-          value_y: 375,
-          value_z: 0
-        ),
+        column_absolute_location: build(:absolute_location, value_x: -1025, value_y: 375, value_z: 0),
         column_label: :column,
         footing:
       }
