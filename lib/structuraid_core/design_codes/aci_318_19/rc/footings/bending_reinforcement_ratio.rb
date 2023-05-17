@@ -1,14 +1,14 @@
 module StructuraidCore
   module DesignCodes
-    module ACI31819
-      module RC
+    module Aci31819
+      module Rc
         module Footings
           class BendingReinforcementRatio
             MINIMUM_RATIO = 0.0025
             CODE_REFERENCE = 'ACI 318-19'.freeze
 
             include DesignCodes::Utils::CodeRequirement
-            use_schema DesignCodes::Schemas::RC::Footings::BendingReinforcementRatioSchema
+            use_schema DesignCodes::Schemas::Rc::Footings::BendingReinforcementRatioSchema
 
             def call
               [
@@ -48,7 +48,7 @@ module StructuraidCore
 
             def equation_component_root
               unless 4 * equation_component_a * equation_component_c < 1
-                raise RequirementNotFulfilledError.new(
+                raise Errors::DesignCodes::RequirementNotFulfilledError.new(
                   :flexural_moment,
                   "Moment #{flexural_moment} is too hight for this element",
                   CODE_REFERENCE

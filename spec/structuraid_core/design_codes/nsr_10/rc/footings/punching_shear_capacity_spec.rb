@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingShearCapacity do
+RSpec.describe StructuraidCore::DesignCodes::Nsr10::Rc::Footings::PunchingShearCapacity do
   describe '.call' do
     subject(:result) do
       described_class.call(
@@ -45,4 +44,3 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingShearC
     end
   end
 end
-# rubocop:enable RSpec/FilePath

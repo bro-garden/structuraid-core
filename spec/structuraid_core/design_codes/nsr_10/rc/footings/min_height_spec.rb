@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::MinHeight do
+RSpec.describe StructuraidCore::DesignCodes::Nsr10::Rc::Footings::MinHeight do
   describe '.call' do
     subject(:result) do
       described_class.call(
@@ -21,7 +20,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::MinHeight do
       let(:bottom_rebar_effective_height) { 100 }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::RequirementNotFulfilledError)
       end
     end
 
@@ -29,7 +28,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::MinHeight do
       let(:support_type) { :over_piles }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::RequirementNotFulfilledError)
       end
 
       describe 'when footing is tall enough' do
@@ -42,4 +41,3 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::MinHeight do
     end
   end
 end
-# rubocop:enable RSpec/FilePath

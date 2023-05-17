@@ -23,7 +23,7 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinalLay
 
     it 'raises error' do
       expect { straight_longitudinal_layer }.to raise_error(
-        StructuraidCore::Elements::Reinforcement::InvalidDistributionDirection
+        StructuraidCore::Errors::Reinforcement::InvalidDistributionDirection
       )
     end
   end

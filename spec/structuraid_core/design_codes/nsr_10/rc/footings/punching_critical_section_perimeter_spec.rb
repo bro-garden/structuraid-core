@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCriticalSectionPerimeter do
+RSpec.describe StructuraidCore::DesignCodes::Nsr10::Rc::Footings::PunchingCriticalSectionPerimeter do
   let(:footing) { build(:footing, length_1: 2500, length_2: 1000, height: 300) }
   let(:column_label) { :column }
 
@@ -108,4 +107,3 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::PunchingCritic
     end
   end
 end
-# rubocop:enable RSpec/FilePath

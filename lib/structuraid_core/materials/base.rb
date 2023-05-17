@@ -4,7 +4,3 @@ module StructuraidCore
     end
   end
 end
-
-require_relative 'concrete'
-require_relative 'soil'
-require_relative 'steel'

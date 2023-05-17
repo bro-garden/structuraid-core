@@ -1,7 +1,7 @@
 require 'yaml'
 
 module StructuraidCore
-  module DB
+  module Db
     module Base
       STANDARD_REBAR = YAML.load_file('lib/structuraid_core/db/rebars.yml')
 

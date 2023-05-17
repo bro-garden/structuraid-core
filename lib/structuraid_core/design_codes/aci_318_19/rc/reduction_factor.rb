@@ -1,10 +1,10 @@
 module StructuraidCore
   module DesignCodes
-    module ACI31819
-      module RC
+    module Aci31819
+      module Rc
         class ReductionFactor
           include DesignCodes::Utils::CodeRequirement
-          use_schema DesignCodes::Schemas::RC::ReductionFactorSchema
+          use_schema DesignCodes::Schemas::Rc::ReductionFactorSchema
 
           CONTROL_STRENGTH_CASES = %i[
             compression_controlled
@@ -25,7 +25,7 @@ module StructuraidCore
           # ACI 318-19 21.2
           def call
             unless CONTROL_STRENGTH_CASES.include?(strength_controlling_behaviour)
-              raise UnrecognizedValueError.new(strength_controlling_behaviour, :strength_controlling_behaviour)
+              raise Errors::DesignCodes::UnrecognizedValueError.new(strength_controlling_behaviour, :strength_controlling_behaviour)
             end
 
             # Table 21.2.1 (a) (h)
@@ -69,7 +69,7 @@ module StructuraidCore
           end
 
           def transition_controlled_factor
-            raise MissingParamError, :strain unless strain
+            raise Errors::DesignCodes::MissingParamError, :strain unless strain
 
             transition_controlled_by_strain
           end

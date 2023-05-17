@@ -11,7 +11,7 @@ module StructuraidCore
           # @param design_code [Symbol or String] The design code to be used
           def call
             context.design_code = DesignCodes::Resolver.use(context.design_code)
-          rescue DesignCodes::UnknownDesignCodeError => e
+          rescue Errors::DesignCodes::UnknownDesignCodeError => e
             context.fail!(message: e.message)
           end
         end

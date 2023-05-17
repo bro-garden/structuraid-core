@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::MinimumSteelCover do
+RSpec.describe StructuraidCore::DesignCodes::Nsr10::Rc::MinimumSteelCover do
   describe '.call' do
     subject(:result) { described_class.call(params) }
 
@@ -16,7 +15,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::MinimumSteelCover do
       end
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::MissingParamError)
       end
     end
 
@@ -205,4 +204,3 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::MinimumSteelCover do
     end
   end
 end
-# rubocop:enable RSpec/FilePath

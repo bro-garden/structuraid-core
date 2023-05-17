@@ -1,12 +1,11 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
+RSpec.describe StructuraidCore::DesignCodes::Nsr10::Rc::ReductionFactor do
   let(:max_strain_before_transition) do
-    StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MAX_STRAIN_BEFORE_TRANSITION
+    StructuraidCore::DesignCodes::Nsr10::Rc::ReductionFactor::MAX_STRAIN_BEFORE_TRANSITION
   end
   let(:min_strain_after_transition) do
-    StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor::MIN_STRAIN_AFTER_TRANSITION
+    StructuraidCore::DesignCodes::Nsr10::Rc::ReductionFactor::MIN_STRAIN_AFTER_TRANSITION
   end
 
   describe '.call' do
@@ -20,7 +19,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
       let(:strength_controlling_behaviour) { :wron_control_value }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::UnrecognizedValueError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::UnrecognizedValueError)
       end
     end
 
@@ -111,7 +110,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
           end
 
           it 'raises an error' do
-            expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+            expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::MissingParamError)
           end
         end
 
@@ -167,7 +166,7 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
           end
 
           it 'raises an error' do
-            expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+            expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::MissingParamError)
           end
         end
 
@@ -213,4 +212,3 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::ReductionFactor do
     end
   end
 end
-# rubocop:enable RSpec/FilePath

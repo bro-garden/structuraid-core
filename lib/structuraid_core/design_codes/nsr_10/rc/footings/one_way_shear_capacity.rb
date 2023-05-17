@@ -1,13 +1,13 @@
 module StructuraidCore
   module DesignCodes
-    module NSR10
-      module RC
+    module Nsr10
+      module Rc
         module Footings
           class OneWayShearCapacity
             CODE_REFERENCE = 'NSR-10 C.11.11'.freeze
 
             include DesignCodes::Utils::CodeRequirement
-            use_schema DesignCodes::Schemas::RC::Footings::OneWayShearCapacitySchema
+            use_schema DesignCodes::Schemas::Rc::Footings::OneWayShearCapacitySchema
 
             # NSR-10 C.11.11
 

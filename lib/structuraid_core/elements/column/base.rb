@@ -6,5 +6,3 @@ module StructuraidCore
     end
   end
 end
-
-require_relative 'rectangular'

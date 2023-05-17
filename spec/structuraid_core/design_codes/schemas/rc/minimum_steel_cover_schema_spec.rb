@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::MinimumSteelCoverSchema do
+RSpec.describe StructuraidCore::DesignCodes::Schemas::Rc::MinimumSteelCoverSchema do
   describe '.validate!' do
     subject(:result) { described_class.validate!(params) }
 
@@ -14,7 +14,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::MinimumSteelCoverSchem
       let(:params) { {} }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::MissingParamError)
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::MinimumSteelCoverSchem
       end
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::UnrecognizedValueError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::UnrecognizedValueError)
       end
     end
   end

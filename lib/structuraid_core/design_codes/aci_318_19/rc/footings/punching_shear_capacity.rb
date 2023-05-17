@@ -1,7 +1,7 @@
 module StructuraidCore
   module DesignCodes
-    module ACI31819
-      module RC
+    module Aci31819
+      module Rc
         module Footings
           class PunchingShearCapacity
             COLUMN_LOCATION_FACTORS = {
@@ -11,7 +11,7 @@ module StructuraidCore
             }.freeze
 
             include DesignCodes::Utils::CodeRequirement
-            use_schema DesignCodes::Schemas::RC::Footings::PunchingShearCapacitySchema
+            use_schema DesignCodes::Schemas::Rc::Footings::PunchingShearCapacitySchema
 
             # ACI 318-19 22.6.5.2
             def call
@@ -60,7 +60,7 @@ module StructuraidCore
 
             def column_location_factor
               unless COLUMN_LOCATION_FACTORS.keys.include?(column_location)
-                raise DesignCodes::UnrecognizedValueError.new('column_location', column_location)
+                raise Errors::DesignCodes::UnrecognizedValueError.new('column_location', column_location)
               end
 
               @column_location_factor ||= COLUMN_LOCATION_FACTORS[column_location].to_f *

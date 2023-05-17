@@ -16,7 +16,7 @@ module StructuraidCore
           distribution_direction:
         )
           if VALID_DIRECTIONS.none?(distribution_direction)
-            raise Elements::Reinforcement::InvalidDistributionDirection.new(distribution_direction, VALID_DIRECTIONS)
+            raise Errors::Reinforcement::InvalidDistributionDirection.new(distribution_direction, VALID_DIRECTIONS)
           end
 
           @start_location = start_location

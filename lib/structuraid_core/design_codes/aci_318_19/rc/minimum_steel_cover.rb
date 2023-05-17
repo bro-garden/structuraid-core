@@ -1,10 +1,10 @@
 module StructuraidCore
   module DesignCodes
-    module ACI31819
-      module RC
+    module Aci31819
+      module Rc
         class MinimumSteelCover
           include DesignCodes::Utils::CodeRequirement
-          use_schema DesignCodes::Schemas::RC::MinimumSteelCoverSchema
+          use_schema DesignCodes::Schemas::Rc::MinimumSteelCoverSchema
 
           CODE_REFERENCE = 'ACI 318-19 21.5.1.3.1'.freeze
 

@@ -7,7 +7,7 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Com
         footing:,
         load_scenario:,
         analysis_direction: :length_1,
-        design_code: StructuraidCore::DesignCodes::NSR10,
+        design_code: StructuraidCore::DesignCodes::Nsr10,
         steel: build(:steel)
       )
     end

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingReinforcementRatio do
+RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingReinforcementRatio do
   describe '.call' do
     subject(:result) do
       described_class.call(
@@ -19,7 +18,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
     let(:effective_height) { 450 } # mm
     let(:capacity_reduction_factor) { 0.90 }
     let(:min_ratio) do
-      StructuraidCore::DesignCodes::NSR10::RC::Footings::BendingReinforcementRatio::MINIMUM_RATIO
+      StructuraidCore::DesignCodes::Nsr10::Rc::Footings::BendingReinforcementRatio::MINIMUM_RATIO
     end
 
     describe 'when concrete is 28MPa' do
@@ -55,7 +54,7 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
         let(:flexural_moment) { 999_999_999_999_999 }
 
         it 'raises an error' do
-          expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
+          expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::RequirementNotFulfilledError)
         end
       end
     end
@@ -93,10 +92,9 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::BendingRein
         let(:flexural_moment) { 999_999_999_999_999 }
 
         it 'raises an error' do
-          expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
+          expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::RequirementNotFulfilledError)
         end
       end
     end
   end
 end
-# rubocop:enable RSpec/FilePath

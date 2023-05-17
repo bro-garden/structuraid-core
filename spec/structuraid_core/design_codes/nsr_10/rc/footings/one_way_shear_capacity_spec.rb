@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::OneWayShearCapacity do
+RSpec.describe StructuraidCore::DesignCodes::Nsr10::Rc::Footings::OneWayShearCapacity do
   describe '.call' do
     subject(:result) do
       described_class.call(
@@ -39,4 +38,3 @@ RSpec.describe StructuraidCore::DesignCodes::NSR10::RC::Footings::OneWayShearCap
     end
   end
 end
-# rubocop:enable RSpec/FilePath

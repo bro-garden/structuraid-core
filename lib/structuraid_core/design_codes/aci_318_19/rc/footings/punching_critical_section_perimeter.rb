@@ -1,13 +1,11 @@
-require 'byebug'
-
 module StructuraidCore
   module DesignCodes
-    module ACI31819
-      module RC
+    module Aci31819
+      module Rc
         module Footings
           class PunchingCriticalSectionPerimeter
             include DesignCodes::Utils::CodeRequirement
-            use_schema DesignCodes::Schemas::RC::Footings::PunchingCriticalSectionPerimeterSchema
+            use_schema DesignCodes::Schemas::Rc::Footings::PunchingCriticalSectionPerimeterSchema
 
             EDGES_INDEXES = {
               top: { from: :top_right, to: :top_left },

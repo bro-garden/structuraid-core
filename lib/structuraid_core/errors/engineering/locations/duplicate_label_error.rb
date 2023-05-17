@@ -1,11 +1,13 @@
 module StructuraidCore
-  module Engineering
-    module Locations
-      class DuplicateLabelError < StandardError
-        def initialize(label)
-          message = "location with label: #{label} already exists"
+  module Errors
+    module Engineering
+      module Locations
+        class DuplicateLabelError < StandardError
+          def initialize(label)
+            message = "location with label: #{label} already exists"
 
-          super(message)
+            super(message)
+          end
         end
       end
     end

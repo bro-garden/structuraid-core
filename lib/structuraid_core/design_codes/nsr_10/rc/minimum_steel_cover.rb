@@ -1,10 +1,10 @@
 module StructuraidCore
   module DesignCodes
-    module NSR10
-      module RC
+    module Nsr10
+      module Rc
         class MinimumSteelCover
           include DesignCodes::Utils::CodeRequirement
-          use_schema DesignCodes::Schemas::RC::MinimumSteelCoverSchema
+          use_schema DesignCodes::Schemas::Rc::MinimumSteelCoverSchema
 
           CODE_REFERENCE = 'NSR-10 C.7.7.1'.freeze
 

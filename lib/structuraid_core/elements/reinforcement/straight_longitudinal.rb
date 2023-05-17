@@ -28,7 +28,7 @@ module StructuraidCore
         def centroid_height
           return inertia / area unless @layers.empty?
 
-          raise Elements::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
+          raise Errors::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
         end
 
         def area

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingShearCapacitySchema do
+RSpec.describe StructuraidCore::DesignCodes::Schemas::Rc::Footings::PunchingShearCapacitySchema do
   describe '.validate!' do
     subject(:result) { described_class.validate!(params) }
 
@@ -24,7 +24,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingShea
       let(:params) { {} }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::MissingParamError)
       end
     end
   end

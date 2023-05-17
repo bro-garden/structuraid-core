@@ -1,5 +1,3 @@
-require 'byebug'
-
 module StructuraidCore
   module Engineering
     module Analysis
@@ -12,7 +10,7 @@ module StructuraidCore
 
           def initialize(footing:, loads_from_columns:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
-              raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
+              raise Errors::Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
             end
 
             @footing = footing

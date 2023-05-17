@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCriticalSectionPerimeterSchema do
+RSpec.describe StructuraidCore::DesignCodes::Schemas::Rc::Footings::PunchingCriticalSectionPerimeterSchema do
   let(:footing) { build(:footing) }
 
   describe '.validate!' do
@@ -24,7 +24,7 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::RC::Footings::PunchingCrit
       let(:params) { {} }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::MissingParamError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::MissingParamError)
       end
     end
   end

@@ -1,7 +1,7 @@
 module StructuraidCore
   module DesignCodes
     module Schemas
-      module RC
+      module Rc
         class ElasticModulusSchema
           include DesignCodes::Utils::SchemaDefinition
 

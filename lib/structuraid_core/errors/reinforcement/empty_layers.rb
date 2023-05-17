@@ -1,5 +1,5 @@
 module StructuraidCore
-  module Elements
+  module Errors
     module Reinforcement
       class EmptyLayers < StandardError
         def initialize(complement)

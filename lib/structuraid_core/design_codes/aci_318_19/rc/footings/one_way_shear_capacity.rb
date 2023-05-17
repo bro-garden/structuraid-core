@@ -1,13 +1,13 @@
 module StructuraidCore
   module DesignCodes
-    module ACI31819
-      module RC
+    module Aci31819
+      module Rc
         module Footings
           class OneWayShearCapacity
             CODE_REFERENCE = 'ACI 318-19'.freeze
 
             include DesignCodes::Utils::CodeRequirement
-            use_schema DesignCodes::Schemas::RC::Footings::OneWayShearCapacitySchema
+            use_schema DesignCodes::Schemas::Rc::Footings::OneWayShearCapacitySchema
 
             def call
               compute_concrete_shear_capacity

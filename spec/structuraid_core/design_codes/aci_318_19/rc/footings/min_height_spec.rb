@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-# rubocop:disable RSpec/FilePath
-RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::MinHeight do
+RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::MinHeight do
   describe '.call' do
     subject(:result) do
       described_class.call(
@@ -19,9 +18,8 @@ RSpec.describe StructuraidCore::DesignCodes::ACI31819::RC::Footings::MinHeight d
       let(:bottom_rebar_effective_height) { 100 }
 
       it 'raises an error' do
-        expect { result }.to raise_error(StructuraidCore::DesignCodes::RequirementNotFulfilledError)
+        expect { result }.to raise_error(StructuraidCore::Errors::DesignCodes::RequirementNotFulfilledError)
       end
     end
   end
 end
-# rubocop:enable RSpec/FilePath

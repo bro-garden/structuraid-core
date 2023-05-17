@@ -7,7 +7,7 @@ module StructuraidCore
 
           def initialize(footing:, load_from_column:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
-              raise Engineering::Analysis::SectionDirectionError.new(
+              raise Errors::Engineering::Analysis::SectionDirectionError.new(
                 section_direction,
                 ORTHOGONALITIES
               )
