@@ -3,7 +3,8 @@ module StructuraidCore
     module DesignCodes
       class UnknownDesignCodeError < StandardError
         def initialize(code_name)
-          message = "Design code #{code_name} is unknown. Must select one of #{StructuraidCore::DesignCodes::Resolver::CODES_NAMESPACES}"
+          namespaces = StructuraidCore::DesignCodes::Resolver::CODES_NAMESPACES
+          message = "Design code #{code_name} is unknown. Must select one of #{namespaces}"
 
           super(message)
         end

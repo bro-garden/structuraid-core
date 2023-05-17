@@ -6,17 +6,6 @@ module StructuraidCore
           include DesignCodes::Utils::CodeRequirement
           use_schema DesignCodes::Schemas::Rc::ReductionFactorSchema
 
-          CONTROL_STRENGTH_CASES = %i[
-            compression_controlled
-            tension_controlled
-            transition_controlled
-            crushing_controlled
-            shear_nonseismic_controlled
-            torsion_controlled
-            corbel_bracket_controlled
-            strud_and_tie_controlled
-          ].freeze
-
           MAX_STRAIN_BEFORE_TRANSITION = 0.002 # 21.2.2.1 - 21.2.2.2
           MIN_STRAIN_AFTER_TRANSITION = 0.005 # 21.2.2.1 - 21.2.2.2
 
@@ -24,10 +13,6 @@ module StructuraidCore
 
           # ACI 318-19 21.2
           def call
-            unless CONTROL_STRENGTH_CASES.include?(strength_controlling_behaviour)
-              raise Errors::DesignCodes::UnrecognizedValueError.new(strength_controlling_behaviour, :strength_controlling_behaviour)
-            end
-
             # Table 21.2.1 (a) (h)
             return tension_controlled_factor if strength_controlling_behaviour == :tension_controlled
             # Table 21.2.1 (a)
