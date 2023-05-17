@@ -2,6 +2,7 @@ module StructuraidCore
   module Engineering
     module Analysis
       module Footing
+        # This class contains the analysiss equations of a centric combined footing with two columns
         class CentricCombinedTwoColumns
           include Utils::BasicGeometry
           include Utils::Centroid

@@ -1,5 +1,6 @@
 module StructuraidCore
   module Materials
+    # This class represents a steel material
     class Steel
       DEFAULT_ELASTIC_MODULE = 200_000
 

@@ -2,6 +2,7 @@ module StructuraidCore
   module Engineering
     module Analysis
       module Footing
+        # This class contains the analysiss equations of a centric isolated footing
         class CentricIsolated
           ORTHOGONALITIES = %i[length_1 length_2].freeze
 

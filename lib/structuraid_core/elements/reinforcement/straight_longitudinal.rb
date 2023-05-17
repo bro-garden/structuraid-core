@@ -1,6 +1,7 @@
 module StructuraidCore
   module Elements
     module Reinforcement
+      # This class represents a longitudinal reinforcement. It groups all the layers that compose it on an object's face
       class StraightLongitudinal
         attr_reader :layers
 

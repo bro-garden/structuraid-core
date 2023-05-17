@@ -1,6 +1,7 @@
 module StructuraidCore
   module Elements
     module Column
+      # This class represents a rectangular column
       class Rectangular
         attr_reader :length_1, :length_2, :height, :material, :label
 

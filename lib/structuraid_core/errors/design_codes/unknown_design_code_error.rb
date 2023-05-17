@@ -1,6 +1,7 @@
 module StructuraidCore
   module Errors
     module DesignCodes
+      # This error is raised when a design code is not recognized
       class UnknownDesignCodeError < StandardError
         def initialize(code_name)
           namespaces = StructuraidCore::DesignCodes::Resolver::CODES_NAMESPACES

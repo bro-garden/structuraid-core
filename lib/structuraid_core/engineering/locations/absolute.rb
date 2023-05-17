@@ -3,6 +3,7 @@ require 'matrix'
 module StructuraidCore
   module Engineering
     module Locations
+      # This class represents an absolute location in space
       class Absolute
         attr_reader :value_x, :value_y, :value_z
 

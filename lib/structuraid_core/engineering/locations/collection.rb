@@ -1,6 +1,7 @@
 module StructuraidCore
   module Engineering
     module Locations
+      # This class represents a collection of relative locations, all tied to the same CoordinatesSystem
       class Collection
         include Enumerable
 

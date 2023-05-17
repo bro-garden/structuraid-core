@@ -3,6 +3,7 @@ require 'matrix'
 module StructuraidCore
   module Engineering
     module Locations
+      # This class represents a coordinates system located in space. It has an anchor absolute location and a collection of relative locations
       class CoordinatesSystem
         attr_reader :relative_locations, :axis_1, :anchor_location
 

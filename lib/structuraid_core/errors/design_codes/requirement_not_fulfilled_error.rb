@@ -1,6 +1,7 @@
 module StructuraidCore
   module Errors
     module DesignCodes
+      # This error is raised when a code requirement is not fulfilled given the params passed
       class RequirementNotFulfilledError < StandardError
         attr_reader :requirement, :message, :code_reference
 

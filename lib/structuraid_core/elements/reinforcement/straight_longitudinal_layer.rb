@@ -3,6 +3,7 @@ require 'matrix'
 module StructuraidCore
   module Elements
     module Reinforcement
+      # This class represents a longitudinal reinforcement layer. A layer is a set of rebars that are parallel to each other, spread on a face of an object from a starting location to an end location, all the bars have the same diameter and are equally spaced
       class StraightLongitudinalLayer
         attr_reader :rebar, :amount_of_rebars
 

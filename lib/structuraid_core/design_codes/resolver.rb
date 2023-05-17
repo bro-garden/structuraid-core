@@ -2,6 +2,7 @@
 
 module StructuraidCore
   module DesignCodes
+    # This class is responsible for resolving the design code abstraction. Given the design code name, it returns the namespace that must be used to fetch any other code requirement
     class Resolver
       CODES_NAMESPACES = {
         'nsr_10' => DesignCodes::Nsr10,

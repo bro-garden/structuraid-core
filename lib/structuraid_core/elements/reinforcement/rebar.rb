@@ -1,6 +1,7 @@
 module StructuraidCore
   module Elements
     module Reinforcement
+      # This class represents a reinforcement bar
       class Rebar
         include Utils::RebarData
 

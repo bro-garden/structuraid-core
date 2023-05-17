@@ -1,5 +1,6 @@
 module StructuraidCore
   module Materials
+    # This class represents a soil material
     class Soil
       attr_reader :bearing_capacity
 

@@ -1,5 +1,6 @@
 module StructuraidCore
   module Loads
+    # This class represents a uniform load. It has a starting and ending location
     class UniformLoad
       attr_accessor :start_value, :end_value
       attr_reader :start_location

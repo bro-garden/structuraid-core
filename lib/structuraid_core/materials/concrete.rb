@@ -1,5 +1,6 @@
 module StructuraidCore
   module Materials
+    # This class represents a concrete material
     class Concrete
       attr_reader :elastic_module, :design_compression_strength, :specific_weight
 
