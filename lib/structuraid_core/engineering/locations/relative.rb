@@ -3,7 +3,7 @@ require 'matrix'
 module StructuraidCore
   module Engineering
     module Locations
-      class Relative < Base
+      class Relative
         attr_reader :label
         attr_accessor :value_1, :value_2, :value_3
 

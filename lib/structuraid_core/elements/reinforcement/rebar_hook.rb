@@ -1,7 +1,7 @@
 module StructuraidCore
   module Elements
     module Reinforcement
-      class RebarHook < Base
+      class RebarHook
         include Utils::RebarData
 
         attr_reader :angle

@@ -1,7 +1,7 @@
 module StructuraidCore
   module Elements
     module Reinforcement
-      class StraightLongitudinal < Base
+      class StraightLongitudinal
         attr_reader :layers
 
         def initialize(distribution_direction:, above_middle: false)

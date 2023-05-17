@@ -2,7 +2,7 @@ module StructuraidCore
   module Engineering
     module Analysis
       module Footing
-        class CentricCombinedTwoColumns < Base
+        class CentricCombinedTwoColumns
           include Utils::BasicGeometry
           include Utils::Centroid
           include Utils::OneWayShear

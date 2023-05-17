@@ -1,6 +1,6 @@
 module StructuraidCore
   module Materials
-    class Steel < Base
+    class Steel
       DEFAULT_ELASTIC_MODULE = 200_000
 
       attr_reader :elastic_module, :yield_stress

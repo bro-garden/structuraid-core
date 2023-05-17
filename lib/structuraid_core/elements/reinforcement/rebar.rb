@@ -1,7 +1,7 @@
 module StructuraidCore
   module Elements
     module Reinforcement
-      class Rebar < Base
+      class Rebar
         include Utils::RebarData
 
         attr_reader :start_hook, :end_hook, :diameter, :number, :material

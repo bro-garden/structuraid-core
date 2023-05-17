@@ -1,7 +1,7 @@
 module StructuraidCore
   module Elements
     module Column
-      class Rectangular < Base
+      class Rectangular
         attr_reader :length_1, :length_2, :height, :material, :label
 
         def initialize(length_1:, length_2:, height:, material:, label: nil)

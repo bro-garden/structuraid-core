@@ -1,6 +1,6 @@
 module StructuraidCore
   module Loads
-    class UniformLoad < Base
+    class UniformLoad
       attr_accessor :start_value, :end_value
       attr_reader :start_location
 

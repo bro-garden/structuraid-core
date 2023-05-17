@@ -1,6 +1,6 @@
 module StructuraidCore
   module Loads
-    class PointLoad < Base
+    class PointLoad
       attr_accessor :value
       attr_reader :location, :label
 

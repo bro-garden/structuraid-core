@@ -2,7 +2,7 @@
 
 module StructuraidCore
   module DesignCodes
-    class Resolver < Base
+    class Resolver
       CODES_NAMESPACES = {
         'nsr_10' => DesignCodes::Nsr10,
         'aci_318_19' => DesignCodes::Aci31819

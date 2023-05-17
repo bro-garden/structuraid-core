@@ -3,7 +3,7 @@ require 'matrix'
 module StructuraidCore
   module Engineering
     module Locations
-      class CoordinatesSystem < Base
+      class CoordinatesSystem
         attr_reader :relative_locations, :axis_1, :anchor_location
 
         def initialize(anchor_location:)

@@ -1,6 +1,6 @@
 module StructuraidCore
   module Materials
-    class Soil < Base
+    class Soil
       attr_reader :bearing_capacity
 
       def initialize(bearing_capacity:)

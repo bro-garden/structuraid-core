@@ -2,7 +2,7 @@ require 'yaml'
 
 module StructuraidCore
   module Db
-    module Base
+    module Finder
       STANDARD_REBAR = YAML.load_file('lib/structuraid_core/db/rebars.yml')
 
       def self.find_standard_rebar(number:)

@@ -3,7 +3,7 @@ require 'matrix'
 module StructuraidCore
   module Elements
     module Reinforcement
-      class StraightLongitudinalLayer < Base
+      class StraightLongitudinalLayer
         attr_reader :rebar, :amount_of_rebars
 
         VALID_DIRECTIONS = %i[length_1 length_2 length_3].freeze

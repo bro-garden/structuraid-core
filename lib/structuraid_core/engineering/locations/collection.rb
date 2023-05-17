@@ -1,7 +1,7 @@
 module StructuraidCore
   module Engineering
     module Locations
-      class Collection < Base
+      class Collection
         include Enumerable
 
         def initialize

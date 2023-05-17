@@ -2,7 +2,7 @@ module StructuraidCore
   module Engineering
     module Analysis
       module Footing
-        class CentricIsolated < Base
+        class CentricIsolated
           ORTHOGONALITIES = %i[length_1 length_2].freeze
 
           def initialize(footing:, load_from_column:, section_direction:)
