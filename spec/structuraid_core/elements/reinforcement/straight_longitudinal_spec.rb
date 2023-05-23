@@ -36,7 +36,7 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinal do
   describe '#centroid_height' do
     describe 'when there are no layers added' do
       it 'raises error' do
-        expect { reinforcement.centroid_height }.to raise_error(StructuraidCore::Elements::Reinforcement::EmptyLayers)
+        expect { reinforcement.centroid_height }.to raise_error(StructuraidCore::Errors::Reinforcement::EmptyLayers)
       end
     end
 

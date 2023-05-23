@@ -1,5 +1,5 @@
 module StructuraidCore
-  module Elements
+  module Errors
     module Reinforcement
       class InvalidDistributionDirection < StandardError
         def initialize(distribution_direction, valid_directions)

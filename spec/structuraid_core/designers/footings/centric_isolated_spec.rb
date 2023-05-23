@@ -7,7 +7,7 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
         footing: build(:footing),
         load_scenario: build(:loads_scenarios_centric_isolated),
         soil: build(:soil),
-        design_code: StructuraidCore::DesignCodes::NSR10,
+        design_code: StructuraidCore::DesignCodes::Nsr10,
         steel: build(:steel)
       )
     end

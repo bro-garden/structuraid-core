@@ -3,7 +3,8 @@ require 'matrix'
 module StructuraidCore
   module Engineering
     module Locations
-      class Relative < Base
+      # This class represents a relative location in space
+      class Relative
         attr_reader :label
         attr_accessor :value_1, :value_2, :value_3
 

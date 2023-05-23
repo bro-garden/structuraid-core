@@ -3,7 +3,8 @@ require 'matrix'
 module StructuraidCore
   module Elements
     module Reinforcement
-      class StraightLongitudinalLayer < Base
+      # This class represents a longitudinal reinforcement layer. A layer is a set of rebars that are parallel to each other, spread on a face of an object from a starting location to an end location, all the bars have the same diameter and are equally spaced
+      class StraightLongitudinalLayer
         attr_reader :rebar, :amount_of_rebars
 
         VALID_DIRECTIONS = %i[length_1 length_2 length_3].freeze
@@ -16,7 +17,7 @@ module StructuraidCore
           distribution_direction:
         )
           if VALID_DIRECTIONS.none?(distribution_direction)
-            raise Elements::Reinforcement::InvalidDistributionDirection.new(distribution_direction, VALID_DIRECTIONS)
+            raise Errors::Reinforcement::InvalidDistributionDirection.new(distribution_direction, VALID_DIRECTIONS)
           end
 
           @start_location = start_location

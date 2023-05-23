@@ -3,7 +3,8 @@ require 'matrix'
 module StructuraidCore
   module Engineering
     module Locations
-      class Absolute < Base
+      # This class represents an absolute location in space
+      class Absolute
         attr_reader :value_x, :value_y, :value_z
 
         def initialize(value_x:, value_y:, value_z:)

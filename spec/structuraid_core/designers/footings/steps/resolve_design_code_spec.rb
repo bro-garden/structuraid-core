@@ -15,7 +15,7 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::ResolveDesignCode do
     end
 
     it 'sets the design code' do
-      expect(context.design_code).to eq(StructuraidCore::DesignCodes::NSR10)
+      expect(context.design_code).to eq(StructuraidCore::DesignCodes::Nsr10)
     end
 
     context 'when the design code is not found' do

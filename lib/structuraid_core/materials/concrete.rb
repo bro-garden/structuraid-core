@@ -1,6 +1,7 @@
 module StructuraidCore
   module Materials
-    class Concrete < Base
+    # This class represents a concrete material
+    class Concrete
       attr_reader :elastic_module, :design_compression_strength, :specific_weight
 
       def initialize(elastic_module:, design_compression_strength:, specific_weight:)

@@ -2,12 +2,13 @@ module StructuraidCore
   module Engineering
     module Analysis
       module Footing
-        class CentricIsolated < Base
+        # This class contains the analysiss equations of a centric isolated footing
+        class CentricIsolated
           ORTHOGONALITIES = %i[length_1 length_2].freeze
 
           def initialize(footing:, load_from_column:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
-              raise Engineering::Analysis::SectionDirectionError.new(
+              raise Errors::Engineering::Analysis::SectionDirectionError.new(
                 section_direction,
                 ORTHOGONALITIES
               )

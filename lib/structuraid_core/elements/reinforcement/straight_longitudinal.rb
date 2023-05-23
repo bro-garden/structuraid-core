@@ -1,7 +1,8 @@
 module StructuraidCore
   module Elements
     module Reinforcement
-      class StraightLongitudinal < Base
+      # This class represents a longitudinal reinforcement. It groups all the layers that compose it on an object's face
+      class StraightLongitudinal
         attr_reader :layers
 
         def initialize(distribution_direction:, above_middle: false)
@@ -28,7 +29,7 @@ module StructuraidCore
         def centroid_height
           return inertia / area unless @layers.empty?
 
-          raise Elements::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
+          raise Errors::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
         end
 
         def area

@@ -50,6 +50,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'matrix', '~> 0.4.2'
   spec.add_dependency 'rake', '~> 13.0.6'
   spec.add_dependency 'require_all', '~> 3.0.0'
+  spec.add_dependency 'zeitwerk', '~> 2.6.7'
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

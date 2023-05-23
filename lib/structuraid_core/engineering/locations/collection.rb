@@ -1,7 +1,8 @@
 module StructuraidCore
   module Engineering
     module Locations
-      class Collection < Base
+      # This class represents a collection of relative locations, all tied to the same CoordinatesSystem
+      class Collection
         include Enumerable
 
         def initialize
@@ -13,7 +14,7 @@ module StructuraidCore
         end
 
         def add(location)
-          raise DuplicateLabelError, location.label if find_by_label(location.label)
+          raise Errors::Engineering::Locations::DuplicateLabelError, location.label if find_by_label(location.label)
 
           locations.push(location)
         end
@@ -37,7 +38,7 @@ module StructuraidCore
         def find_or_add_by_label(location)
           add(location)
           find_by_label(location.label)
-        rescue DuplicateLabelError => e
+        rescue Errors::Engineering::Locations::DuplicateLabelError => e
           Warning.warn(e.message)
           find_by_label(location.label)
         end

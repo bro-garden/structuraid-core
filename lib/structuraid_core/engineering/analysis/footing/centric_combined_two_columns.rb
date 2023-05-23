@@ -1,10 +1,9 @@
-require 'byebug'
-
 module StructuraidCore
   module Engineering
     module Analysis
       module Footing
-        class CentricCombinedTwoColumns < Base
+        # This class contains the analysiss equations of a centric combined footing with two columns
+        class CentricCombinedTwoColumns
           include Utils::BasicGeometry
           include Utils::Centroid
           include Utils::OneWayShear
@@ -12,7 +11,7 @@ module StructuraidCore
 
           def initialize(footing:, loads_from_columns:, section_direction:)
             if ORTHOGONALITIES.none?(section_direction)
-              raise Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
+              raise Errors::Engineering::Analysis::SectionDirectionError.new(section_direction, ORTHOGONALITIES)
             end
 
             @footing = footing

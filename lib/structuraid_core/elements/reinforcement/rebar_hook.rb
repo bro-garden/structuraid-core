@@ -1,7 +1,8 @@
 module StructuraidCore
   module Elements
     module Reinforcement
-      class RebarHook < Base
+      # This class represents a reinforcement bar hook
+      class RebarHook
         include Utils::RebarData
 
         attr_reader :angle

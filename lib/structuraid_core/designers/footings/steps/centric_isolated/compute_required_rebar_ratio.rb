@@ -18,7 +18,7 @@ module StructuraidCore
               add_analysis_results_to_context
               context.analysis_results[:bending_momentum] = compute_flexural_moment
               context.analysis_results[:required_reinforcement_ratio] = compute_required_flexural_reinforcement_ratio
-            rescue DesignCodes::RequirementNotFulfilledError => e
+            rescue Errors::DesignCodes::RequirementNotFulfilledError => e
               context.fail!(message: e.message)
             end
 
@@ -42,13 +42,13 @@ module StructuraidCore
             end
 
             def compute_required_flexural_reinforcement_ratio
-              design_code::RC::Footings::BendingReinforcementRatio.call(
+              design_code::Rc::Footings::BendingReinforcementRatio.call(
                 design_compression_strength: footing.material.design_compression_strength,
                 design_steel_yield_strength: steel.yield_stress,
                 width: footing.width(section_direction: analysis_direction),
                 effective_height: footing.effective_height(section_direction: analysis_direction, above_middle: false),
                 flexural_moment: flexural_moment.abs,
-                capacity_reduction_factor: design_code::RC::ReductionFactor.call(
+                capacity_reduction_factor: design_code::Rc::ReductionFactor.call(
                   strength_controlling_behaviour: :tension_controlled
                 )
               )

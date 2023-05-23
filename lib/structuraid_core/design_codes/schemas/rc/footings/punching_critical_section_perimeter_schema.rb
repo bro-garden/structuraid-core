@@ -1,7 +1,7 @@
 module StructuraidCore
   module DesignCodes
     module Schemas
-      module RC
+      module Rc
         module Footings
           class PunchingCriticalSectionPerimeterSchema
             include DesignCodes::Utils::SchemaDefinition

@@ -59,7 +59,7 @@ RSpec.describe StructuraidCore::Engineering::Locations::Collection do
 
       it 'adds a location to the collection' do
         expect { collection.add(new_location) }.to raise_error(
-          StructuraidCore::Engineering::Locations::DuplicateLabelError
+          StructuraidCore::Errors::Engineering::Locations::DuplicateLabelError
         )
       end
     end

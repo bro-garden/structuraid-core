@@ -1,5 +1,4 @@
 require 'interactor'
-require_all 'lib/structuraid_core/designers/footings/steps'
 
 module StructuraidCore
   module Designers

@@ -1,7 +1,7 @@
 module StructuraidCore
   module Elements
     # A footing is a structural element that transfers load from a column to the soil.
-    class Footing < Base
+    class Footing
       attr_reader :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom,
                   :longitudinal_top_reinforcement_length_1,
                   :longitudinal_bottom_reinforcement_length_1,
