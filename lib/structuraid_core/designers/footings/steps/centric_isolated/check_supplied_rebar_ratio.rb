@@ -13,7 +13,6 @@ module StructuraidCore
 
             # @param design_code [StructuraidCore::DesignCodes] The design code to be used
             def call
-              
 
             rescue Errors::DesignCodes::RequirementNotFulfilledError => e
               context.fail!(message: e.message)
