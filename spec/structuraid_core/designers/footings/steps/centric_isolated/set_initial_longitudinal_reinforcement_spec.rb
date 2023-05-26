@@ -35,7 +35,7 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
         ),
         longitudinal_bottom_reinforcement_length_2: StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
           distribution_direction: :length_2,
-          above_middle: false 
+          above_middle: false
         )
       )
     end
@@ -61,6 +61,12 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
 
     it 'is a success' do
       expect(result_with_mocked_required_reinforcement_ratio).to be_a_success
+    end
+
+    it 'modifies footing by adding reinforcement layer' do
+      expect { result_with_mocked_required_reinforcement_ratio }.to change {
+        footing.reinforcement(direction: :length_1, above_middle: false).empty?
+      }.from(true).to(false)
     end
   end
 end

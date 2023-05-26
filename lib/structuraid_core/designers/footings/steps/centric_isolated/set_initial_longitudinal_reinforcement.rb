@@ -21,6 +21,7 @@ module StructuraidCore
               return unless footing.reinforcement_ratio(direction: analysis_direction, above_middle: true).zero?
 
               reinforcement_baseline
+              add_reinforcement
             end
 
             private
@@ -64,9 +65,9 @@ module StructuraidCore
             def required_amaunt_of_rebar(rebar)
               calculated = required_reinforcement_area / rebar.area
               integer_amount = calculated.round
-              return integer_amount unless integer_amount < calculated
+              return integer_amount + 1 if integer_amount < calculated
 
-              integer_amount + 1
+              integer_amount
             end
 
             def add_reinforcement_layer_start_location_length_1_bottom

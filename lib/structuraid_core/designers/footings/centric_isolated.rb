@@ -12,6 +12,7 @@ module StructuraidCore
         # @param soil [StructuraidCore::Materials::Soil] The soil layer on which the footer is supported
         # @param design_code [Symbol or String] The design code to be used
         # @param steel [StructuraidCore::Materials::Steel] The rebar's material
+        # @param support_type [Symbol or String] The support type: :over_soil or :over_piles
         organize Steps::ResolveDesignCode,
                  Steps::CheckBearingCapacity,
                  Steps::AssignAnalysisDirection,
