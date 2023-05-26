@@ -26,6 +26,14 @@ module StructuraidCore
           new_layer
         end
 
+        def empty?
+          @layers.empty?
+        end
+
+        def max_diameter
+          @layers.map(&:diameter).max
+        end
+
         def centroid_height
           return inertia / area unless @layers.empty?
 
