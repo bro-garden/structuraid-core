@@ -15,8 +15,9 @@ module StructuraidCore
         organize Steps::ResolveDesignCode,
                  Steps::CheckBearingCapacity,
                  Steps::AssignAnalysisDirection,
-                 Steps::CentricIsolated::ComputeRequiredRebarRatio
-                 Steps::CentricIsolated::SetInitialLongitudinalReinforcement
+                 Steps::CentricIsolated::ComputeRequiredRebarRatio,
+                 Steps::CentricIsolated::SetInitialLongitudinalReinforcement,
+                 Steps::CheckMinHeight
       end
     end
   end

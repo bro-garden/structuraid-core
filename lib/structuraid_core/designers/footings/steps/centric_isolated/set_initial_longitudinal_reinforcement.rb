@@ -21,9 +21,6 @@ module StructuraidCore
               return unless footing.reinforcement_ratio(direction: analysis_direction, above_middle: true).zero?
 
               reinforcement_baseline
-              add_reinforcement if footing.reinforcement_ratio(direction: analysis_direction, above_middle: true).zero?
-            rescue Errors::DesignCodes::RequirementNotFulfilledError => e
-              context.fail!(message: e.message)
             end
 
             private
