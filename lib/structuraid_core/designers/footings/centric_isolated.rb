@@ -16,6 +16,7 @@ module StructuraidCore
                  Steps::CheckBearingCapacity,
                  Steps::AssignAnalysisDirection,
                  Steps::CentricIsolated::ComputeRequiredRebarRatio
+                 Steps::CentricIsolated::SetInitialLongitudinalReinforcement
       end
     end
   end
