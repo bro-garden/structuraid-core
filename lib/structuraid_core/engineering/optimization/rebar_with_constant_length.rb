@@ -3,9 +3,8 @@ require 'interactor'
 module StructuraidCore
   module Engineering
     module Optimization
-      # Runs optimization of the reinforcement, it assumes that the rebar length is constant, so if any chosen rebar has the same length as any other, the target is just to minimize the total mass by changing the number of rebars
-      class RebarConstantLong
-        include Interactor
+      # Runs optimization of the reinforcement, it asumes that the rebar length is constant, so if any shosen rebar has the same length as any other, the target is just to minimize the total mass by changing the amount of rebars
+      class RebarWithConstantLength
 
         OPTIONAL_REBAR_NUMBERS = [3, 4, 5, 6, 7].freeze
         MINIMUM_REBAR_AMOUNT = 2
