@@ -2,27 +2,29 @@ module StructuraidCore
   module Optimization
     # Runs optimization of the reinforcement, it asumes that the rebar length is constant, so if any shosen rebar has the same length as any other, the target is just to minimize the total mass by changing the amount of rebars
     class RebarWithConstantLength
-
       OPTIONAL_REBAR_NUMBERS = [3, 4, 5, 6, 7].freeze
       MINIMUM_REBAR_AMOUNT = 2
       UNSUCCESSFUL_RESULT_CODE = :maximum_spacing_unsatisfied
       SUCCESSFUL_RESULT_CODE = :success
+      CRITICAL_RESULT_CODE = :there_is_no_possible_solution
 
       Result = Struct.new(:rebar, :amount_of_rebars, :result_code)
 
       # @param required_reinforcement_area [Float] The reinforcement area required by the design
       # @param maximum_rebar_spacing [Float] The maximum spacing between rebars
       # @param coverage_length [Float] The space to cover with the reinforcement, the rebars will be placed with a spacing which must be less than maximum_rebar_spacing
-      def initialize(required_reinforcement_area, maximum_rebar_spacing, coverage_length)
+      def initialize(required_reinforcement_area, maximum_rebar_spacing, coverage_length, minimum_spacing)
         @required_reinforcement_area = required_reinforcement_area
         @maximum_rebar_spacing = maximum_rebar_spacing
         @coverage_length = coverage_length
+        @minimum_spacing = minimum_spacing
       end
 
       def run
         @steps_log = []
         run_optimization
         return unsuccessful_result if current_rebar.nil?
+        return cant_use_any_rebar_result if spacing_below_minimum?
 
         successful_result
       end
@@ -33,17 +35,9 @@ module StructuraidCore
 
       private
 
-      attr_reader :required_reinforcement_area,
-                  :maximum_rebar_spacing,
-                  :coverage_length,
-                  :material,
-                  :current_mass,
-                  :current_rebar,
-                  :amount_of_rebars,
-                  :steps_log,
-                  :iteration_rebar,
-                  :iteration_rebars_amount,
-                  :iteration_rebar_mass
+      attr_reader :required_reinforcement_area, :maximum_rebar_spacing, :coverage_length, :material,
+                  :current_mass, :current_rebar, :amount_of_rebars, :steps_log, :iteration_rebar,
+                  :iteration_rebars_amount, :iteration_rebar_mass, :minimum_spacing
 
       def run_optimization
         @material = StructuraidCore::Materials::Steel.new(yield_stress: 420)
@@ -79,7 +73,6 @@ module StructuraidCore
         @current_rebar = iteration_rebar
         @amount_of_rebars = iteration_rebars_amount
         @steps_log << "rebar #{@current_rebar.number}: #{iteration_rebars_amount} ----> #{iteration_rebar_mass}"
-        puts "rebar #{@current_rebar.number}: #{iteration_rebars_amount} ----> #{iteration_rebar_mass}"
       end
 
       def required_amaunt_of_rebar(rebar)
@@ -103,6 +96,10 @@ module StructuraidCore
         rebar.mass * amount_of_rebars
       end
 
+      def spacing_below_minimum?
+        coverage_length / (amount_of_rebars - 1) < minimum_spacing
+      end
+
       def successful_result
         result = Result.new
         result.rebar = current_rebar
@@ -120,6 +117,13 @@ module StructuraidCore
         )
         result.amount_of_rebars = amount_of_rebars_based_on_spacing(coverage_length, maximum_rebar_spacing)
         result.result_code = UNSUCCESSFUL_RESULT_CODE
+
+        result
+      end
+
+      def cant_use_any_rebar_result
+        result = Result.new
+        result.result_code = CRITICAL_RESULT_CODE
 
         result
       end
