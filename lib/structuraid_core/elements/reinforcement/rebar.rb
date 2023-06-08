@@ -21,7 +21,7 @@ module StructuraidCore
         end
 
         def mass
-          @mass = find_standard_mass(rebar_number: number)
+          find_standard_mass(rebar_number: number)
         end
 
         def perimeter
