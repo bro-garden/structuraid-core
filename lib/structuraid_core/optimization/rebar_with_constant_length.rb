@@ -6,7 +6,7 @@ module StructuraidCore
       MINIMUM_REBAR_AMOUNT = 2
       UNSUCCESSFUL_RESULT_CODE = :maximum_spacing_unsatisfied
       SUCCESSFUL_RESULT_CODE = :success
-      CRITICAL_RESULT_CODE = :there_is_no_possible_solution
+      CRITICAL_RESULT_CODE = :no_possible_solution
 
       Result = Struct.new(:rebar, :amount_of_rebars, :result_code)
 
