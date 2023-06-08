@@ -1,10 +1,7 @@
-require 'interactor'
-
 module StructuraidCore
   module Optimization
     # Runs optimization of the reinforcement, it asumes that the rebar length is constant, so if any shosen rebar has the same length as any other, the target is just to minimize the total mass by changing the amount of rebars
     class RebarWithConstantLength
-      include Interactor
 
       OPTIONAL_REBAR_NUMBERS = [3, 4, 5, 6, 7].freeze
       MINIMUM_REBAR_AMOUNT = 2
@@ -15,11 +12,11 @@ module StructuraidCore
 
       # @param required_reinforcement_area [Float] The reinforcement area required by the design
       # @param maximum_rebar_spacing [Float] The maximum spacing between rebars
-      # @param space_to_cover [Float] The space to cover with the reinforcement, the rebars will be placed with a spacing which must be less than maximum_rebar_spacing
-      def initialize(required_reinforcement_area, maximum_rebar_spacing, space_to_cover)
+      # @param coverage_length [Float] The space to cover with the reinforcement, the rebars will be placed with a spacing which must be less than maximum_rebar_spacing
+      def initialize(required_reinforcement_area, maximum_rebar_spacing, coverage_length)
         @required_reinforcement_area = required_reinforcement_area
         @maximum_rebar_spacing = maximum_rebar_spacing
-        @space_to_cover = space_to_cover
+        @coverage_length = coverage_length
       end
 
       def run
@@ -38,7 +35,7 @@ module StructuraidCore
 
       attr_reader :required_reinforcement_area,
                   :maximum_rebar_spacing,
-                  :space_to_cover,
+                  :coverage_length,
                   :material,
                   :current_mass,
                   :current_rebar,
@@ -62,7 +59,7 @@ module StructuraidCore
           iteration_rebars_and_amount(number)
           break if iteration_rebars_amount < MINIMUM_REBAR_AMOUNT
 
-          rebar_spacing = space_to_cover / (iteration_rebars_amount - 1)
+          rebar_spacing = coverage_length / (iteration_rebars_amount - 1)
           break if rebar_spacing > maximum_rebar_spacing
 
           @iteration_rebar_mass = reinforcement_mass(iteration_rebar, iteration_rebars_amount)
@@ -90,8 +87,8 @@ module StructuraidCore
         round_amount(calculated.round)
       end
 
-      def amount_of_rebars_based_on_spacing(space_to_cover, spacing)
-        calculated = space_to_cover / spacing
+      def amount_of_rebars_based_on_spacing(coverage_length, spacing)
+        calculated = coverage_length / spacing
         round_amount(calculated.round)
       end
 
@@ -121,7 +118,7 @@ module StructuraidCore
           number: OPTIONAL_REBAR_NUMBERS.first,
           material:
         )
-        result.amount_of_rebars = amount_of_rebars_based_on_spacing(space_to_cover, maximum_rebar_spacing)
+        result.amount_of_rebars = amount_of_rebars_based_on_spacing(coverage_length, maximum_rebar_spacing)
         result.result_code = UNSUCCESSFUL_RESULT_CODE
 
         result
