@@ -82,4 +82,12 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::Rebar do
       expect(rebar.perimeter).to be(perimeter_for_used_diameter.to_f)
     end
   end
+
+  describe '#mass' do
+    let(:rebar) { described_class.new(number:, material: steel) }
+
+    it 'returns the correct mass' do
+      expect(rebar.mass > 20).to be(true)
+    end
+  end
 end
