@@ -9,8 +9,10 @@ module StructuraidCore
 
         OPTIONAL_REBAR_NUMBERS = [3, 4, 5, 6, 7].freeze
         MINIMUM_REBAR_AMOUNT = 2
-        UNSUCCESSFUL_RESULT_MESSAGE = 'required area exceeds maximum spacing'.freeze
-        SUCCESSFUL_RESULT_MESSAGE = 'done'.freeze
+        UNSUCCESSFUL_RESULT_CODE = :maximum_spacing_unsatisfied
+        SUCCESSFUL_RESULT_CODE = :success
+
+        Result = Struct.new(:rebar, :amount_of_rebars, :result_code)
 
         # @param required_reinforcement_area [Float] The reinforcement area required by the design
         # @param maximum_rebar_spacing [Float] The maximum spacing between rebars
@@ -106,19 +108,24 @@ module StructuraidCore
         end
 
         def successful_result
-          { rebar: current_rebar, amount_of_rebars:, message: SUCCESSFUL_RESULT_MESSAGE, result_code: 0 }
+          result = Result.new
+          result.rebar = current_rebar
+          result.amount_of_rebars = amount_of_rebars
+          result.result_code = SUCCESSFUL_RESULT_CODE
+
+          result
         end
 
         def unsuccessful_result
-          {
-            rebar: StructuraidCore::Elements::Reinforcement::Rebar.new(
-              number: OPTIONAL_REBAR_NUMBERS.first,
-              material:
-            ),
-            amount_of_rebars: amount_of_rebars_based_on_spacing(space_to_cover, maximum_rebar_spacing),
-            message: UNSUCCESSFUL_RESULT_MESSAGE,
-            result_code: 1
-          }
+          result = Result.new
+          result.rebar = StructuraidCore::Elements::Reinforcement::Rebar.new(
+            number: OPTIONAL_REBAR_NUMBERS.first,
+            material:
+          )
+          result.amount_of_rebars = amount_of_rebars_based_on_spacing(space_to_cover, maximum_rebar_spacing)
+          result.result_code = UNSUCCESSFUL_RESULT_CODE
+
+          result
         end
       end
     end

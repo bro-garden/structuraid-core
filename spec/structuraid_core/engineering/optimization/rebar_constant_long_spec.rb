@@ -19,27 +19,23 @@ RSpec.describe StructuraidCore::Engineering::Optimization::RebarConstantLong do
 
     describe '#run' do
       it 'returns rsult_code 0' do
-        expect(optimizator.run[:result_code]).to eq(0)
+        expect(optimizator.run.result_code).to eq(
+          StructuraidCore::Engineering::Optimization::RebarConstantLong::SUCCESSFUL_RESULT_CODE
+        )
       end
 
-      it 'returns a result message' do
-        expect(optimizator.run[:message]).to match('done')
-      end
-
-      it 'returns a hash with keys :rebar and :amount_of_rebars' do
-        expect(optimizator.run.keys).to match_array(%i[rebar amount_of_rebars result_code message])
-      end
-
-      it 'returns a Hash object' do
-        expect(optimizator.run).to be_an_instance_of(Hash)
+      it 'returns a Result struct object' do
+        expect(optimizator.run).to be_an_instance_of(
+          StructuraidCore::Engineering::Optimization::RebarConstantLong::Result
+        )
       end
 
       it 'returns a value at :rebar key' do
-        expect(optimizator.run[:rebar]).not_to be(nil)
+        expect(optimizator.run.rebar).not_to be(nil)
       end
 
       it 'returns a value at :amount_of_rebars key' do
-        expect(optimizator.run[:amount_of_rebars]).not_to be(nil)
+        expect(optimizator.run.amount_of_rebars).not_to be(nil)
       end
     end
 
@@ -56,28 +52,24 @@ RSpec.describe StructuraidCore::Engineering::Optimization::RebarConstantLong do
     let(:required_reinforcement_area) { 120 }
 
     describe '#run' do
-      it 'returns rsult_code 0' do
-        expect(optimizator.run[:result_code]).to eq(1)
+      it 'returns the right result_code' do
+        expect(optimizator.run.result_code).to eq(
+          StructuraidCore::Engineering::Optimization::RebarConstantLong::UNSUCCESSFUL_RESULT_CODE
+        )
       end
 
-      it 'returns a result message' do
-        expect(optimizator.run[:message]).to match('required area exceeds maximum spacing')
-      end
-
-      it 'returns a hash with keys :rebar and :amount_of_rebars' do
-        expect(optimizator.run.keys).to match_array(%i[rebar amount_of_rebars result_code message])
-      end
-
-      it 'returns a Hash object' do
-        expect(optimizator.run).to be_an_instance_of(Hash)
+      it 'returns a Result struct object' do
+        expect(optimizator.run).to be_an_instance_of(
+          StructuraidCore::Engineering::Optimization::RebarConstantLong::Result
+        )
       end
 
       it 'returns a value at :rebar key' do
-        expect(optimizator.run[:rebar]).not_to be(nil)
+        expect(optimizator.run.rebar).not_to be(nil)
       end
 
       it 'returns a value at :amount_of_rebars key' do
-        expect(optimizator.run[:amount_of_rebars]).not_to be(nil)
+        expect(optimizator.run.amount_of_rebars).not_to be(nil)
       end
     end
 
