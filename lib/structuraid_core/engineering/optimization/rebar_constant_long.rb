@@ -3,7 +3,7 @@ require 'interactor'
 module StructuraidCore
   module Engineering
     module Optimization
-      # Runs optimization of the reinforcement, it asumes that the rebar length is constant, so if any shosen rebar has the same length as any other, the target is just to minimize the total mass by changing the amount of rebars
+      # Runs optimization of the reinforcement, it assumes that the rebar length is constant, so if any chosen rebar has the same length as any other, the target is just to minimize the total mass by changing the number of rebars
       class RebarConstantLong
         include Interactor
 
