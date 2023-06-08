@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'matrix'
 require 'byebug'
 
-RSpec.describe StructuraidCore::Engineering::Optimization::RebarWithConstantLength do
+RSpec.describe StructuraidCore::Optimization::RebarWithConstantLength do
   subject(:optimizator) do
     described_class.new(
       required_reinforcement_area,
@@ -20,13 +20,13 @@ RSpec.describe StructuraidCore::Engineering::Optimization::RebarWithConstantLeng
     describe '#run' do
       it 'returns rsult_code 0' do
         expect(optimizator.run.result_code).to eq(
-          StructuraidCore::Engineering::Optimization::RebarWithConstantLength::SUCCESSFUL_RESULT_CODE
+          StructuraidCore::Optimization::RebarWithConstantLength::SUCCESSFUL_RESULT_CODE
         )
       end
 
       it 'returns a Result struct object' do
         expect(optimizator.run).to be_an_instance_of(
-          StructuraidCore::Engineering::Optimization::RebarWithConstantLength::Result
+          StructuraidCore::Optimization::RebarWithConstantLength::Result
         )
       end
 
@@ -54,13 +54,13 @@ RSpec.describe StructuraidCore::Engineering::Optimization::RebarWithConstantLeng
     describe '#run' do
       it 'returns the right result_code' do
         expect(optimizator.run.result_code).to eq(
-          StructuraidCore::Engineering::Optimization::RebarWithConstantLength::UNSUCCESSFUL_RESULT_CODE
+          StructuraidCore::Optimization::RebarWithConstantLength::UNSUCCESSFUL_RESULT_CODE
         )
       end
 
       it 'returns a Result struct object' do
         expect(optimizator.run).to be_an_instance_of(
-          StructuraidCore::Engineering::Optimization::RebarWithConstantLength::Result
+          StructuraidCore::Optimization::RebarWithConstantLength::Result
         )
       end
 
