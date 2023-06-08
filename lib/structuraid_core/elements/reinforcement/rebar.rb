@@ -20,6 +20,10 @@ module StructuraidCore
           rebar_area.to_f
         end
 
+        def mass
+          find_standard_mass(rebar_number: number)
+        end
+
         def perimeter
           rebar_perimeter = Math::PI * diameter
           rebar_perimeter.to_f
