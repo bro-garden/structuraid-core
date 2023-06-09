@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'byebug'
 
-RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting do
+RSpec.describe(
+  StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting
+) do
   describe '.call' do
     subject(:result_with_mocked_required_reinforcement_ratio) { described_class.call(params) }
 
@@ -18,32 +20,15 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
     let(:footing) do
       build(
         :footing,
+        :with_reinforcement,
         length_1: 1500,
         length_2: 1500,
-        height:,
-        material: build(:concrete, design_compression_strength: 21),
-        longitudinal_top_reinforcement_length_1: StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-          distribution_direction: :length_2,
-          above_middle: true
-        ),
-        longitudinal_bottom_reinforcement_length_1: StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-          distribution_direction: :length_2,
-          above_middle: false
-        ),
-        longitudinal_top_reinforcement_length_2: StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-          distribution_direction: :length_1,
-          above_middle: true
-        ),
-        longitudinal_bottom_reinforcement_length_2: StructuraidCore::Elements::Reinforcement::StraightLongitudinal.new(
-          distribution_direction: :length_1,
-          above_middle: false
-        )
+        height: 500,
+        material: build(:concrete, design_compression_strength: 21)
       )
     end
 
     let(:load_location) { build(:absolute_location) }
-
-    let(:height) { 500 }
 
     let(:load_scenario) do
       build(

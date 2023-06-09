@@ -28,34 +28,9 @@ module StructuraidCore
             private
 
             def add_reinforcement
-              optimized_rebar = StructuraidCore::Optimization::RebarWithConstantLength
-                                .new(
-                                  required_reinforcement_area,
-                                  design_code::Rc::Footings::MaximumRebarSpacing.call(
-                                    support_type:,
-                                    footing_height: footing.height,
-                                    for_min_rebar: analysis_results.is_minimum_ratio,
-                                    yield_stress: steel.yield_stress,
-                                    reinforcement_cover: footing.cover_bottom
-                                  ),
-                                  distribution_length,
-                                  100
-                                )
-                                .run
+              return add_reinforcement_to_footing unless optimized_rebar.result_code == critical_result_code
 
-              if optimized_rebar.result_code == StructuraidCore::Optimization::RebarWithConstantLength::CRITICAL_RESULT_CODE
-                raise Errors::Designers::DesignStepError.new(
-                  optimized_rebar.result_code,
-                  'No reinforcement could be found'
-                )
-              end
-
-              footing.reinforcement(direction: analysis_direction, above_middle: false).add_layer(
-                start_location: context.reinforcement_layer_start_location,
-                end_location: context.reinforcement_layer_end_location,
-                amount_of_rebars: optimized_rebar.amount_of_rebars,
-                rebar: optimized_rebar.rebar
-              )
+              raise Errors::Designers::DesignStepError.new(optimized_rebar.result_code, "rebar couldm't be found")
             end
 
             def distribution_length
@@ -101,6 +76,32 @@ module StructuraidCore
                 (footing.height - reinforcement_baseline)
             end
 
+            def add_reinforcement_to_footing
+              footing.reinforcement(direction: analysis_direction, above_middle: false).add_layer(
+                start_location: context.reinforcement_layer_start_location,
+                end_location: context.reinforcement_layer_end_location,
+                amount_of_rebars: optimized_rebar.amount_of_rebars,
+                rebar: optimized_rebar.rebar
+              )
+            end
+
+            def optimized_rebar
+              @optimized_rebar ||= StructuraidCore::Optimization::RebarWithConstantLength
+                                   .new(
+                                     required_reinforcement_area,
+                                     design_code::Rc::Footings::MaximumRebarSpacing.call(
+                                       support_type:,
+                                       footing_height: footing.height,
+                                       for_min_rebar: analysis_results.is_minimum_ratio,
+                                       yield_stress: steel.yield_stress,
+                                       reinforcement_cover: footing.cover_bottom
+                                     ),
+                                     distribution_length,
+                                     100
+                                   )
+                                   .run
+            end
+
             def steel
               @steel ||= context.steel
             end
@@ -131,6 +132,10 @@ module StructuraidCore
 
             def design_code
               @design_code ||= context.design_code
+            end
+
+            def critical_result_code
+              StructuraidCore::Optimization::RebarWithConstantLength::CRITICAL_RESULT_CODE
             end
           end
         end

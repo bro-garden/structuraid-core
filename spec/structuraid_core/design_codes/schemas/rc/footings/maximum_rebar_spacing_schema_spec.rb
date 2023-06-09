@@ -14,7 +14,6 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::Rc::Footings::MaximumRebar
   describe '.validate!' do
     subject(:result) { described_class.validate!(params) }
 
-
     it 'returns true' do
       expect(result).to eq(true)
     end
