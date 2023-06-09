@@ -17,6 +17,7 @@ module StructuraidCore
             # @param analysis_direction [Symbol] The direction for which the analysis has to be run. Should be either :length_1 or :length2
             # @param design_code [StructuraidCore::DesignCodes] The design code to be used
             # @param steel [StructuraidCore::Materials::Steel] The rebar's material
+            # @param support_type [Symbol or String] The support type: :over_soil or :over_piles
             def call
               return unless footing.reinforcement_ratio(direction: analysis_direction, above_middle: true).zero?
 
