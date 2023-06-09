@@ -20,36 +20,69 @@ module StructuraidCore
             def call
               return unless footing.reinforcement_ratio(direction: analysis_direction, above_middle: true).zero?
 
-              reinforcement_baseline
               add_reinforcement
+            rescue Errors::Designers::DesignStepError => e
+              context.fail!(message: e.message)
             end
 
             private
 
             def add_reinforcement
-              rebar = StructuraidCore::Elements::Reinforcement::Rebar.new(
-                number: 3,
-                material: StructuraidCore::Materials::Steel.new(yield_stress: 420)
-              )
+              optimized_rebar = StructuraidCore::Optimization::RebarWithConstantLength
+                                .new(
+                                  required_reinforcement_area,
+                                  design_code::Rc::Footings::MaximumRebarSpacing.call(
+                                    support_type:,
+                                    footing_height: footing.height,
+                                    for_min_rebar: analysis_results.is_minimum_ratio,
+                                    yield_stress: steel.yield_stress,
+                                    reinforcement_cover: footing.cover_bottom
+                                  ),
+                                  distribution_length,
+                                  100
+                                )
+                                .run
+
+              if optimized_rebar.result_code == StructuraidCore::Optimization::RebarWithConstantLength::CRITICAL_RESULT_CODE
+                raise Errors::Designers::DesignStepError.new(
+                  optimized_rebar.result_code,
+                  'No reinforcement could be found'
+                )
+              end
 
               footing.reinforcement(direction: analysis_direction, above_middle: false).add_layer(
-                start_location: reinforcement_layer_start_location,
-                end_location: reinforcement_layer_end_location,
-                amount_of_rebars: required_amaunt_of_rebar(rebar),
-                rebar:
+                start_location: context.reinforcement_layer_start_location,
+                end_location: context.reinforcement_layer_end_location,
+                amount_of_rebars: optimized_rebar.amount_of_rebars,
+                rebar: optimized_rebar.rebar
               )
             end
 
-            def reinforcement_layer_start_location
-              return add_reinforcement_layer_start_location_length_1_bottom if analysis_direction == :length_1
-
-              add_reinforcement_layer_start_location_length_2_bottom
+            def distribution_length
+              return distribution_length_length_1 if analysis_direction == :length_1
+              return distribution_length_length_2 if analysis_direction == :length_2
             end
 
-            def reinforcement_layer_end_location
-              return add_reinforcement_layer_end_location_length_1_bottom if analysis_direction == :length_1
+            def distribution_length_length_1
+              start_location = footing.coordinates_system.find_location(
+                'reinforcement_layer_start_location_length_1_bottom'
+              ).to_vector
+              end_location = footing.coordinates_system.find_location(
+                'reinforcement_layer_end_location_length_1_bottom'
+              ).to_vector
 
-              add_reinforcement_layer_end_location_length_2_bottom
+              (end_location - start_location)[0]
+            end
+
+            def distribution_length_length_2
+              start_location = footing.coordinates_system.find_location(
+                'reinforcement_layer_start_location_length_2_bottom'
+              ).to_vector
+              end_location = footing.coordinates_system.find_location(
+                'reinforcement_layer_end_location_length_2_bottom'
+              ).to_vector
+
+              (end_location - start_location)[1]
             end
 
             def reinforcement_baseline
@@ -62,58 +95,22 @@ module StructuraidCore
               footing.cover_bottom + secondary_direction_reinforcement.max_diameter
             end
 
-            def required_amaunt_of_rebar(rebar)
-              calculated = required_reinforcement_area / rebar.area
-              integer_amount = calculated.round
-              return integer_amount + 1 if integer_amount < calculated
-
-              integer_amount
-            end
-
-            def add_reinforcement_layer_start_location_length_1_bottom
-              footing.coordinates_system.find_or_add_location_from_vector(
-                footing.coordinates_system.find_location(:vertex_bottom_left).to_vector + Vector[
-                  footing.cover_lateral, footing.cover_lateral, reinforcement_baseline
-                ],
-                label: 'reinforcement_layer_start_location_length_1_bottom'
-              )
-            end
-
-            def add_reinforcement_layer_end_location_length_1_bottom
-              footing.coordinates_system.find_or_add_location_from_vector(
-                footing.coordinates_system.find_location(:vertex_top_right).to_vector + Vector[
-                  -footing.cover_lateral, -footing.cover_lateral, reinforcement_baseline
-                ],
-                label: 'reinforcement_layer_end_location_length_1_bottom'
-              )
-            end
-
-            def add_reinforcement_layer_start_location_length_2_bottom
-              footing.coordinates_system.find_or_add_location_from_vector(
-                footing.coordinates_system.find_location(:vertex_top_left).to_vector + Vector[
-                  footing.cover_lateral, -footing.cover_lateral, reinforcement_baseline
-                ],
-                label: 'reinforcement_layer_start_location_length_2_bottom'
-              )
-            end
-
-            def add_reinforcement_layer_end_location_length_2_bottom
-              footing.coordinates_system.find_or_add_location_from_vector(
-                footing.coordinates_system.find_location(:vertex_bottom_right).to_vector + Vector[
-                  -footing.cover_lateral, footing.cover_lateral, reinforcement_baseline
-                ],
-                label: 'reinforcement_layer_end_location_length_2_bottom'
-              )
-            end
-
             def required_reinforcement_area
               required_reinforcement_ratio *
                 footing.width(section_direction: analysis_direction) *
                 (footing.height - reinforcement_baseline)
             end
 
+            def steel
+              @steel ||= context.steel
+            end
+
+            def support_type
+              @support_type ||= context.support_type
+            end
+
             def required_reinforcement_ratio
-              @required_reinforcement_ratio ||= analysis_results[:required_reinforcement_ratio]
+              @required_reinforcement_ratio ||= analysis_results.computed_ratio
             end
 
             def footing
