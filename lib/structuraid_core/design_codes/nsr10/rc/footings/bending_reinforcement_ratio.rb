@@ -10,30 +10,15 @@ module StructuraidCore
             include DesignCodes::Utils::CodeRequirement
             use_schema DesignCodes::Schemas::Rc::Footings::BendingReinforcementRatioSchema
 
-            Result = Struct.new(:computed_ratio, :is_minimum_ratio)
-
             # NSR-10 C.15
             def call
-              computed_ratio = compute_ratio
-              build_result(computed_ratio)
-            end
-
-            private
-
-            def build_result(computed_ratio)
-              Result.new(computed_ratio, computed_ratio == minimum_ratio)
-            end
-
-            def compute_ratio
               [
                 solve_cuadratic_equation_for_steel_reinforcement_ratio,
-                minimum_ratio
+                MINIMUM_RATIO
               ].max
             end
 
-            def minimum_ratio
-              MINIMUM_RATIO
-            end
+            private
 
             ## the target is to solve [(1 - sqrt(1 - 4ac))/2a, (1 + sqrt(1 - 4ac))/2a]
 

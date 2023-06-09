@@ -28,11 +28,7 @@ RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingRein
         let(:flexural_moment) { 50 } # N*mm
 
         it 'returns minimal ratio' do
-          expect(result.computed_ratio <= 0.0025).to eq(true)
-        end
-
-        it "returns true at 'is_minimum_ratio' strcut attribute" do
-          expect(result.is_minimum_ratio).to eq(true)
+          expect(result).to eq(min_ratio)
         end
       end
 
@@ -41,11 +37,7 @@ RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingRein
         let(:expected_ratio) { 0.0140 }
 
         it 'returns right ratio' do
-          expect(result.computed_ratio.round(4)).to eq(expected_ratio)
-        end
-
-        it "eturns false at 'is_minimum_ratio' strcut attribute" do
-          expect(result.is_minimum_ratio).to eq(false)
+          expect(result.round(4)).to eq(expected_ratio)
         end
       end
 
@@ -54,11 +46,7 @@ RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingRein
         let(:expected_ratio) { 0.0039 }
 
         it 'returns right ratio' do
-          expect(result.computed_ratio.round(4)).to eq(expected_ratio)
-        end
-
-        it "eturns false at 'is_minimum_ratio' strcut attribute" do
-          expect(result.is_minimum_ratio).to eq(false)
+          expect(result.round(4)).to eq(expected_ratio)
         end
       end
 
@@ -78,11 +66,7 @@ RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingRein
         let(:flexural_moment) { 50 } # N*m
 
         it 'returns minimal ratio' do
-          expect(result.computed_ratio <= 0.0025).to eq(true)
-        end
-
-        it "returns true at 'is_minimum_ratio' strcut attribute" do
-          expect(result.is_minimum_ratio).to eq(true)
+          expect(result).to eq(min_ratio)
         end
       end
 
@@ -91,11 +75,7 @@ RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingRein
         let(:expected_ratio) { 0.0213 }
 
         it 'returns right ratio' do
-          expect(result.computed_ratio.round(4)).to eq(expected_ratio)
-        end
-
-        it "eturns false at 'is_minimum_ratio' strcut attribute" do
-          expect(result.is_minimum_ratio).to eq(false)
+          expect(result.round(4)).to eq(expected_ratio)
         end
       end
 
@@ -104,11 +84,7 @@ RSpec.describe StructuraidCore::DesignCodes::Aci31819::Rc::Footings::BendingRein
         let(:expected_ratio) { 0.0060 }
 
         it 'returns right ratio' do
-          expect(result.computed_ratio.round(4)).to eq(expected_ratio)
-        end
-
-        it "eturns false at 'is_minimum_ratio' strcut attribute" do
-          expect(result.is_minimum_ratio).to eq(false)
+          expect(result.round(4)).to eq(expected_ratio)
         end
       end
 
