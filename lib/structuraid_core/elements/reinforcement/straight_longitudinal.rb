@@ -34,6 +34,10 @@ module StructuraidCore
           @layers.map(&:diameter).max
         end
 
+        def amount_of_rebars
+          @layers.map(&:amount_of_rebars).reduce(:+)
+        end
+
         def centroid_height
           return inertia / area unless @layers.empty?
 
