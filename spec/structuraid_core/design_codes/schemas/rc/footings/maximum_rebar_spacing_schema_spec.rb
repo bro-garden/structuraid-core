@@ -11,6 +11,17 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::Rc::Footings::MaximumRebar
     }
   end
 
+  let(:members_array) do
+    %i[
+      schema
+      support_type
+      footing_height
+      for_min_rebar
+      yield_stress
+      reinforcement_cover
+    ]
+  end
+
   describe '.validate!' do
     subject(:result) { described_class.validate!(params) }
 
@@ -30,19 +41,8 @@ RSpec.describe StructuraidCore::DesignCodes::Schemas::Rc::Footings::MaximumRebar
   describe '.structurize' do
     subject(:result) { described_class.structurize(params) }
 
-    # rubocop:disable RSpec/ExampleLength
     it 'returns a struct with the required param' do
-      expect(result.members).to match_array(
-        %i[
-          schema
-          support_type
-          footing_height
-          for_min_rebar
-          yield_stress
-          reinforcement_cover
-        ]
-      )
+      expect(result.members).to match_array(members_array)
     end
-    # rubocop:enable RSpec/ExampleLength
   end
 end
