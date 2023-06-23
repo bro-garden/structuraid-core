@@ -17,8 +17,12 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
       allow(StructuraidCore::Designers::Footings::Steps::CheckBearingCapacity).to receive(:call!)
       allow(StructuraidCore::Designers::Footings::Steps::AssignAnalysisDirection).to receive(:call!)
       allow(StructuraidCore::Designers::Footings::Steps::CentricIsolated::ComputeRequiredRebarRatio).to receive(:call!)
-      allow(StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting).to receive(:call!)
-      allow(StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetInitialLongitudinalReinforcement).to receive(:call!)
+      allow(
+        StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting
+      ).to receive(:call!)
+      allow(
+        StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetInitialLongitudinalReinforcement
+      ).to receive(:call!)
       allow(StructuraidCore::Designers::Footings::Steps::CheckMinHeight).to receive(:call!)
 
       context
@@ -31,10 +35,19 @@ RSpec.describe StructuraidCore::Designers::Footings::CentricIsolated do
     it { expect(StructuraidCore::Designers::Footings::Steps::ResolveDesignCode).to have_received(:call!) }
     it { expect(StructuraidCore::Designers::Footings::Steps::CheckBearingCapacity).to have_received(:call!) }
     it { expect(StructuraidCore::Designers::Footings::Steps::AssignAnalysisDirection).to have_received(:call!) }
-    it { expect(StructuraidCore::Designers::Footings::Steps::CentricIsolated::ComputeRequiredRebarRatio).to have_received(:call!) }
-    it { expect(StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting).to have_received(:call!) }
-    it { expect(StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetInitialLongitudinalReinforcement).to have_received(:call!) }
     it { expect(StructuraidCore::Designers::Footings::Steps::CheckMinHeight).to have_received(:call!) }
+
+    it do
+      expect(
+        StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetInitialLongitudinalReinforcement
+      ).to have_received(:call!)
+    end
+
+    it do
+      expect(
+        StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting
+      ).to have_received(:call!)
+    end
 
     it do
       expect(
