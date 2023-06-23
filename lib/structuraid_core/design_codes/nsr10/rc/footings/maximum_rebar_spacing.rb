@@ -38,26 +38,6 @@ module StructuraidCore
                 300 * 280 / (2 * yield_stress / 3)
               ].min
             end
-
-            def for_min_rebar
-              params.for_min_rebar
-            end
-
-            def support_type
-              params.support_type
-            end
-
-            def footing_height
-              params.footing_height
-            end
-
-            def yield_stress
-              params.yield_stress
-            end
-
-            def reinforcement_cover
-              params.reinforcement_cover
-            end
           end
         end
       end
