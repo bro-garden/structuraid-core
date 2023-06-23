@@ -16,9 +16,6 @@ module StructuraidCore
             CODE_REFERENCE = 'ACI-31819'.freeze
 
             def call
-              unless MIN_HEIGHT_MAPPINGS.keys.include?(support_type)
-                raise Errors::DesignCodes::UnrecognizedValueError.new(:support_type, support_type)
-              end
               return maximum_by_minimum_rebar_ratio if for_min_rebar
 
               maximum_by_yield_stress
@@ -38,26 +35,6 @@ module StructuraidCore
                 (380 * 280 / (2 * yield_stress / 3)) - 2.5 * reinforcement_cover,
                 300 * 280 / (2 * yield_stress / 3)
               ].min
-            end
-
-            def for_min_rebar
-              params.for_min_rebar
-            end
-
-            def support_type
-              params.support_type
-            end
-
-            def footing_height
-              params.footing_height
-            end
-
-            def yield_stress
-              params.yield_stress
-            end
-
-            def reinforcement_cover
-              params.reinforcement_cover
             end
           end
         end

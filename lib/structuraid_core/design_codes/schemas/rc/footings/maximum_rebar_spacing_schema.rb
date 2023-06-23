@@ -15,6 +15,11 @@ module StructuraidCore
               reinforcement_cover
             ]
             optional_params []
+
+            enum :support_type, %i[
+              over_soil
+              over_piles
+            ]
           end
         end
       end

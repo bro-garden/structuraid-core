@@ -16,9 +16,6 @@ module StructuraidCore
             CODE_REFERENCE = 'NSR-10 c.10.5.4 and C.10.6.4'.freeze
 
             def call
-              unless MIN_HEIGHT_MAPPINGS.keys.include?(support_type)
-                raise Errors::DesignCodes::UnrecognizedValueError.new(:support_type, support_type)
-              end
               return maximum_by_minimum_rebar_ratio if for_min_rebar
 
               maximum_by_yield_stress
