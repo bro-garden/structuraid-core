@@ -33,4 +33,3 @@ Style/IfUnlessModifier:
 
 Layout/LineLength:
   AllowedPatterns: ['\A\s*#'] # Ignore rule for comments
-
