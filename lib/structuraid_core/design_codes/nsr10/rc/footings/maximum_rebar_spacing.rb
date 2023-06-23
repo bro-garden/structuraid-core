@@ -3,6 +3,7 @@ module StructuraidCore
     module Nsr10
       module Rc
         module Footings
+          # Maximum footing longitudinal rebar spacing, based on NSR-10
           class MaximumRebarSpacing
             include DesignCodes::Utils::CodeRequirement
             use_schema DesignCodes::Schemas::Rc::Footings::MaximumRebarSpacingSchema

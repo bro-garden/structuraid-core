@@ -3,6 +3,7 @@ module StructuraidCore
     module Aci31819
       module Rc
         module Footings
+          # Maximum footing longitudinal rebar spacing, based on ACI318-19
           class MaximumRebarSpacing
             include DesignCodes::Utils::CodeRequirement
             use_schema DesignCodes::Schemas::Rc::Footings::MaximumRebarSpacingSchema
@@ -12,7 +13,7 @@ module StructuraidCore
               over_piles: 300
             }.freeze
 
-            CODE_REFERENCE = 'NSR-10 c.10.5.4 and C.10.6.4'.freeze
+            CODE_REFERENCE = 'ACI-31819'.freeze
 
             def call
               unless MIN_HEIGHT_MAPPINGS.keys.include?(support_type)

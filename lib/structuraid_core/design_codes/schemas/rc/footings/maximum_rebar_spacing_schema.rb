@@ -3,6 +3,7 @@ module StructuraidCore
     module Schemas
       module Rc
         module Footings
+          # Schema for maximum rebar spacing
           class MaximumRebarSpacingSchema
             include DesignCodes::Utils::SchemaDefinition
 
