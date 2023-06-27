@@ -6,7 +6,7 @@ module StructuraidCore
     module Footings
       module Steps
         module CentricIsolated
-          # Runs the structural bending analysis and design for a centric isolated footing, generating the required reinforcement ratio and checking that the provided one is enough
+          # Sets the reinforcement layers coordinates to the footing
           class SetInitialLongitudinalReinforcement
             include Interactor
 
@@ -73,7 +73,7 @@ module StructuraidCore
 
             def required_reinforcement_area
               required_reinforcement_ratio *
-                footing.width(section_direction: analysis_direction) *
+                footing.width(analysis_direction) *
                 (footing.height - reinforcement_baseline)
             end
 

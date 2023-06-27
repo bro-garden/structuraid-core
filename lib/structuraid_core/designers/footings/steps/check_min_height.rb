@@ -4,7 +4,7 @@ module StructuraidCore
   module Designers
     module Footings
       module Steps
-        # Checks if the bearing capacity of the soil is not being exceeded by the footing and its transmitting load
+        # Checks if footing's height is greater at least the minimum required height
         class CheckMinHeight
           include Interactor
 

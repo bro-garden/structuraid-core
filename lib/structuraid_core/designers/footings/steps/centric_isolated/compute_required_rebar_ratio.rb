@@ -45,7 +45,7 @@ module StructuraidCore
               design_code::Rc::Footings::BendingReinforcementRatio.call(
                 design_compression_strength: footing.material.design_compression_strength,
                 design_steel_yield_strength: steel.yield_stress,
-                width: footing.width(section_direction: analysis_direction),
+                width: footing.width(analysis_direction),
                 effective_height: footing.effective_height(section_direction: analysis_direction, above_middle: false),
                 flexural_moment: flexural_moment.abs,
                 capacity_reduction_factor: design_code::Rc::ReductionFactor.call(

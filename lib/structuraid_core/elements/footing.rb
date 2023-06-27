@@ -99,7 +99,7 @@ module StructuraidCore
       # Returns the length of the footing parallel to the given section
       # @param section_direction [Symbol] The direction of the working section
       # @return [Float] The length of the footing in the perpendicular direction to the given section
-      def width(section_direction:)
+      def width(section_direction)
         return @length_1 if section_direction == :length_1
 
         @length_2
@@ -108,7 +108,7 @@ module StructuraidCore
       # Returns the length of the footing in the perpendicular direction to the given section
       # @param section_direction [Symbol] The direction of the working section
       # @return [Float] The length of the footing in the perpendicular direction to the given section
-      def lenght(section_direction:)
+      def length(section_direction)
         return @length_1 if section_direction == :length_2
 
         @length_2

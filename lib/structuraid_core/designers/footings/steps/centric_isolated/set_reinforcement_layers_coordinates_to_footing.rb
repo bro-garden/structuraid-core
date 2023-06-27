@@ -6,7 +6,7 @@ module StructuraidCore
     module Footings
       module Steps
         module CentricIsolated
-          # Runs the structural bending analysis and design for a centric isolated footing, generating the required reinforcement ratio and checking that the provided one is enough
+          # Sets the reinforcement layers coordinates to the footing
           class SetReinforcementLayersCoordinatesToFooting
             include Interactor
 
