@@ -31,8 +31,5 @@ Metrics/ParameterLists:
 Style/IfUnlessModifier:
   Enabled: false
 
-Style/Documentation:
-  Enabled: false
-
 Layout/LineLength:
   AllowedPatterns: ['\A\s*#'] # Ignore rule for comments
