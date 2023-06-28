@@ -22,8 +22,6 @@ module StructuraidCore
               return unless footing.reinforcement_ratio(direction: analysis_direction, above_middle: true).zero?
 
               add_reinforcement
-            rescue Errors::Designers::DesignStepError => e
-              context.fail!(message: e.message)
             end
 
             private
@@ -31,7 +29,7 @@ module StructuraidCore
             def add_reinforcement
               return add_reinforcement_to_footing unless optimized_rebar.result_code == critical_result_code
 
-              raise Errors::Designers::DesignStepError.new(optimized_rebar.result_code, "rebar couldm't be found")
+              context.fail!(message: "rebar couldn't be found")
             end
 
             def distribution_length
