@@ -7,7 +7,7 @@ module StructuraidCore
                   :longitudinal_top_reinforcement_length_2, :longitudinal_bottom_reinforcement_length_2,
                   :coordinates_system
 
-      include Helpers::LayeredReinforcedElements
+      include LayeredReinforcedElements
 
       VALID_SECTIONS = %i[length_1 length_2].freeze
 
