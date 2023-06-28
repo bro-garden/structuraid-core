@@ -4,6 +4,21 @@ module StructuraidCore
     #
     # A layered reinforced element is an element that has a top and a bottom reinforcement layer, in both directios: lenght_1 and lenght_2.
     module LayeredReinforcedElements
+      # Returns the reinforcement ratio for the given direction and whether the reinforcement is above the middle of the footing
+      # @param direction [Symbol] The direction of the working section
+      # @param above_middle [Boolean] Whether the reinforcement is above the middle of the footing
+      # @return [Float] The reinforcement ratio
+      def reinforcement_ratio(direction:, above_middle:)
+        case direction
+        when :length_1
+          reinforcement_ratio_length_1(above_middle:)
+        when :length_2
+          reinforcement_ratio_length_2(above_middle:)
+        end
+      end
+
+      private
+
       def length_1_section_effective_area(above_middle:)
         if above_middle
           return height - cover_bottom unless longitudinal_top_reinforcement_length_1

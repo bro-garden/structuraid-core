@@ -10,7 +10,7 @@ module StructuraidCore
           class SetReinforcementLayersCoordinatesToFooting
             include Interactor
 
-            POSSIBLE_SECCTIONS = %i[length_1 length_2].freeze
+            POSSIBLE_SECTIONS = %i[length_1 length_2].freeze
 
             # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
             # @param analysis_direction [Symbol] The direction for which the analysis has to be run. Should be either :length_1 or :length2
@@ -91,7 +91,7 @@ module StructuraidCore
             end
 
             def secondary_analysis_direction
-              POSSIBLE_SECCTIONS.reject { |section| section == analysis_direction }.first
+              POSSIBLE_SECTIONS.reject { |section| section == analysis_direction }.first
             end
           end
         end

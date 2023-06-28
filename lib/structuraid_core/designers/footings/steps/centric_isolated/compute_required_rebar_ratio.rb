@@ -17,7 +17,10 @@ module StructuraidCore
             def call
               add_analysis_results_to_context
               context.analysis_results[:bending_momentum] = compute_flexural_moment
-              context.analysis_results[:required_reinforcement_ratio] = compute_required_flexural_reinforcement_ratio
+
+              flexural_reinforcement_ratio = compute_required_flexural_reinforcement_ratio
+              context.analysis_results[:computed_ratio] = flexural_reinforcement_ratio.computed_ratio
+              context.analysis_results[:is_minimum_ratio] = flexural_reinforcement_ratio.is_minimum_ratio
             rescue Errors::DesignCodes::RequirementNotFulfilledError => e
               context.fail!(message: e.message)
             end
@@ -27,7 +30,8 @@ module StructuraidCore
             def add_analysis_results_to_context
               context.analysis_results = {
                 bending_momentum: nil,
-                required_reinforcement_ratio: nil
+                computed_ratio: nil,
+                is_minimum_ratio: nil
               }
             end
 
