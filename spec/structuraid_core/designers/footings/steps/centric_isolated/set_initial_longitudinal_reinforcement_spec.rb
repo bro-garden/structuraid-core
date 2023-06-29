@@ -5,47 +5,26 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
   describe '.call' do
     subject(:result_with_mocked_required_reinforcement_ratio) do
       described_class.call(
-        StructuraidCore::Designers::Footings::Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting.call(
-          params
-        )
+        {
+          footing:,
+          design_code: StructuraidCore::DesignCodes::Nsr10,
+          steel: build(:steel),
+          support_type: :over_soil,
+          analysis_direction: :length_1,
+          analysis_results:
+        }
       )
     end
 
-    let(:params) do
-      {
-        footing:,
-        load_scenario:,
-        analysis_direction: :length_1,
-        design_code: StructuraidCore::DesignCodes::Nsr10,
-        steel: build(:steel),
-        analysis_results:,
-        support_type: :over_soil
-      }
-    end
-
-    let(:ratiostruct) { Struct.new(:computed_ratio, :is_minimum_ratio) }
-    let(:analysis_results) { ratiostruct.new(0.0018, true) }
+    let(:analysis_results) { { computed_ratio: 0.0018, is_minimum_ratio: true } }
 
     let(:footing) do
       build(
         :footing,
-        :with_reinforcement,
         length_1: 1500,
         length_2: 1500,
         height: 500,
         material: build(:concrete, design_compression_strength: 21)
-      )
-    end
-
-    let(:load_location) { build(:absolute_location) }
-
-    let(:height) { 500 }
-
-    let(:load_scenario) do
-      build(
-        :loads_scenarios_centric_isolated,
-        service_load: build(:point_load, value: -112_500, location: load_location),
-        ultimate_load: build(:point_load, value: -152_500, location: load_location)
       )
     end
 
@@ -54,6 +33,21 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
     before do
       footing.add_coordinates_system(coordinates_system)
       footing.add_vertices_location
+
+      # This stepe requieres that the footing local coordinates system has the following locations (obtainable from the previous steps in our design flow):
+      footing.coordinates_system.find_or_add_location_from_vector(
+        footing.coordinates_system.find_location(:vertex_bottom_left).to_vector + Vector[
+          footing.cover_lateral, footing.cover_lateral, footing.cover_bottom
+        ],
+        label: 'reinforcement_layer_start_location_length_1_bottom'
+      )
+
+      footing.coordinates_system.find_or_add_location_from_vector(
+        footing.coordinates_system.find_location(:vertex_top_right).to_vector + Vector[
+          -footing.cover_lateral, -footing.cover_lateral, footing.cover_bottom
+        ],
+        label: 'reinforcement_layer_end_location_length_1_bottom'
+      )
     end
 
     it 'is a success' do
@@ -62,12 +56,19 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
 
     it 'modifies footing by adding reinforcement layer' do
       expect { result_with_mocked_required_reinforcement_ratio }.to change {
-        footing.reinforcement(direction: :length_1, above_middle: false).empty?
+        footing.reinforcement(direction: :length_1, above_middle: false).nil?
       }.from(true).to(false)
     end
 
+    it 'adds reinforcement layer with the correct area' do
+      result_with_mocked_required_reinforcement_ratio
+      expect(
+        footing.reinforcement_ratio(direction: :length_1, above_middle: false) >= analysis_results[:computed_ratio]
+      ).to be(true)
+    end
+
     describe 'when rebar ratio is greater than minimum' do
-      let(:analysis_results) { ratiostruct.new(0.0030, false) }
+      let(:analysis_results) { { computed_ratio: 0.0030, is_minimum_ratio: false } }
 
       it 'is a success' do
         expect(result_with_mocked_required_reinforcement_ratio).to be_a_success
@@ -75,13 +76,20 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
 
       it 'modifies footing by adding reinforcement layer' do
         expect { result_with_mocked_required_reinforcement_ratio }.to change {
-          footing.reinforcement(direction: :length_1, above_middle: false).empty?
+          footing.reinforcement(direction: :length_1, above_middle: false).nil?
         }.from(true).to(false)
+      end
+
+      it 'adds reinforcement layer with the correct area' do
+        result_with_mocked_required_reinforcement_ratio
+        expect(
+          footing.reinforcement_ratio(direction: :length_1, above_middle: false) >= analysis_results[:computed_ratio]
+        ).to be(true)
       end
     end
 
     describe "when rebar ratio is too higth and can't be solved" do
-      let(:analysis_results) { ratiostruct.new(0.9000, false) }
+      let(:analysis_results) { { computed_ratio: 0.9000, is_minimum_ratio: false } }
 
       it 'is a failure' do
         expect(result_with_mocked_required_reinforcement_ratio).to be_a_failure
@@ -97,7 +105,7 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
 
       it "doesn't modify footing by adding reinforcement layer" do
         result_with_mocked_required_reinforcement_ratio
-        expect(footing.reinforcement(direction: :length_1, above_middle: false).empty?).to be(true)
+        expect(footing.reinforcement(direction: :length_1, above_middle: false).nil?).to be(true)
       end
     end
   end
