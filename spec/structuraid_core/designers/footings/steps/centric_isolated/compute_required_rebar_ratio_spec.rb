@@ -43,11 +43,11 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Com
     end
 
     it 'returns the design required reinforcement ratio' do
-      expect(result.analysis_results[:required_reinforcement_ratio].computed_ratio).to eq(0.0030491561521242693)
+      expect(result.analysis_results[:computed_ratio]).to eq(0.0030491561521242693)
     end
 
     it 'returns the minimum reinforcement ratio, and struct field with false value' do
-      expect(result.analysis_results[:required_reinforcement_ratio].is_minimum_ratio).to eq(false)
+      expect(result.analysis_results[:is_minimum_ratio]).to eq(false)
     end
 
     describe 'when the footing doesnt require reinforcement for flexural solicitations' do
@@ -66,11 +66,11 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Com
       end
 
       it 'returns the minimum reinforcement ratio' do
-        expect(result.analysis_results[:required_reinforcement_ratio].computed_ratio).to eq(0.0025)
+        expect(result.analysis_results[:computed_ratio]).to eq(0.0025)
       end
 
       it 'returns the minimum reinforcement ratio, and struct field with true value' do
-        expect(result.analysis_results[:required_reinforcement_ratio].is_minimum_ratio).to eq(true)
+        expect(result.analysis_results[:is_minimum_ratio]).to eq(true)
       end
     end
 

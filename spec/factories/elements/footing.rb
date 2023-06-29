@@ -12,16 +12,16 @@ FactoryBot.define do
 
     trait :with_reinforcement do
       longitudinal_top_reinforcement_length_1 do
-        build(:straight_longitudinal_reinforcement, distribution_direction: :length_1, above_middle: true)
-      end
-      longitudinal_bottom_reinforcement_length_1 do
-        build(:straight_longitudinal_reinforcement, distribution_direction: :length_1, above_middle: false)
-      end
-      longitudinal_top_reinforcement_length_2 do
         build(:straight_longitudinal_reinforcement, distribution_direction: :length_2, above_middle: true)
       end
-      longitudinal_bottom_reinforcement_length_2 do
+      longitudinal_bottom_reinforcement_length_1 do
         build(:straight_longitudinal_reinforcement, distribution_direction: :length_2, above_middle: false)
+      end
+      longitudinal_top_reinforcement_length_2 do
+        build(:straight_longitudinal_reinforcement, distribution_direction: :length_1, above_middle: true)
+      end
+      longitudinal_bottom_reinforcement_length_2 do
+        build(:straight_longitudinal_reinforcement, distribution_direction: :length_1, above_middle: false)
       end
     end
 

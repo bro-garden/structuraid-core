@@ -199,4 +199,52 @@ RSpec.describe StructuraidCore::Elements::Footing do
       expect(coordinates_system.find_location('vertex_bottom_left')).not_to be_nil
     end
   end
+
+  describe '#add_longitudinal_reinforcement' do
+    let(:basic_footing) { build(:footing) }
+    let(:reinforcement) { build(:straight_longitudinal_reinforcement) }
+
+    it 'adds the longitudinal reinforcement to the footing' do
+      expect { basic_footing.add_longitudinal_reinforcement(reinforcement, :length_1) }.to change {
+        basic_footing.reinforcement(direction: :length_1, above_middle: false).nil?
+      }.from(true).to(false)
+    end
+  end
+
+  describe '#reinforcement_ratio' do
+    let(:basic_footing) { build(:footing) }
+    let(:reinforcement) { build(:straight_longitudinal_reinforcement) }
+
+    describe 'when the footing has no longitudinal reinforcement' do
+      it 'returns nil' do
+        expect(basic_footing.reinforcement_ratio(direction: :length_1, above_middle: false)).to eq(nil)
+      end
+    end
+
+    describe 'when the footing has longitudinal reinforcement, buty empty' do
+      before do
+        basic_footing.add_longitudinal_reinforcement(reinforcement, :length_1)
+      end
+
+      it 'returns 0' do
+        expect(basic_footing.reinforcement_ratio(direction: :length_1, above_middle: false)).to eq(0)
+      end
+    end
+
+    describe 'when the footing has longitudinal reinforcement, not empty' do
+      before do
+        reinforcement.add_layer(
+          start_location: build(:relative_location),
+          end_location: build(:relative_location),
+          amount_of_rebars: rand(1..10),
+          rebar: build(:rebar)
+        )
+        basic_footing.add_longitudinal_reinforcement(reinforcement, :length_1)
+      end
+
+      it 'returns 0' do
+        expect(basic_footing.reinforcement_ratio(direction: :length_1, above_middle: false) > 0).to be(true)
+      end
+    end
+  end
 end

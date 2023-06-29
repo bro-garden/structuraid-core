@@ -78,4 +78,22 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinal do
       )
     end
   end
+
+  describe 'amount_of_rebars' do
+    describe 'when there are no layers added' do
+      it 'returns nil' do
+        expect(reinforcement.amount_of_rebars).to eq(nil)
+      end
+    end
+
+    describe 'when there are layers added' do
+      before do
+        reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
+      end
+
+      it 'returns the total amount of rebars of all layers' do
+        expect(reinforcement.amount_of_rebars).to eq(5)
+      end
+    end
+  end
 end

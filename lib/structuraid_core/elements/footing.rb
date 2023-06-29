@@ -3,11 +3,11 @@ module StructuraidCore
     # A footing is a structural element that transfers load from a column to the soil.
     class Footing
       attr_reader :length_1, :length_2, :height, :material, :cover_lateral, :cover_top, :cover_bottom,
-                  :longitudinal_top_reinforcement_length_1,
-                  :longitudinal_bottom_reinforcement_length_1,
-                  :longitudinal_top_reinforcement_length_2,
-                  :longitudinal_bottom_reinforcement_length_2,
+                  :longitudinal_top_reinforcement_length_1, :longitudinal_bottom_reinforcement_length_1,
+                  :longitudinal_top_reinforcement_length_2, :longitudinal_bottom_reinforcement_length_2,
                   :coordinates_system
+
+      include LayeredReinforcedElements
 
       VALID_SECTIONS = %i[length_1 length_2].freeze
 
@@ -18,24 +18,16 @@ module StructuraidCore
       # @param cover_lateral [Float] The lateral cover of the footing
       # @param cover_top [Float] The top cover of the footing
       # @param cover_bottom [Float] The bottom cover of the footing
-      # @param longitudinal_top_reinforcement_length_1 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction of the main section
-      # @param longitudinal_bottom_reinforcement_length_1 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction of the main section
-      # @param longitudinal_top_reinforcement_length_2 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction perpendicular to the main section
-      # @param longitudinal_bottom_reinforcement_length_2 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement in the direction perpendicular to the main section
+      # @param longitudinal_top_reinforcement_length_1 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement for bending at the main section
+      # @param longitudinal_bottom_reinforcement_length_1 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement for bending at the main section
+      # @param longitudinal_top_reinforcement_length_2 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement for bending at the perpendicular to the main section
+      # @param longitudinal_bottom_reinforcement_length_2 [Reinforcement::StraightLongitudinalLayer] The longitudinal reinforcement for bending at the perpendicular to the main section
       #
       # @return [Footing] the footing
       def initialize(
-        length_1:,
-        length_2:,
-        height:,
-        material:,
-        cover_lateral:,
-        cover_top:,
-        cover_bottom:,
-        longitudinal_top_reinforcement_length_1: nil,
-        longitudinal_bottom_reinforcement_length_1: nil,
-        longitudinal_top_reinforcement_length_2: nil,
-        longitudinal_bottom_reinforcement_length_2: nil
+        length_1:, length_2:, height:, material:, cover_lateral:, cover_top:, cover_bottom:,
+        longitudinal_top_reinforcement_length_1: nil, longitudinal_bottom_reinforcement_length_1: nil,
+        longitudinal_top_reinforcement_length_2: nil, longitudinal_bottom_reinforcement_length_2: nil
       )
         @length_1 = length_1.to_f
         @length_2 = length_2.to_f
@@ -104,13 +96,44 @@ module StructuraidCore
         inside_axis_1 && inside_axis_2
       end
 
-      def width(section_direction:)
+      # Returns the length of the footing parallel to the given section
+      # @param section_direction [Symbol] The direction of the working section
+      # @return [Float] The length of the footing in the perpendicular direction to the given section
+      def width(section_direction)
+        return @length_1 if section_direction == :length_1
+
+        @length_2
+      end
+
+      # Returns the length of the footing in the perpendicular direction to the given section
+      # @param section_direction [Symbol] The direction of the working section
+      # @return [Float] The length of the footing in the perpendicular direction to the given section
+      def length(section_direction)
         return @length_1 if section_direction == :length_2
 
         @length_2
       end
 
+      # Returns the reinforcement for the given direction and whether the reinforcement is above the middle of the footing
+      # @param direction [Symbol] The direction of the working section
+      # @param above_middle [Boolean] Whether the reinforcement is above the middle of the footing
+      def reinforcement(direction:, above_middle:)
+        case direction
+        when :length_1
+          return longitudinal_top_reinforcement_length_1 if above_middle
+
+          longitudinal_bottom_reinforcement_length_1
+        when :length_2
+          return longitudinal_top_reinforcement_length_2 if above_middle
+
+          longitudinal_bottom_reinforcement_length_2
+        end
+      end
+
       private
+
+      attr_writer :longitudinal_top_reinforcement_length_1, :longitudinal_bottom_reinforcement_length_1,
+                  :longitudinal_top_reinforcement_length_2, :longitudinal_bottom_reinforcement_length_2
 
       def vertices_locations_vectors
         half_length_1 = 0.5 * length_1
@@ -126,30 +149,6 @@ module StructuraidCore
 
       def aspect_ratio
         @length_1 / @length_2
-      end
-
-      def length_1_section_effective_area(above_middle:)
-        if above_middle
-          return @height - cover_bottom unless @longitudinal_top_reinforcement_length_1
-
-          @longitudinal_top_reinforcement_length_1.centroid_height
-        else
-          return @height - cover_top unless @longitudinal_bottom_reinforcement_length_1
-
-          @height - @longitudinal_bottom_reinforcement_length_1.centroid_height
-        end
-      end
-
-      def length_2_section_effective_area(above_middle:)
-        if above_middle
-          return @height - cover_bottom unless @longitudinal_top_reinforcement_length_2
-
-          @longitudinal_top_reinforcement_length_2.centroid_height
-        else
-          return @height - cover_top unless @longitudinal_bottom_reinforcement_length_2
-
-          @height - @longitudinal_bottom_reinforcement_length_2.centroid_height
-        end
       end
     end
   end

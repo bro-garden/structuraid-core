@@ -21,23 +21,35 @@ module StructuraidCore
           )
 
           new_layer.reposition(above_middle: @above_middle)
-          @layers << new_layer
+          layers << new_layer
 
           new_layer
         end
 
+        def empty?
+          layers.empty?
+        end
+
+        def max_diameter
+          layers.map(&:diameter).max
+        end
+
+        def amount_of_rebars
+          layers.map(&:amount_of_rebars).reduce(:+)
+        end
+
         def centroid_height
-          return inertia / area unless @layers.empty?
+          return inertia / area unless layers.empty?
 
           raise Errors::Reinforcement::EmptyLayers, "can't complete centroid height calculation"
         end
 
         def area
-          @layers.map(&:area).reduce(:+)
+          layers.map(&:area).reduce(:+)
         end
 
         def inertia
-          @layers.map(&:inertia).reduce(:+)
+          layers.map(&:inertia).reduce(:+)
         end
       end
     end

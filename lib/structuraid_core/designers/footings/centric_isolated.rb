@@ -7,15 +7,19 @@ module StructuraidCore
       class CentricIsolated
         include Interactor::Organizer
 
-        # @param footing [StructuraidCore::Elements::Footing] The footing to be designed. It needs to have length_1, length_2, height and material defined
+        # @param footing [StructuraidCore::Elements::Footing] The footing to be designed. It needs to have length_1, length_2, height, material defined, and reinforcement without layers
         # @param load_scenario [StructuraidCore::Loads::Scenarios::Footings::CentricIsolated] The load scenario to be considered
         # @param soil [StructuraidCore::Materials::Soil] The soil layer on which the footer is supported
         # @param design_code [Symbol or String] The design code to be used
         # @param steel [StructuraidCore::Materials::Steel] The rebar's material
+        # @param support_type [Symbol or String] The support type: :over_soil or :over_piles
         organize Steps::ResolveDesignCode,
                  Steps::CheckBearingCapacity,
                  Steps::AssignAnalysisDirection,
-                 Steps::CentricIsolated::ComputeRequiredRebarRatio
+                 Steps::CentricIsolated::ComputeRequiredRebarRatio,
+                 Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting,
+                 Steps::CentricIsolated::SetInitialLongitudinalReinforcement,
+                 Steps::CheckMinHeight
       end
     end
   end
