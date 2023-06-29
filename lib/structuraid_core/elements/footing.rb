@@ -132,6 +132,9 @@ module StructuraidCore
 
       private
 
+      attr_writer :longitudinal_top_reinforcement_length_1, :longitudinal_bottom_reinforcement_length_1,
+                  :longitudinal_top_reinforcement_length_2, :longitudinal_bottom_reinforcement_length_2
+
       def vertices_locations_vectors
         half_length_1 = 0.5 * length_1
         half_length_2 = 0.5 * length_2
