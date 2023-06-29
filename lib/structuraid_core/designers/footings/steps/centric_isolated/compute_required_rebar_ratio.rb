@@ -5,22 +5,20 @@ module StructuraidCore
     module Footings
       module Steps
         module CentricIsolated
-          # Runs the structural bending analysis and design for a centric isolated footing, generating the required reinforcement ratio and checking that the provided one is enough
+          # Runs the structural bending analysis and design for a centric isolated footing, generating the required reinforcement ratio and adding it to the context
           class ComputeRequiredRebarRatio
             include Interactor
 
-            # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
             # @param load_scenario [StructuraidCore::Loads::Scenarios::Footings::CentricIsolated] The load scenario to be considered
-            # @param analysis_direction [Symbol] The direction for which the analysis has to be run. Should be either :length_1 or :length2
             # @param design_code [StructuraidCore::DesignCodes] The design code to be used
             # @param steel [StructuraidCore::Materials::Steel] The rebar's material
+            # @param analysis_direction [Symbol] The direction for which the analysis has to be run. Should be either :length_1 or :length2
             def call
               add_analysis_results_to_context
               context.analysis_results[:bending_momentum] = compute_flexural_moment
 
               flexural_reinforcement_ratio = compute_required_flexural_reinforcement_ratio
-              context.analysis_results[:computed_ratio] = flexural_reinforcement_ratio.computed_ratio
-              context.analysis_results[:is_minimum_ratio] = flexural_reinforcement_ratio.is_minimum_ratio
+              add_results_to_context(flexural_reinforcement_ratio)
             rescue Errors::DesignCodes::RequirementNotFulfilledError => e
               context.fail!(message: e.message)
             end
@@ -56,6 +54,11 @@ module StructuraidCore
                   strength_controlling_behaviour: :tension_controlled
                 )
               )
+            end
+
+            def add_results_to_context(flexural_reinforcement_ratio)
+              context.analysis_results[:computed_ratio] = flexural_reinforcement_ratio.computed_ratio
+              context.analysis_results[:is_minimum_ratio] = flexural_reinforcement_ratio.is_minimum_ratio
             end
 
             def flexural_moment
