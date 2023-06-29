@@ -44,15 +44,27 @@ module StructuraidCore
       end
 
       def reinforcement_ratio_length_1(above_middle:)
-        if above_middle
-          return 0 if longitudinal_top_reinforcement_length_1.empty?
+        return reinforcement_ratio_length_1_top if above_middle
 
-          reinforcement = longitudinal_top_reinforcement_length_1.area
-        else
-          return 0 if longitudinal_bottom_reinforcement_length_1.empty?
+        reinforcement_ratio_length_1_bottom
+      end
 
-          reinforcement = longitudinal_bottom_reinforcement_length_1.area
-        end
+      def reinforcement_ratio_length_1_top
+        return if longitudinal_top_reinforcement_length_1.nil?
+        return 0 if longitudinal_top_reinforcement_length_1.empty?
+
+        reinforcement = longitudinal_top_reinforcement_length_1.area
+
+        section_direction = :length_1
+        effective_area = width(section_direction) * effective_height(section_direction:, above_middle:)
+        reinforcement / effective_area
+      end
+
+      def reinforcement_ratio_length_1_bottom
+        return if longitudinal_bottom_reinforcement_length_1.nil?
+        return 0 if longitudinal_bottom_reinforcement_length_1.empty?
+
+        reinforcement = longitudinal_bottom_reinforcement_length_1.area
 
         section_direction = :length_1
         effective_area = width(section_direction) * effective_height(section_direction:, above_middle:)
@@ -60,15 +72,27 @@ module StructuraidCore
       end
 
       def reinforcement_ratio_length_2(above_middle:)
-        if above_middle
-          return 0 if longitudinal_top_reinforcement_length_2.empty?
+        return reinforcement_ratio_length_2_top if above_middle
 
-          reinforcement = longitudinal_top_reinforcement_length_2.area
-        else
-          return 0 if longitudinal_bottom_reinforcement_length_2.empty?
+        reinforcement_ratio_length_2_bottom
+      end
 
-          reinforcement = longitudinal_bottom_reinforcement_length_2.area
-        end
+      def reinforcement_ratio_length_2_top(above_middle:)
+        return if longitudinal_top_reinforcement_length_2.nil?
+        return 0 if longitudinal_top_reinforcement_length_2.empty?
+
+        reinforcement = longitudinal_top_reinforcement_length_2.area
+
+        section_direction = :length_2
+        effective_area = width(section_direction) * effective_height(section_direction:, above_middle:)
+        reinforcement / effective_area
+      end
+
+      def reinforcement_ratio_length_2_bottom(above_middle:)
+        return if longitudinal_bottom_reinforcement_length_2.nil?
+        return 0 if longitudinal_bottom_reinforcement_length_2.empty?
+
+        reinforcement = longitudinal_bottom_reinforcement_length_2.area
 
         section_direction = :length_2
         effective_area = width(section_direction) * effective_height(section_direction:, above_middle:)
