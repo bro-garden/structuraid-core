@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'byebug'
 
 RSpec.describe(
-  StructuraidCore::Designers::Footings::Steps::CentricIsolated::AddOrCheckReinforcementRatio
+  StructuraidCore::Designers::Footings::Steps::CentricIsolated::AddOrCheckReinforcement
 ) do
   describe '.call' do
     subject(:result_with_mocked_required_reinforcement_ratio) { described_class.call(params) }
@@ -101,6 +101,51 @@ RSpec.describe(
           expect(
             footing.coordinates_system.find_location('reinforcement_layer_end_location_length_1_bottom')
           ).not_to be_nil
+        end
+      end
+    end
+
+    describe 'when footing has reinforcement' do
+      let(:reinforcement) { build(:straight_longitudinal_reinforcement) }
+
+      before do
+        footing.coordinates_system.find_or_add_location_from_vector(
+          footing.coordinates_system.find_location(:vertex_bottom_left).to_vector + Vector[
+            footing.cover_lateral, footing.cover_lateral, footing.cover_bottom
+          ],
+          label: 'reinforcement_layer_start_location_length_1_bottom'
+        )
+
+        footing.coordinates_system.find_or_add_location_from_vector(
+          footing.coordinates_system.find_location(:vertex_top_right).to_vector + Vector[
+            -footing.cover_lateral, -footing.cover_lateral, footing.cover_bottom
+          ],
+          label: 'reinforcement_layer_end_location_length_1_bottom'
+        )
+
+        footing.add_longitudinal_reinforcement(reinforcement, :length_1, above_middle: false)
+
+        reinforcement.add_layer(
+          start_location: footing.coordinates_system.find_location('reinforcement_layer_start_location_length_1_bottom'),
+          end_location: footing.coordinates_system.find_location('reinforcement_layer_end_location_length_1_bottom'),
+          amount_of_rebars:,
+          rebar:
+        )
+      end
+
+      describe 'reinforcement ratio is below computed ratio' do
+        let(:amount_of_rebars) { 3 }
+        let(:rebar) { build(:rebar, number: 3) }
+        let(:analysis_results) { { computed_ratio: 0.0500, is_minimum_ratio: false } }
+
+        it 'is a failure' do
+          expect(result_with_mocked_required_reinforcement_ratio).to be_a_failure
+        end
+
+        it 'deletes the footing reinforcement' do
+          expet { result_with_mocked_required_reinforcement_ratio }.to change {
+            footing.reinforcement(direction: :length_1, above_middle: false).nil?
+          }.from(false).to(true)
         end
       end
     end

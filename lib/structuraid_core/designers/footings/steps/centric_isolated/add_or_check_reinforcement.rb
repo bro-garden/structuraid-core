@@ -6,7 +6,7 @@ module StructuraidCore
       module Steps
         module CentricIsolated
           # Resolves what to run in the design flow: add reinforcement or check reinforcement ratio
-          class AddOrCheckReinforcementRatio
+          class AddOrCheckReinforcement
             include Interactor
 
             # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
@@ -19,7 +19,7 @@ module StructuraidCore
             def call
               return add_reinforcement if footing_has_reinforcement?
 
-              check_reinforcement_ratio
+              check_reinforcement
             end
 
             private
