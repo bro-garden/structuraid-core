@@ -33,7 +33,9 @@ module StructuraidCore
             def check_reinforcement_spacing
               reinforcement = footing.reinforcement(direction: analysis_direction, above_middle: false)
               spacing = reinforcement.max_spacing
-              return context.fail!(message: 'Reinforcement spacing is greater than maximum') if spacing > design_code_max_spacing
+              return unless spacing > design_code_max_spacing
+
+              context.fail!(message: 'Reinforcement spacing is greater than maximum')
             end
 
             def design_code_max_spacing

@@ -126,8 +126,12 @@ RSpec.describe(
         footing.add_longitudinal_reinforcement(reinforcement, :length_2, above_middle: false)
 
         reinforcement.add_layer(
-          start_location: footing.coordinates_system.find_location('reinforcement_layer_start_location_length_1_bottom'),
-          end_location: footing.coordinates_system.find_location('reinforcement_layer_end_location_length_1_bottom'),
+          start_location: footing.coordinates_system.find_location(
+            'reinforcement_layer_start_location_length_1_bottom'
+          ),
+          end_location: footing.coordinates_system.find_location(
+            'reinforcement_layer_end_location_length_1_bottom'
+          ),
           amount_of_rebars:,
           rebar:
         )
