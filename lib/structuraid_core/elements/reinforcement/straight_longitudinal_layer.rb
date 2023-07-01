@@ -83,6 +83,7 @@ module StructuraidCore
           vector.magnitude
         end
 
+        # Returns the lenght of the layer that is used to distribute the rebars
         def distribution_length
           vector = length_vector
 
@@ -92,6 +93,7 @@ module StructuraidCore
           vector.magnitude
         end
 
+        # Returns the rebars spacing of the layer
         def spacing
           return if amount_of_rebars <= 1 || length.nil?
 

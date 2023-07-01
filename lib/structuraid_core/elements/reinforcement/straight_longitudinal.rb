@@ -52,6 +52,7 @@ module StructuraidCore
           layers.map(&:inertia).reduce(:+)
         end
 
+        # Returns the maximum spacing between the rebars of the reinforcement layers
         def max_spacing
           layers.map(&:spacing).max
         end
