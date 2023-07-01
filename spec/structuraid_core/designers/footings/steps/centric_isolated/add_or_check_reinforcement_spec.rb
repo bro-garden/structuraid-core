@@ -133,7 +133,7 @@ RSpec.describe(
         )
       end
 
-      describe 'reinforcement ratio is below computed ratio' do
+      describe 'when reinforcement ratio is below computed ratio' do
         let(:footing) do
           build(
             :footing,
@@ -149,6 +149,44 @@ RSpec.describe(
 
         it 'is a failure' do
           expect(result_with_mocked_required_reinforcement_ratio).to be_a_failure
+        end
+      end
+
+      describe 'when reinforcement spacing is higher than maximum' do
+        let(:footing) do
+          build(
+            :footing,
+            length_1: 1500,
+            length_2: 1500,
+            height: 250,
+            material: build(:concrete, design_compression_strength: 21)
+          )
+        end
+        let(:amount_of_rebars) { 2 }
+        let(:rebar) { build(:rebar, number: 3) }
+        let(:analysis_results) { { computed_ratio: 0.0500, is_minimum_ratio: false } }
+
+        it 'is a failure' do
+          expect(result_with_mocked_required_reinforcement_ratio).to be_a_failure
+        end
+      end
+
+      describe 'when reinforcement spacing is lower than maximum' do
+        let(:footing) do
+          build(
+            :footing,
+            length_1: 1500,
+            length_2: 1500,
+            height: 400,
+            material: build(:concrete, design_compression_strength: 21)
+          )
+        end
+        let(:amount_of_rebars) { 13 }
+        let(:rebar) { build(:rebar, number: 6) }
+        let(:analysis_results) { { computed_ratio: 0.0090, is_minimum_ratio: false } }
+
+        it 'is a failure' do
+          expect(result_with_mocked_required_reinforcement_ratio).to be_a_success
         end
       end
     end
