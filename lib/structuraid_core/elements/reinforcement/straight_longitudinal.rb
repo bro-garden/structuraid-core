@@ -51,6 +51,10 @@ module StructuraidCore
         def inertia
           layers.map(&:inertia).reduce(:+)
         end
+
+        def max_spacing
+          layers.map(&:spacing).max
+        end
       end
     end
   end

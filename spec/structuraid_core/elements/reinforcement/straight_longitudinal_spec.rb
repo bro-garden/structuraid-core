@@ -96,4 +96,14 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinal do
       end
     end
   end
+
+  describe '#max_spacing' do
+    before do
+      reinforcement.add_layer(start_location:, end_location:, amount_of_rebars: 5, rebar: first_rebar)
+    end
+
+    it 'returns the max spacing of all layers' do
+      expect(reinforcement.max_spacing).to eq(1900 / 4)
+    end
+  end
 end
