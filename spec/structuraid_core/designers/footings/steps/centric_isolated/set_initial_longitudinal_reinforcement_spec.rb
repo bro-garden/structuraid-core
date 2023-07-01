@@ -103,7 +103,7 @@ RSpec.describe StructuraidCore::Designers::Footings::Steps::CentricIsolated::Set
         )
       end
 
-      it "doesn't modify footing by adding reinforcement layer" do
+      it "doesn't modify footing by adding reinforcement" do
         result_with_mocked_required_reinforcement_ratio
         expect(footing.reinforcement(direction: :length_1, above_middle: false).nil?).to be(true)
       end

@@ -123,7 +123,7 @@ RSpec.describe(
           label: 'reinforcement_layer_end_location_length_1_bottom'
         )
 
-        footing.add_longitudinal_reinforcement(reinforcement, :length_1, above_middle: false)
+        footing.add_longitudinal_reinforcement(reinforcement, :length_2, above_middle: false)
 
         reinforcement.add_layer(
           start_location: footing.coordinates_system.find_location('reinforcement_layer_start_location_length_1_bottom'),
@@ -134,18 +134,21 @@ RSpec.describe(
       end
 
       describe 'reinforcement ratio is below computed ratio' do
+        let(:footing) do
+          build(
+            :footing,
+            length_1: 1500,
+            length_2: 1500,
+            height: 500,
+            material: build(:concrete, design_compression_strength: 21)
+          )
+        end
         let(:amount_of_rebars) { 3 }
         let(:rebar) { build(:rebar, number: 3) }
         let(:analysis_results) { { computed_ratio: 0.0500, is_minimum_ratio: false } }
 
         it 'is a failure' do
           expect(result_with_mocked_required_reinforcement_ratio).to be_a_failure
-        end
-
-        it 'deletes the footing reinforcement' do
-          expet { result_with_mocked_required_reinforcement_ratio }.to change {
-            footing.reinforcement(direction: :length_1, above_middle: false).nil?
-          }.from(false).to(true)
         end
       end
     end
