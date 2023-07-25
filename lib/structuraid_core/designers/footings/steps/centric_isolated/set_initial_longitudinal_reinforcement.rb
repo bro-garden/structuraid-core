@@ -9,8 +9,11 @@ module StructuraidCore
           # Sets the reinforcement layers coordinates to the footing
           class SetInitialLongitudinalReinforcement
             include Interactor
+            include Interactor::ContextReader
 
             POSSIBLE_SECTIONS = %i[length_1 length_2].freeze
+
+            context_params :footing, :design_code, :steel, :support_type, :analysis_direction, :analysis_results
 
             # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
             # @param design_code [StructuraidCore::DesignCodes] The design code to be used
@@ -40,15 +43,15 @@ module StructuraidCore
             end
 
             def max_rebar_spacing
-              context.design_code::Rc::Footings::MaximumRebarSpacing.call(
-                support_type: context.support_type, footing_height: footing.height,
-                for_min_rebar: context.analysis_results[:is_minimum_ratio], yield_stress: context.steel.yield_stress,
+              design_code::Rc::Footings::MaximumRebarSpacing.call(
+                support_type: support_type, footing_height: footing.height,
+                for_min_rebar: analysis_results[:is_minimum_ratio], yield_stress: steel.yield_stress,
                 reinforcement_cover: footing.cover_bottom
               )
             end
 
             def required_reinforcement_area
-              context.analysis_results[:computed_ratio] *
+              analysis_results[:computed_ratio] *
                 footing.width(analysis_direction) *
                 (footing.height - reinforcement_baseline)
             end
@@ -120,14 +123,6 @@ module StructuraidCore
               when :length_2
                 footing.coordinates_system.find_location('reinforcement_layer_end_location_length_2_bottom')
               end
-            end
-
-            def footing
-              @footing ||= context.footing
-            end
-
-            def analysis_direction
-              @analysis_direction ||= context.analysis_direction
             end
 
             def secondary_analysis_direction

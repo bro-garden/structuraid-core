@@ -7,6 +7,9 @@ module StructuraidCore
         # Checks if the bearing capacity of the soil is not being exceeded by the footing and its transmitting load
         class CheckBearingCapacity
           include Interactor
+          include Interactor::ContextReader
+
+          context_params :footing, :load_scenario, :soil
 
           # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
           # @param load_scenario [StructuraidCore::Loads::Scenarios::] The load scenario to be considered
@@ -29,15 +32,7 @@ module StructuraidCore
           end
 
           def bearing_capacity
-            @bearing_capacity ||= context.soil.bearing_capacity
-          end
-
-          def load_scenario
-            @load_scenario ||= context.load_scenario
-          end
-
-          def footing
-            @footing ||= context.footing
+            @bearing_capacity ||= soil.bearing_capacity
           end
         end
       end
