@@ -44,7 +44,7 @@ module StructuraidCore
 
             def max_rebar_spacing
               design_code::Rc::Footings::MaximumRebarSpacing.call(
-                support_type: support_type, footing_height: footing.height,
+                support_type:, footing_height: footing.height,
                 for_min_rebar: analysis_results[:is_minimum_ratio], yield_stress: steel.yield_stress,
                 reinforcement_cover: footing.cover_bottom
               )
