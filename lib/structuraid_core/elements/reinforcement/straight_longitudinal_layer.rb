@@ -83,6 +83,23 @@ module StructuraidCore
           vector.magnitude
         end
 
+        # Returns the lenght of the layer that is used to distribute the rebars
+        def distribution_length
+          vector = length_vector
+
+          vector[0] = 0 if @distribution_direction == :length_2
+          vector[1] = 0 if @distribution_direction == :length_1
+
+          vector.magnitude
+        end
+
+        # Returns the rebars spacing of the layer
+        def spacing
+          return if amount_of_rebars <= 1 || length.nil?
+
+          distribution_length / (amount_of_rebars - 1)
+        end
+
         private
 
         def length_vector

@@ -167,4 +167,28 @@ RSpec.describe StructuraidCore::Elements::Reinforcement::StraightLongitudinalLay
       expect(straight_longitudinal_layer.length).to eq(2 * value_1)
     end
   end
+
+  describe '#distribution_length' do
+    before do
+      straight_longitudinal_layer.reposition(above_middle: true)
+    end
+
+    let(:distribution_direction) { :length_2 }
+
+    it 'returns the distribution length of the layer' do
+      expect(straight_longitudinal_layer.distribution_length).to eq(900)
+    end
+  end
+
+  describe '#spacing' do
+    before do
+      straight_longitudinal_layer.reposition(above_middle: true)
+    end
+
+    let(:distribution_direction) { :length_2 }
+
+    it 'returns the spacing of the layer' do
+      expect(straight_longitudinal_layer.spacing).to eq(450)
+    end
+  end
 end

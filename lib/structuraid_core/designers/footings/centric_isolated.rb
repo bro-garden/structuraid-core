@@ -17,8 +17,7 @@ module StructuraidCore
                  Steps::CheckBearingCapacity,
                  Steps::AssignAnalysisDirection,
                  Steps::CentricIsolated::ComputeRequiredRebarRatio,
-                 Steps::CentricIsolated::SetReinforcementLayersCoordinatesToFooting,
-                 Steps::CentricIsolated::SetInitialLongitudinalReinforcement,
+                 Steps::CentricIsolated::AddOrCheckReinforcement,
                  Steps::CheckMinHeight
       end
     end
