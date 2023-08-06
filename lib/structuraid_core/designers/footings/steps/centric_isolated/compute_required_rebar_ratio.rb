@@ -8,6 +8,9 @@ module StructuraidCore
           # Runs the structural bending analysis and design for a centric isolated footing, generating the required reinforcement ratio and adding it to the context
           class ComputeRequiredRebarRatio
             include Interactor
+            include Interactor::ContextReader
+
+            context_params :load_scenario, :design_code, :steel, :analysis_direction, :footing
 
             # @param load_scenario [StructuraidCore::Loads::Scenarios::Footings::CentricIsolated] The load scenario to be considered
             # @param design_code [StructuraidCore::DesignCodes] The design code to be used
@@ -63,26 +66,6 @@ module StructuraidCore
 
             def flexural_moment
               @flexural_moment ||= context.analysis_results[:bending_momentum]
-            end
-
-            def steel
-              @steel ||= context.steel
-            end
-
-            def footing
-              @footing ||= context.footing
-            end
-
-            def load_scenario
-              @load_scenario ||= context.load_scenario
-            end
-
-            def analysis_direction
-              @analysis_direction ||= context.analysis_direction
-            end
-
-            def design_code
-              @design_code ||= context.design_code
             end
           end
         end

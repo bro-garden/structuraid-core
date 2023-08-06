@@ -7,6 +7,7 @@ module StructuraidCore
         # Checks if footing's height is greater at least the minimum required height
         class CheckMinHeight
           include Interactor
+          include Interactor::ContextReader
 
           # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
           # @param support_type [Symbol or String] The support type: :over_soil or :over_piles

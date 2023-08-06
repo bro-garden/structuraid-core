@@ -9,8 +9,11 @@ module StructuraidCore
           # Sets the reinforcement layers coordinates to the footing's coordinates system
           class SetReinforcementLayersCoordinatesToFooting
             include Interactor
+            include Interactor::ContextReader
 
             POSSIBLE_SECTIONS = %i[length_1 length_2].freeze
+
+            context_params :footing, :analysis_direction
 
             # @param footing [StructuraidCore::Elements::Footing] The footing to be designed
             # @param analysis_direction [Symbol] The direction for which the analysis has to be run. Should be either :length_1 or :length2
@@ -79,14 +82,6 @@ module StructuraidCore
                 ],
                 label: 'reinforcement_layer_end_location_length_2_bottom'
               )
-            end
-
-            def footing
-              @footing ||= context.footing
-            end
-
-            def analysis_direction
-              @analysis_direction ||= context.analysis_direction
             end
 
             def secondary_analysis_direction
